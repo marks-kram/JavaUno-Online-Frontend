@@ -1,0 +1,38 @@
+<!Doctype html>
+<html lang="de" xmlns:v-on="http://www.w3.org/1999/xhtml">
+<head>
+    <title>JavaUno Online</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta property="og:title" content="JavaUno Online">
+    <meta property="og:description" content="Spiele das beliebte Kartenspiel online am PC oder am Smartphone. Lade Freunde ein und lass den Spielspaß beginnen.">
+    <meta property="og:image" content="/res/img/logo-landscape.png">
+    <meta property="og:image" content="/res/img/logo-square.png">
+    <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
+    <link rel="stylesheet" type="text/css" href="/res/css/style.css">
+    <script src="/res/js/vue-core.js"></script>
+</head>
+<body>
+    <header>
+        <img src="/res/img/logo.png" alt="">
+    </header>
+    <noscript>JavaUno als Browsergame basiert auf JavaScript. Bitte aktiviere JavaScript in deinen Browsereinstellungen.</noscript>
+
+    <div id="ju-app">
+
+        <!-- Start view - From here a game can be created -->
+        <div id="view-start" v-if="currentView === 'start'">
+            <p>
+                Spiele das beliebte Kartenspiel UNO online am PC oder Smartphone.<br>
+                Du kannst mit Freunden spielen oder aber auch alleine gegen computergesteuerte Gegner.
+            </p>
+            <button type="button" v-on:click="currentView='test'">Spielspaß beginnen</button>
+        </div>
+
+
+
+    </div>
+
+    <script src="/res/js/ju-app.js"></script>
+</body>
+</html>
