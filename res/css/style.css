@@ -18,7 +18,8 @@ header img {
     display: inline-block;
 }
 
-#ju-app {
+#javaUno {
+    display: none;
     position: fixed;
     top: 35px;
     left: 10px;
