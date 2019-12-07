@@ -1,5 +1,5 @@
 <!Doctype html>
-<html lang="de" xmlns:v-on="http://www.w3.org/1999/xhtml">
+<html lang="de">
 <head>
     <title>JavaUno Online</title>
     <meta charset="UTF-8">
@@ -11,6 +11,8 @@
     <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
     <link rel="stylesheet" type="text/css" href="/res/css/style.css">
     <script src="/res/js/vue-core.js"></script>
+    <script src="/res/js/vue-cookies.js"></script>
+    <script src="/res/js/vue-resource.js"></script>
 </head>
 <body>
     <header>
@@ -18,21 +20,30 @@
     </header>
     <noscript>JavaUno als Browsergame basiert auf JavaScript. Bitte aktiviere JavaScript in deinen Browsereinstellungen.</noscript>
 
-    <div id="ju-app">
+    <div id="javaUno">
 
-        <!-- Start view - From here a game can be created -->
-        <div id="view-start" v-if="currentView === 'start'">
+        <!-- Start/Join view - From here a game can be created or joined -->
+        <div id="view-start" v-if="currentView === 'start' || currentView === 'join'">
             <p>
                 Spiele das beliebte Kartenspiel UNO online am PC oder Smartphone.<br>
                 Du kannst mit Freunden spielen oder aber auch alleine gegen computergesteuerte Gegner.
             </p>
-            <button type="button" v-on:click="currentView='test'">Spielspaß beginnen</button>
+            <span v-if="currentView === 'join'">Dein Name: <input type="text" v-model="name"></span>
+            <button v-if="currentView === 'start'" @click="createGame()">Spielspaß beginnen</button>
+            <button v-if="currentView === 'join'" @click="joinGame()">
+                <span v-if="invention">Jetzt mitspielen</span>
+                <span v-if="!invention">Jetzt loslegen</span>
+            </button>
         </div>
 
+        <!-- Set players view - From here Players can be added and removed and game round can be started -->
+        <div id="view-set-players" v-if="currentView === 'set_players'">
+            players
+        </div>
 
 
     </div>
 
-    <script src="/res/js/ju-app.js"></script>
+    <script src="/res/js/app.js"></script>
 </body>
 </html>
