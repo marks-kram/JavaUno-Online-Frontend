@@ -1,20 +1,27 @@
 const apiBase = '/api';
 const appId = '#javaUno';
+const noSuchGameMessage = 'failure: de.markherrmann.javauno.exceptions.IllegalArgumentException: There is no such game.';
+Vue.config.devtools = true;
+
+const hostname = location.hostname;
 
 const gameState = {
     success: true,
     message: 'success',
     game: null,
     players: [],
-    cards: []
+    cards: [],
+    myIndex: -1
 };
 const data = {
-    apiBase: apiBase,
+    qrCodeBase: 'https://chart.googleapis.com/chart?cht=qr&chs=300x300&chl=https%3A%2F%2F' + hostname + '%2Finvention.html%23',
+    showQr: false,
     gameUuid: '',
     playerUuid: '',
     invention: false,
     currentView: '',
     name: '',
+    botName: '',
     gameState: gameState,
     message: ''
 };
@@ -22,8 +29,10 @@ const data = {
 const methods = {
     callback: null,
     createGame: function(){createGame()},
-    joinGame: function () {joinGame();},
-    loadGame: function (){loadGame()}
+    joinGame: function () {joinGame()},
+    loadGame: function (){loadGame()},
+    getPlayerName: function(player){getPlayerName(player)},
+    getPlayerType: function(player){getPlayerType(player)}
 };
 
 const app = new Vue({
@@ -36,6 +45,9 @@ function handleRequestSuccess(response) {
     if(response.data.success){
         app.callback(response.data);
     } else {
+        if(response.data.message === noSuchGameMessage){
+            app.currentView = reset();
+        }
         console.error("Error. Response: " + response.data.message);
     }
 }
@@ -46,12 +58,12 @@ function handleRequestError(response) {
 
 function doGetRequest(path, callback){
     app.callback = callback;
-    app.$http.get(app.apiBase+path).then(handleRequestSuccess, handleRequestError);
+    app.$http.get(apiBase+path).then(handleRequestSuccess, handleRequestError);
 }
 
 function doPostRequest(path, data, callback){
     app.callback = callback;
-    app.$http.post(app.apiBase+path, JSON.stringify(data)).then(handleRequestSuccess, handleRequestError);
+    app.$http.post(apiBase+path, JSON.stringify(data)).then(handleRequestSuccess, handleRequestError);
 }
 
 function setGame(data){
@@ -89,6 +101,17 @@ function joinGame(){
     doPostRequest('/player/add', data, setPlayer);
 }
 
+function getPlayerName(player) {
+    if(player.name !== ''){
+        return player.name;
+    }
+    return 'Spieler ' + (app.players.indexOf(player)+1);
+}
+
+function getPlayerType(player) {
+    return player.bot ? 'Computer' : 'Mensch';
+}
+
 function init(){
     const gameUuid = app.$cookies.get('gameUuid');
     if(gameUuid == null || gameUuid === undefined){
@@ -105,7 +128,22 @@ function init(){
     }
 }
 
+function reset(){
+    app.$cookies.remove('gameUuid');
+    app.$cookies.remove('playerUuid');
+    location.reload();
+}
+
+function handleInvention(){
+    if(location.hash !== '' && location.hash !== '#'){
+        const gameUuid = location.hash.replace(/^#/, '');
+        app.$cookies.set('gameUuid', gameUuid);
+        location.replace('/');
+    }
+}
+
 window.addEventListener("load", function() {
+    handleInvention();
     init();
     document.getElementById('javaUno').style.display = 'block';
 });
