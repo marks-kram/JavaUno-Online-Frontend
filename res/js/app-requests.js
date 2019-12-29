@@ -2,9 +2,6 @@ function handleRequestSuccess(response) {
     if(response.data.success){
         app.callback(response.data);
     } else {
-        if(response.data.message === noSuchGameMessage){
-            app.currentView = reset();
-        }
         console.error("Error. Response: " + response.data.message);
     }
 }
@@ -12,6 +9,9 @@ function handleRequestSuccess(response) {
 function handleRequestError(response) {
     if(response.data.message !== undefined){
         console.error("Request-Error: " + response.data.message);
+        if(response.data.message === noSuchGameMessage){
+            app.currentView = reset();
+        }
     } else {
         console.error("Request-Error: " + response);
     }
