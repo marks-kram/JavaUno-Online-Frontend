@@ -15,6 +15,7 @@
     <script src="/res/js/vue-cookies.js"></script>
     <script src="/res/js/vue-resource.js"></script>
     <script src="/res/js/toast.js"></script>
+    <script src="/res/js/qr.js"></script>
 </head>
 <body>
     <header>
@@ -61,9 +62,9 @@
                 <span id="invention-link">https://{{hostname}}/invention.html#{{gameUuid}}</span>
                 <br><br>
                 Oder, wenn sie eh bei dir sind, lasse einfach den
-                <button class="small" @click="showQr = true">QR-Code scannen</button>
-                <div id="invention-qr" v-if="showQr">
-                    <img v-bind:src="qrCodeBase+gameUuid" alt="QR-Code" title="">
+                <button class="small" @click="showQrCode()">QR-Code scannen</button>
+                <div id="invention-qr" v-show="showQr">
+                    <div id="invention-qr-code"></div>
                     <button class="small" @click="showQr = false">ausblenden</button>
                 </div>
             </div>

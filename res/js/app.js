@@ -15,7 +15,6 @@ const gameState = {
 };
 
 const data = {
-    qrCodeBase: 'https://chart.googleapis.com/chart?cht=qr&chs=300x300&chl=https%3A%2F%2F' + hostname + '%2Finvention.html%23',
     showQr: false,
     gameUuid: '',
     playerUuid: '',
@@ -38,7 +37,8 @@ const methods = {
     startGame: function (){startGame()},
     getPlayerName: function(player){getPlayerName(player)},
     getPlayerType: function(player){getPlayerType(player)},
-    copyLink: function(){copyLink()}
+    copyLink: function(){copyLink()},
+    showQrCode: function () {showQrCode()}
 };
 
 const app = new Vue({
