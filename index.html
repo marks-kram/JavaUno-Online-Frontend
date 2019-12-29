@@ -31,7 +31,7 @@
                 Spiele das beliebte Kartenspiel UNO online am PC oder Smartphone.<br>
                 Du kannst mit Freunden spielen oder aber auch alleine gegen computergesteuerte Gegner.
             </p>
-            <input v-if="currentView === 'join'" type="text" v-model="name" placeholder="Dein Name">
+            <input v-if="currentView === 'join'" type="text" v-model="name" placeholder="Name (optional)">
             <button v-if="currentView === 'start'" @click="createGame()">Spielspaß beginnen</button>
             <button v-if="currentView === 'join'" @click="joinGame()">
                 <span v-if="invention">Jetzt mitspielen</span>
@@ -53,7 +53,7 @@
             <h3>Spieler hinzufügen</h3>
             <div id="add-players" v-if="gameState.players.length < 6">
                 Computergesteuerten Gegner
-                <input class="small" type="text" v-model="botName" placeholder="Name">
+                <input class="small" type="text" v-model="botName" placeholder="Name (optional)">
                 <button class="small" @click="addBot()">hinzufügen</button><br><br>
                 Freunde einladen:<br>
                 Schicke deinen Freunden folgenden Link:<br>
