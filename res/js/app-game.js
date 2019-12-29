@@ -15,9 +15,19 @@ function setGameState(data){
     app.currentView = data.game.gameLifecycle.toLowerCase();
 }
 
+function setGameStateWithoutPlayer(data){
+    app.gameState = data;
+    app.currentView = 'join';
+}
+
 function loadGame(){
     const path = '/gameState/get/' + app.gameUuid + '/' + app.playerUuid;
     doGetRequest(path, setGameState);
+}
+
+function loadGameWithoutPlayer(){
+    const path = '/gameState/get/' + app.gameUuid;
+    doGetRequest(path, setGameStateWithoutPlayer);
 }
 
 function createGame() {
@@ -54,7 +64,7 @@ function init(){
         app.playerUuid = playerUuid;
         app.loadGame();
     } else {
-        app.currentView = 'join';
+        app.loadGameWithoutPlayer();
     }
 }
 

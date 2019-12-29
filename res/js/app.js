@@ -1,6 +1,5 @@
 const apiBase = '/api';
 const appId = '#javaUno';
-const noSuchGameMessage = 'failure: de.markherrmann.javauno.exceptions.IllegalArgumentException: There is no such game.';
 Vue.config.devtools = true;
 
 const hostname = location.hostname;
@@ -34,6 +33,7 @@ const methods = {
     addBot: function () {addBot()},
     removeBot: function (player) {removeBot(player)},
     loadGame: function (){loadGame()},
+    loadGameWithoutPlayer: function (){loadGameWithoutPlayer()},
     startGame: function (){startGame()},
     getPlayerName: function(player){getPlayerName(player)},
     getPlayerType: function(player){getPlayerType(player)},

@@ -33,10 +33,15 @@
             </p>
             <input v-if="currentView === 'join'" type="text" v-model="name" placeholder="Name (optional)">
             <button v-if="currentView === 'start'" @click="createGame()">Spielspaß beginnen</button>
-            <button v-if="currentView === 'join'" @click="joinGame()">
+            <button v-if="currentView === 'join'" @click="joinGame()"
+                    v-bind:disabled="gameState.players.length >= 6">
                 <span v-if="invention">Jetzt mitspielen</span>
                 <span v-if="!invention">Jetzt loslegen</span>
             </button>
+            <div v-if="currentView === 'join' && gameState.players.length >= 6">
+                Die maximale Spieleranzahl wurde erreicht.<br>
+                Es können leider keine weiteren Spieler teilnehmen.
+            </div>
         </div>
 
         <!-- Set players view - From here Players can be added and removed and game round can be started -->
@@ -74,7 +79,10 @@
             </div>
             <div id="start-game">
                 <button @click="startGame()"
-                        v-bind:disabled="gameState.players.length < 2" title="Es werden mindestens 2 Spieler benötigt">Spiel starten</button>
+                        v-bind:disabled="gameState.players.length < 2">Spiel starten</button>
+                <div v-if="gameState.players.length < 2">
+                    Es werden mindestens 2 Spieler benötigt.
+                </div>
             </div>
         </div>
 
