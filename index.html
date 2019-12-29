@@ -1,5 +1,5 @@
 <!Doctype html>
-<html lang="de">
+<html lang="de" xmlns:v-bind="http://www.w3.org/1999/xhtml">
 <head>
     <title>JavaUno Online</title>
     <meta charset="UTF-8">
@@ -10,9 +10,11 @@
     <meta property="og:image" content="/res/img/logo-square.png">
     <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
     <link rel="stylesheet" type="text/css" href="/res/css/style.css">
+    <link rel="stylesheet" type="text/css" href="/res/css/toast.css">
     <script src="/res/js/vue-core.js"></script>
     <script src="/res/js/vue-cookies.js"></script>
     <script src="/res/js/vue-resource.js"></script>
+    <script src="/res/js/toast.js"></script>
 </head>
 <body>
     <header>
@@ -28,7 +30,7 @@
                 Spiele das beliebte Kartenspiel UNO online am PC oder Smartphone.<br>
                 Du kannst mit Freunden spielen oder aber auch alleine gegen computergesteuerte Gegner.
             </p>
-            <span v-if="currentView === 'join'">Dein Name: <input type="text" v-model="name"></span>
+            <input v-if="currentView === 'join'" type="text" v-model="name" placeholder="Dein Name">
             <button v-if="currentView === 'start'" @click="createGame()">Spielspaß beginnen</button>
             <button v-if="currentView === 'join'" @click="joinGame()">
                 <span v-if="invention">Jetzt mitspielen</span>
@@ -38,12 +40,56 @@
 
         <!-- Set players view - From here Players can be added and removed and game round can be started -->
         <div id="view-set-players" v-if="currentView === 'set_players'">
-            players
+            <h3>Aktuelle Spieler ({{gameState.players.length}})</h3>
+            <div id="players">
+                <div class="player" v-for="(player, index) in gameState.players">
+                    {{ player.name != '' ? player.name : 'Spieler ' + (index+1) }}
+                    <span v-if="index == gameState.myIndex">(Du)</span>
+                    <button v-if="index == gameState.myIndex" class="small" @click="leaveGame()">Spiel verlassen</button>
+                    <button v-if="player.bot" class="small" @click="removeBot(player)"> Bot entfernen</button>
+                </div>
+            </div>
+            <h3>Spieler hinzufügen</h3>
+            <div id="add-players" v-if="gameState.players.length < 6">
+                Computergesteuerten Gegner
+                <input class="small" type="text" v-model="botName" placeholder="Name">
+                <button class="small" @click="addBot()">hinzufügen</button><br><br>
+                Freunde einladen:<br>
+                Schicke deinen Freunden folgenden Link:<br>
+                <button class="small" @click="copyLink()">Kopieren</button>
+                <textarea id="invention-link-toCopy">https://{{hostname}}/invention.html#{{gameUuid}}</textarea>
+                <span id="invention-link">https://{{hostname}}/invention.html#{{gameUuid}}</span>
+                <br><br>
+                Oder, wenn sie eh bei dir sind, lasse einfach den
+                <button class="small" @click="showQr = true">QR-Code scannen</button>
+                <div id="invention-qr" v-if="showQr">
+                    <img v-bind:src="qrCodeBase+gameUuid" alt="QR-Code" title="">
+                    <button class="small" @click="showQr = false">ausblenden</button>
+                </div>
+            </div>
+            <div id="add-players-limit-reached" v-if="gameState.players.length >= 6">
+                Die maximale Spieleranzahl wurde erreicht.<br>
+                Es können keine weiteren Spieler teilnehmen.
+            </div>
+            <div id="start-game">
+                <button @click="startGame()"
+                        v-bind:disabled="gameState.players.length < 2" title="Es werden mindestens 2 Spieler benötigt">Spiel starten</button>
+            </div>
+        </div>
+
+        <!-- running game view - shows the running game -->
+        <div id="view-running" v-if="currentView === 'running'">
+            <!-- TODO: make running game view -->
         </div>
 
 
     </div>
 
+    <div id="toast"></div>
+
     <script src="/res/js/app.js"></script>
+    <script src="/res/js/app-requests.js"></script>
+    <script src="/res/js/app-game.js"></script>
+    <script src="/res/js/app-player.js"></script>
 </body>
 </html>

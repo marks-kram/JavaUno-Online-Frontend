@@ -4,6 +4,10 @@ html, body {
     font-size: 1em;
 }
 
+*{
+    box-sizing: border-box;
+}
+
 header {
     width: 100%;
     height: 30px;
@@ -20,13 +24,63 @@ header img {
 
 #javaUno {
     display: none;
-    position: fixed;
-    top: 35px;
-    left: 10px;
+    padding: 35px 10px 10px 10px;
+    width: 100%;
 }
 
-#view-start p {
+#view-start p, #view-set-players h3 {
     font-size: 1.3rem;
+}
+
+#view-set-players {
+    max-width: 600px;
+}
+
+#view-set-players #players, #view-set-players #add-players {
+    border-bottom: 3px black solid;
+    font-size: 1.1rem;
+}
+
+#view-set-players #add-players {
+    padding-bottom: 10px;
+}
+
+#invention-link {
+    word-break: break-word;
+    color: blue;
+}
+
+#invention-link-toCopy {
+    position: fixed;
+    top: -1000px;
+}
+
+#view-set-players h3 {
+    font-size: 1.5rem;
+    margin-bottom: 0;
+}
+
+#view-set-players .player {
+    background: #e0e0e0;
+    color: #006;
+    font-size: 1.2rem;
+    font-weight: bolder;
+    margin-bottom: 10px;
+    padding: 10px;
+}
+
+#view-set-players .player span {
+    color: #acaccb;
+}
+
+input {
+    font-size: 1.5rem;
+    padding: 7px;
+    border: 1px silver solid;
+    border-radius: 11px;
+}
+input:hover, input:focus {
+    border: 1px black solid;
 }
 
 button {
@@ -34,7 +88,43 @@ button {
     margin-top: 10px;
     padding: 7px;
     background: #137206;
-    border: 1px #3fc800 solid;
+    border: 1px #137206 solid;
     color: white;
     border-radius: 11px;
+    cursor: pointer;
+}
+button:hover, button:focus {
+    background: #148d06;
+    border: 1px #148d06 solid;
+}
+button:active {
+    background: #125306;
+    border: 1px #125306 solid;
+}
+button:disabled{
+    background: #777;
+    border: 1px #777 solid;
+    cursor: not-allowed;
+}
+
+input.small, button.small {
+    margin-top: 0;
+    font-size: 1rem;
+    padding: 3px;
+}
+
+button.small {
+    background: #add9ff;
+    border: 1px #add9ff solid;
+    color: black;
+}
+button.small:hover, button.small:focus {
+    background: #d0e9ff;
+    border: 1px #d0e9ff solid;
+    color: black;
+}
+button.small:active {
+    background: #6cbaff;
+    border: 1px #6cbaff solid;
+    color: black;
 }
