@@ -44,3 +44,13 @@ function copyLink(){
     document.execCommand("copy");
     showToast('Erfolgreich kopiert!');
 }
+
+function showQrCode(){
+    const typeNumber = 0;
+    const errorCorrectionLevel = 'L';
+    const qr = qrcode(typeNumber, errorCorrectionLevel);
+    qr.addData('https://' + hostname + '/invention.html#' + app.gameUuid);
+    qr.make();
+    document.getElementById('invention-qr-code').innerHTML = qr.createImgTag(8, 32, '');
+    app.showQr = true;
+}
