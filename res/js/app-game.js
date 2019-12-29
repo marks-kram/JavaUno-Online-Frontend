@@ -24,6 +24,10 @@ function createGame() {
     doPostRequest('/game/create', {}, setGame);
 }
 
+function startGame(){
+    doPostRequest('/game/start/' + app.gameUuid, {}, loadGame);
+}
+
 function reset(){
     app.$cookies.remove('gameUuid');
     app.$cookies.remove('playerUuid');

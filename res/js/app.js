@@ -35,6 +35,7 @@ const methods = {
     addBot: function () {addBot()},
     removeBot: function (player) {removeBot(player)},
     loadGame: function (){loadGame()},
+    startGame: function (){startGame()},
     getPlayerName: function(player){getPlayerName(player)},
     getPlayerType: function(player){getPlayerType(player)},
     copyLink: function(){copyLink()}
