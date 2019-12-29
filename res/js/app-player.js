@@ -13,6 +13,7 @@ function addBot(){
         gameUuid: app.gameUuid,
         name: app.botName
     };
+    app.botName = '';
     doPostRequest('/player/add', data, loadGame);
 }
 
