@@ -31,7 +31,9 @@ const methods = {
     callback: null,
     createGame: function(){createGame()},
     joinGame: function () {joinGame()},
+    leaveGame: function () {leaveGame()},
     addBot: function () {addBot()},
+    removeBot: function (player) {removeBot(player)},
     loadGame: function (){loadGame()},
     getPlayerName: function(player){getPlayerName(player)},
     getPlayerType: function(player){getPlayerType(player)}

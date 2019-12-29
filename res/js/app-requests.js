@@ -26,3 +26,8 @@ function doPostRequest(path, data, callback){
     app.callback = callback;
     app.$http.post(apiBase+path, JSON.stringify(data)).then(handleRequestSuccess, handleRequestError);
 }
+
+function doDeleteRequest(path, callback){
+    app.callback = callback;
+    app.$http.delete(apiBase+path).then(handleRequestSuccess, handleRequestError);
+}

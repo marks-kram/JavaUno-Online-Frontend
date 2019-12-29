@@ -16,6 +16,16 @@ function addBot(){
     doPostRequest('/player/add', data, loadGame);
 }
 
+function removeBot(player){
+    let path = '/player/removeBot/' + app.gameUuid + '/' + player.botUuid;
+    doDeleteRequest(path, loadGame);
+}
+
+function leaveGame(){
+    let path = '/player/remove/' + app.gameUuid + '/' + app.playerUuid;
+    doDeleteRequest(path, reset);
+}
+
 function getPlayerName(player) {
     if(player.name !== ''){
         return player.name;
