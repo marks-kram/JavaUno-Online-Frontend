@@ -36,9 +36,13 @@ header img {
     max-width: 600px;
 }
 
-#view-set-players #players, #view-set-players #add-players {
+#view-set-players #players, #view-set-players #add-players, #view-set-players #add-players-limit-reached {
     border-bottom: 3px black solid;
     font-size: 1.1rem;
+}
+
+#add-players-limit-reached {
+    padding-bottom: 12px;
 }
 
 #view-set-players #add-players {
