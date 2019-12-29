@@ -30,6 +30,7 @@ const methods = {
     callback: null,
     createGame: function(){createGame()},
     joinGame: function () {joinGame()},
+    addBot: function () {addBot()},
     loadGame: function (){loadGame()},
     getPlayerName: function(player){getPlayerName(player)},
     getPlayerType: function(player){getPlayerType(player)}
@@ -53,7 +54,11 @@ function handleRequestSuccess(response) {
 }
 
 function handleRequestError(response) {
-    console.error("Request-Error: " + response);
+    if(response.data.message !== undefined){
+        console.error("Request-Error: " + response.data.message);
+    } else {
+        console.error("Request-Error: " + response);
+    }
 }
 
 function doGetRequest(path, callback){
@@ -99,6 +104,15 @@ function joinGame(){
         name: app.name
     };
     doPostRequest('/player/add', data, setPlayer);
+}
+
+function addBot(){
+    const data = {
+        bot: true,
+        gameUuid: app.gameUuid,
+        name: app.botName
+    };
+    doPostRequest('/player/add', data, loadGame);
 }
 
 function getPlayerName(player) {
