@@ -39,17 +39,16 @@
         <!-- Set players view - From here Players can be added and removed and game round can be started -->
         <div id="view-set-players" v-if="currentView === 'set_players'">
             <h3>Aktuelle Spieler ({{gameState.players.length}})</h3>
-            <div id="players" v-for="(player, index) in gameState.players">
-                <div class="player">
+            <div id="players">
+                <div class="player" v-for="(player, index) in gameState.players">
                     {{ player.name != '' ? player.name : 'Spieler ' + (index+1) }}
                     <span v-if="index == gameState.myIndex">(Du)</span>
                     <button v-if="index == gameState.myIndex" class="small" @click="leaveGame()">Spiel verlassen</button>
-                    <button v-if="player.bot" class="small" @click="removeBot(player)">Entfernen</button>
-                    <div>{{ player.bot ? 'Computer' : 'Mensch' }}</div>
+                    <button v-if="player.bot" class="small" @click="removeBot(player)"> Bot entfernen</button>
                 </div>
             </div>
             <h3>Spieler hinzufügen</h3>
-            <div id="add-players" v-if="gameState.myIndex == 0 && gameState.players.length < 6">
+            <div id="add-players" v-if="gameState.players.length < 6">
                 Computergesteuerten Gegner
                 <input class="small" type="text" v-model="botName" placeholder="Name">
                 <button class="small" @click="addBot()">hinzufügen</button><br><br>
@@ -64,6 +63,10 @@
                     <img v-bind:src="qrCodeBase+gameUuid" alt="QR-Code" title="">
                     <button class="small" @click="showQr = false">ausblenden</button>
                 </div>
+            </div>
+            <div id="add-players-limit-reached" v-if="gameState.players.length >= 6">
+                Die maximale Spieleranzahl wurde erreicht.<br>
+                Es können keine weiteren Spieler teilnehmen.
             </div>
             <div id="start-game">
                 <button @click="startGame()"
