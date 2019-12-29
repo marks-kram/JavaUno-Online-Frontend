@@ -36,7 +36,8 @@ const methods = {
     removeBot: function (player) {removeBot(player)},
     loadGame: function (){loadGame()},
     getPlayerName: function(player){getPlayerName(player)},
-    getPlayerType: function(player){getPlayerType(player)}
+    getPlayerType: function(player){getPlayerType(player)},
+    copyLink: function(){copyLink()}
 };
 
 const app = new Vue({

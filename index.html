@@ -10,9 +10,11 @@
     <meta property="og:image" content="/res/img/logo-square.png">
     <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
     <link rel="stylesheet" type="text/css" href="/res/css/style.css">
+    <link rel="stylesheet" type="text/css" href="/res/css/toast.css">
     <script src="/res/js/vue-core.js"></script>
     <script src="/res/js/vue-cookies.js"></script>
     <script src="/res/js/vue-resource.js"></script>
+    <script src="/res/js/toast.js"></script>
 </head>
 <body>
     <header>
@@ -55,6 +57,7 @@
                 Freunde einladen:<br>
                 Schicke deinen Freunden folgenden Link:<br>
                 <button class="small" @click="copyLink()">Kopieren</button>
+                <textarea id="invention-link-toCopy">https://{{hostname}}/invention.html#{{gameUuid}}</textarea>
                 <span id="invention-link">https://{{hostname}}/invention.html#{{gameUuid}}</span>
                 <br><br>
                 Oder, wenn sie eh bei dir sind, lasse einfach den
@@ -76,6 +79,8 @@
 
 
     </div>
+
+    <div id="toast"></div>
 
     <script src="/res/js/app.js"></script>
     <script src="/res/js/app-requests.js"></script>

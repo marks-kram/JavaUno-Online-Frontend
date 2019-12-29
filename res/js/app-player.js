@@ -36,3 +36,11 @@ function getPlayerName(player) {
 function getPlayerType(player) {
     return player.bot ? 'Computer' : 'Mensch';
 }
+
+function copyLink(){
+    const copyText = document.getElementById('invention-link-toCopy');
+    copyText.select();
+    copyText.setSelectionRange(0, 99); /*For mobile devices*/
+    document.execCommand("copy");
+    showToast('Erfolgreich kopiert!');
+}
