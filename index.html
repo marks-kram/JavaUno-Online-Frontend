@@ -113,7 +113,7 @@
                 <div id="topCard" v-if="gameState.game.topCard.cardType == 'NUMBER'">
                     <img v-bind:src="'/res/img/cards/s/' + gameState.game.topCard.color.toLowerCase() + gameState.game.topCard.value + '.png'" alt="">
                 </div>
-                <div id="actions">
+                <div id="uno-and-colors">
                     <div id="say-uno">UNO</div>
                     <div id="select-color" v-if="gameState.game.turnState == 'SELECT_COLOR'">
                            <div class="color-select red"></div><!--

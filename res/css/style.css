@@ -115,12 +115,12 @@ header img {
     width: 408px;
 }
 
-#view-running #table #topCard, #view-running #table #drawPile, #view-running #table #actions {
+#view-running #table #topCard, #view-running #table #drawPile, #view-running #table #uno-and-colors {
     display: inline-block;
     margin: 0 10px;
 }
 
-#view-running #table #actions #say-uno {
+#view-running #table #uno-and-colors #say-uno {
     cursor: pointer;
     background-image: url('/res/img/uno.png');
     width: 100px;
@@ -134,7 +134,7 @@ header img {
     text-shadow: -1px -1px 1px white, 1px 1px 1px white;
 }
 
-#view-running #table #actions #select-color .color-select, #view-running #table #actions #selected-color div, #view-running #table #actions #selected-color-none div {
+#view-running #table #uno-and-colors #select-color .color-select, #view-running #table #uno-and-colors #selected-color div, #view-running #table #uno-and-colors #selected-color-none div {
     display: inline-block;
     width: 25px;
     height: 20px;
@@ -142,16 +142,16 @@ header img {
     margin: 7px 0 0;
 }
 
-#view-running #table #actions #selected-color div, #view-running #table #actions #selected-color-none div {
+#view-running #table #uno-and-colors #selected-color div, #view-running #table #uno-and-colors #selected-color-none div {
     width: 100px;
     cursor: inherit;
 }
 
-#view-running #table #actions #select-color .color-select.red, #view-running #table #actions #selected-color .red {background: #cc0000;}
-#view-running #table #actions #select-color .color-select.green, #view-running #table #actions #selected-color .green {background: #1dc300;}
-#view-running #table #actions #select-color .color-select.blue, #view-running #table #actions #selected-color .blue {background: #0075e6;}
-#view-running #table #actions #select-color .color-select.yellow, #view-running #table #actions #selected-color .yellow {background: #f2f130;}
-#view-running #table #actions #selected-color-none .none {background: transparent;}
+#view-running #table #uno-and-colors #select-color .color-select.red, #view-running #table #uno-and-colors #selected-color .red {background: #cc0000;}
+#view-running #table #uno-and-colors #select-color .color-select.green, #view-running #table #uno-and-colors #selected-color .green {background: #1dc300;}
+#view-running #table #uno-and-colors #select-color .color-select.blue, #view-running #table #uno-and-colors #selected-color .blue {background: #0075e6;}
+#view-running #table #uno-and-colors #select-color .color-select.yellow, #view-running #table #uno-and-colors #selected-color .yellow {background: #f2f130;}
+#view-running #table #uno-and-colors #selected-color-none .none {background: transparent;}
 
 .errMsg {
     color: #800;
