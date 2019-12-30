@@ -76,5 +76,5 @@ function init(){
 window.addEventListener("load", function() {
     handleInvention();
     init();
-    document.getElementById('javaUno').style.display = 'block';
+    document.getElementById(appId).style.display = 'block';
 });

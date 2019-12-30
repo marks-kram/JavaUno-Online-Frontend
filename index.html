@@ -109,6 +109,29 @@
                     </div>
                 </div>
             </div>
+            <div id="table">
+                <div id="topCard" v-if="gameState.game.topCard.cardType == 'NUMBER'">
+                    <img v-bind:src="'/res/img/cards/s/' + gameState.game.topCard.color.toLowerCase() + gameState.game.topCard.value + '.png'" alt="">
+                </div>
+                <div id="actions">
+                    <div id="say-uno">UNO</div>
+                    <div id="select-color" v-if="gameState.game.turnState == 'SELECT_COLOR'">
+                           <div class="color-select red"></div><!--
+                        --><div class="color-select green"></div><!--
+                        --><div class="color-select blue"></div><!--
+                        --><div class="color-select yellow"></div>
+                    </div>
+                    <div id="selected-color" v-if="gameState.game.turnState != 'SELECT_COLOR' && gameState.game.desiredColor != null && gameState.game.desiredColor != ''">
+                        <div v-bind:class="gameState.game.desiredColor"></div>
+                    </div>
+                    <div id="selected-color-none" v-if="gameState.game.turnState != 'SELECT_COLOR' && (gameState.game.desiredColor == null || gameState.game.desiredColor == '')">
+                        <div class="none"></div>
+                    </div>
+                </div>
+                <div id="drawPile">
+                    <img src="/res/img/cards/s/back.png" alt="">
+                </div>
+            </div>
         </div>
 
 

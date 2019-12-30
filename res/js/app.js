@@ -1,5 +1,5 @@
 const apiBase = '/api';
-const appId = '#javaUno';
+const appId = 'javaUno';
 Vue.config.devtools = true;
 
 const hostname = location.hostname;
@@ -42,7 +42,7 @@ const methods = {
 };
 
 const app = new Vue({
-    el: appId,
+    el: '#'+appId,
     data: data,
     methods: methods
 });
