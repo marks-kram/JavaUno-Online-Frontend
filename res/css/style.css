@@ -77,6 +77,10 @@ header img {
     color: #acaccb;
 }
 
+.errMsg {
+    color: #800;
+}
+
 input {
     font-size: 1.5rem;
     padding: 7px;

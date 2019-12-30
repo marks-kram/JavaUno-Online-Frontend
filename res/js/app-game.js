@@ -1,7 +1,7 @@
 function setGame(data){
     app.gameUuid = data.gameUuid;
-    app.currentView = 'join';
     app.$cookies.set('gameUuid', app.gameUuid);
+    loadGameWithoutPlayer();
 }
 
 function setPlayer(data){
@@ -48,11 +48,16 @@ function handleInvention(){
     if(location.hash !== '' && location.hash !== '#'){
         const gameUuid = location.hash.replace(/^#/, '');
         app.$cookies.set('gameUuid', gameUuid);
+        app.$cookies.set('invention', '1');
         location.replace('/');
     }
 }
 
 function init(){
+    const invention = app.$cookies.get('invention');
+    if(invention != null && invention === '1'){
+        app.invention = true;
+    }
     const gameUuid = app.$cookies.get('gameUuid');
     if(gameUuid == null || gameUuid === undefined){
         app.currentView = 'start';
