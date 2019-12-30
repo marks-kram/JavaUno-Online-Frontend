@@ -36,7 +36,7 @@ header img {
     max-width: 600px;
 }
 
-#view-set-players #players, #view-set-players #add-players, #view-set-players #add-players-limit-reached {
+#view-set-players #current-players, #view-set-players #add-players, #view-set-players #add-players-limit-reached {
     border-bottom: 3px black solid;
     font-size: 1.1rem;
 }
@@ -75,6 +75,38 @@ header img {
 
 #view-set-players .player span {
     color: #acaccb;
+}
+
+#view-running #players {
+    max-width: 880px;
+}
+
+#view-running .player {
+    display: inline-block;
+    margin: 10px;
+    background: #b6e4ec;
+    width: 120px;
+    padding: 10px;
+}
+
+#view-running .player .name {
+    text-align: center;
+    font-size: 1.1rem;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+#view-running .player .cards {
+    text-align: center;
+    background-image: url('/res/img/cards/s/back.png');
+    width: 100px;
+    height: 150px;
+    display: table-cell;
+    vertical-align: middle;
+    font-weight: bold;
+    font-size: 6rem;
+    color: white;
+    text-shadow: -1px -1px 1px black, 1px 1px 1px black;
 }
 
 .errMsg {

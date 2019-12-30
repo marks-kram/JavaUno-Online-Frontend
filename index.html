@@ -57,7 +57,7 @@
         <!-- Set players view - From here Players can be added and removed and game round can be started -->
         <div id="view-set-players" v-if="currentView === 'set_players'">
             <h3>Aktuelle Spieler ({{gameState.players.length}})</h3>
-            <div id="players">
+            <div id="current-players">
                 <div class="player" v-for="(player, index) in gameState.players">
                     {{ player.name != '' ? player.name : 'Spieler ' + (index+1) }}
                     <span v-if="index == gameState.myIndex">(Du)</span>
@@ -99,6 +99,16 @@
         <!-- running game view - shows the running game -->
         <div id="view-running" v-if="currentView === 'running'">
             <!-- TODO: make running game view -->
+            <div id="players">
+                <div class="player" v-for="(player, index) in gameState.players" v-if="index != gameState.myIndex">
+                    <div class="name">
+                        {{ player.name != '' ? player.name : 'Spieler ' + (index+1) }}
+                    </div>
+                    <div class="cards">
+                        {{ player.cardCount }}
+                    </div>
+                </div>
+            </div>
         </div>
 
 
