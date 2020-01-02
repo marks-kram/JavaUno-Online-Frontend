@@ -95,9 +95,10 @@ header img {
     margin-bottom: 5px;
 }
 
-#table {
+#view-running #table {
     border-bottom: 3px black solid;
     margin-bottom: 10px;
+    max-width: 840px;
 }
 
 #view-running .player .cards {
@@ -168,6 +169,15 @@ header img {
 #view-running #color-selection .green {background: #1dc300 url('/res/img/color-green.png');}
 #view-running #color-selection .blue {background: #0075e6 url('/res/img/color-blue.png');}
 #view-running #color-selection .yellow {background: #f2f130 url('/res/img/color-yellow.png');}
+
+#view-running #ownCards {
+    max-width: 840px;
+}
+
+#view-running #ownCards picture {
+    display: inline-block;
+    margin: 0 2px;
+}
 
 .errMsg {
     color: #800;

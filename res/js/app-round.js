@@ -1,18 +1,17 @@
-function getCardImage(size) {
-    const card = app.gameState.game.topCard;
+function getCardImage(card, size) {
     let image = '/res/img/cards/' + size + '/';
 
     if(card.cardType === 'NUMBER'){
         image += card.color.toLowerCase() + card.value;
     }
     if(card.cardType === 'SKIP'){
-        image += card.color + 'skip';
+        image += card.color.toLowerCase() + 'skip';
     }
     if(card.cardType === 'REVERSE'){
-        image += card.color + 'reverse';
+        image += card.color.toLowerCase() + 'reverse';
     }
     if(card.cardType === 'DRAW_2'){
-        image += card.color + 'draw2';
+        image += card.color.toLowerCase() + 'draw2';
     }
     if(card.cardType === 'JOKER'){
         image += 'joker';

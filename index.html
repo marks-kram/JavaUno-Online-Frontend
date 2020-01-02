@@ -112,9 +112,9 @@
             <div id="table">
                 <div id="topCard">
                     <picture>
-                        <source v-bind:srcset="getCardImage('large')" media="(min-width: 860px)">
-                        <source v-bind:srcset="getCardImage('small')" media="(max-width: 859px)">
-                        <img v-bind:src="getCardImage('small')" alt="">
+                        <source v-bind:srcset="getCardImage(gameState.game.topCard, 'large')" media="(min-width: 860px)">
+                        <source v-bind:srcset="getCardImage(gameState.game.topCard, 'small')" media="(max-width: 859px)">
+                        <img v-bind:src="getCardImage(gameState.game.topCard, 'small')" alt="">
                     </picture>
                 </div>
                 <div id="say-uno">
@@ -124,6 +124,13 @@
                 </div>
                 <div id="drawPile"></div>
             </div>
+            <div id="ownCards"><!--
+                --><picture v-for="card in gameState.ownCards">
+                    <source v-bind:srcset="getCardImage(card, 'large')" media="(min-width: 860px)">
+                    <source v-bind:srcset="getCardImage(card, 'large')" media="(max-width: 859px)">
+                    <img v-bind:src="getCardImage(card, 'large')" alt="">
+                </picture><!--
+            --></div>
             <div id="color-selection" v-if="gameState.game.turnState == 'SELECT_COLOR'">
                 <div>
                     <div class="red"></div><!--
@@ -133,8 +140,6 @@
                 </div>
             </div>
         </div>
-
-
     </div>
 
     <div id="toast"></div>

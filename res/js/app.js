@@ -41,7 +41,7 @@ const methods = {
     getPlayerType: function(player){getPlayerType(player)},
     copyLink: function(){copyLink()},
     showQrCode: function () {showQrCode()},
-    getCardImage: function(size) { return getCardImage(size) }
+    getCardImage: function(card, size) { return getCardImage(card, size) }
 };
 
 const app = new Vue({
