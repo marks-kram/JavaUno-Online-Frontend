@@ -1,5 +1,6 @@
 const apiBase = '/api';
 const appId = 'javaUno';
+const maxPlayers = 7;
 Vue.config.devtools = true;
 
 const hostname = location.hostname;
@@ -14,6 +15,7 @@ const gameState = {
 };
 
 const data = {
+    maxPlayers = maxPlayers,
     showQr: false,
     gameUuid: '',
     playerUuid: '',

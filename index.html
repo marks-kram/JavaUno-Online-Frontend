@@ -38,18 +38,18 @@
             <input v-if="currentView === 'join'" type="text" v-model="name" placeholder="Name (optional)">
             <button v-if="currentView === 'start'" @click="createGame()">Spielspaß beginnen</button>
             <button v-if="currentView === 'join'" @click="joinGame()"
-                    v-bind:disabled="gameState.players.length >= 6 || gameState.game.gameLifecycle == 'RUNNING'">
+                    v-bind:disabled="gameState.players.length >= maxPlayers || gameState.game.gameLifecycle == 'RUNNING'">
                 <span v-if="invention">Jetzt mitspielen</span>
                 <span v-if="!invention">Jetzt loslegen</span>
             </button>
-            <div  class="errMsg" v-if="currentView === 'join' && gameState.players.length >= 6">
-                Die maximale Spieleranzahl wurde erreicht.
+            <div  class="errMsg" v-if="currentView === 'join' && gameState.players.length >= maxPlayers">
+                Die maximale Spieleranzahl ({{maxPlayers}}) wurde erreicht.
             </div>
             <div  class="errMsg" v-if="currentView === 'join' && gameState.game.gameLifecycle == 'RUNNING'">
                 Das Spiel wurde bereits gestartet.
             </div>
             <div  class="errMsg"
-                  v-if="currentView === 'join' && (gameState.players.length >= 6 || gameState.game.gameLifecycle == 'RUNNING')">
+                  v-if="currentView === 'join' && (gameState.players.length >= maxPlayers || gameState.game.gameLifecycle == 'RUNNING')">
                 Es können leider keine weiteren Spieler teilnehmen.
             </div>
         </div>
@@ -66,7 +66,7 @@
                 </div>
             </div>
             <h3>Spieler hinzufügen</h3>
-            <div id="add-players" v-if="gameState.players.length < 6">
+            <div id="add-players" v-if="gameState.players.length < maxPlayers">
                 Computergesteuerten Gegner
                 <input class="small" type="text" v-model="botName" placeholder="Name (optional)">
                 <button class="small" @click="addBot()">hinzufügen</button><br><br>
@@ -83,8 +83,8 @@
                     <button class="small" @click="showQr = false">ausblenden</button>
                 </div>
             </div>
-            <div id="add-players-limit-reached" v-if="gameState.players.length >= 6">
-                Die maximale Spieleranzahl wurde erreicht.<br>
+            <div id="add-players-limit-reached" v-if="gameState.players.length >= maxPlayers">
+                Die maximale Spieleranzahl ({{maxPlayers}}) wurde erreicht.<br>
                 Es können keine weiteren Spieler teilnehmen.
             </div>
             <div id="start-game">
