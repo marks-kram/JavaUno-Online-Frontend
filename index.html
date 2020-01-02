@@ -124,19 +124,19 @@
                 </div>
                 <div id="drawPile"></div>
             </div>
-            <div id="ownCards"><!--
-                --><picture v-for="card in gameState.ownCards">
+            <div id="ownCards">
+                <picture v-for="card in gameState.ownCards">
                     <source v-bind:srcset="getCardImage(card, 'large')" media="(min-width: 860px)">
                     <source v-bind:srcset="getCardImage(card, 'large')" media="(max-width: 859px)">
                     <img v-bind:src="getCardImage(card, 'large')" alt="">
-                </picture><!--
-            --></div>
+                </picture>
+            </div>
             <div id="color-selection" v-if="gameState.game.turnState == 'SELECT_COLOR'">
                 <div>
-                    <div class="red"></div><!--
-                        --><div class="green"></div><!--
-                        --><div class="blue"></div><!--
-                        --><div class="yellow"></div>
+                    <div class="red"></div>
+                    <div class="green"></div>
+                    <div class="blue"></div>
+                    <div class="yellow"></div>
                 </div>
             </div>
         </div>
