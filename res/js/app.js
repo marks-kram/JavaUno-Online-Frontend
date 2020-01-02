@@ -1,6 +1,6 @@
 const apiBase = '/api';
 const appId = 'javaUno';
-const maxPlayers = 8;
+const maxPlayers = 9;
 Vue.config.devtools = true;
 
 const hostname = location.hostname;
