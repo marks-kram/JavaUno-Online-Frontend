@@ -95,8 +95,13 @@ header img {
     margin-bottom: 5px;
 }
 
+#table {
+    border-bottom: 3px black solid;
+    margin-bottom: 10px;
+}
+
 #view-running .player .cards {
-    background-image: url('/res/img/cards/s/back.png');
+    background-image: url('/res/img/cards/large/back.png');
     width: 100px;
     height: 150px;
     display: table-cell;
@@ -108,12 +113,18 @@ header img {
     text-shadow: -1px -1px 1px black, 1px 1px 1px black;
 }
 
-#table {
-    border-bottom: 3px black solid;
-    margin-bottom: 10px;
+#topCard div {
+    width: 100px;
+    height: 150px;
 }
 
-#view-running #table #topCard, #view-running #table #drawPile, #view-running #table #uno-and-colors {
+#drawPile {
+    background-image: url('/res/img/cards/large/back.png');
+    width: 100px;
+    height: 150px;
+}
+
+#view-running #table #topCard, #view-running #table #drawPile {
     display: inline-block;
     margin: 0 10px;
 }
@@ -136,7 +147,6 @@ header img {
     width: 100%;
     height: 100%;
     background: #0009;
-    z-index: 99;
 }
 
 #view-running #color-selection > div {

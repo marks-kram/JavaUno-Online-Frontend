@@ -40,7 +40,8 @@ const methods = {
     getPlayerName: function(player){getPlayerName(player)},
     getPlayerType: function(player){getPlayerType(player)},
     copyLink: function(){copyLink()},
-    showQrCode: function () {showQrCode()}
+    showQrCode: function () {showQrCode()},
+    getCardImage: function(size) { return getCardImage(size) }
 };
 
 const app = new Vue({
