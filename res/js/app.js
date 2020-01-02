@@ -15,7 +15,7 @@ const gameState = {
 };
 
 const data = {
-    maxPlayers = maxPlayers,
+    maxPlayers : maxPlayers,
     showQr: false,
     gameUuid: '',
     playerUuid: '',
