@@ -108,10 +108,9 @@ header img {
     text-shadow: -1px -1px 1px black, 1px 1px 1px black;
 }
 
-#view-running #table {
-    background: #a07227;
-    padding: 20px;
-    width: 408px;
+#table {
+    border-bottom: 3px black solid;
+    margin-bottom: 10px;
 }
 
 #view-running #table #topCard, #view-running #table #drawPile, #view-running #table #uno-and-colors {
@@ -119,38 +118,46 @@ header img {
     margin: 0 10px;
 }
 
-#view-running #table #uno-and-colors #say-uno {
-    cursor: pointer;
-    background-image: url('/res/img/uno.png');
-    width: 100px;
-    height: 100px;
-    display: table-cell;
-    vertical-align: middle;
-    text-align: center;
-    font-weight: bold;
-    font-size: 2.4rem;
-    color: black;
-    text-shadow: -1px -1px 1px white, 1px 1px 1px white;
-}
-
-#view-running #table #uno-and-colors #select-color .color-select, #view-running #table #uno-and-colors #selected-color div, #view-running #table #uno-and-colors #selected-color-none div {
+#view-running #table #say-uno {
     display: inline-block;
-    width: 25px;
-    height: 20px;
+}
+
+#view-running #table #say-uno div {
+    display: table-cell;
+    height: 150px;
+    text-align: center;
+    vertical-align: middle;
+}
+
+#view-running #color-selection {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #0009;
+    z-index: 99;
+}
+
+#view-running #color-selection > div {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+#view-running #color-selection div div {
+    margin: 20px;
     cursor: pointer;
-    margin: 7px 0 0;
+    width: 200px;
+    height: 60px;
+    border-radius: 20px;
 }
 
-#view-running #table #uno-and-colors #selected-color div, #view-running #table #uno-and-colors #selected-color-none div {
-    width: 100px;
-    cursor: inherit;
-}
-
-#view-running #table #uno-and-colors #select-color .color-select.red, #view-running #table #uno-and-colors #selected-color .red {background: #cc0000;}
-#view-running #table #uno-and-colors #select-color .color-select.green, #view-running #table #uno-and-colors #selected-color .green {background: #1dc300;}
-#view-running #table #uno-and-colors #select-color .color-select.blue, #view-running #table #uno-and-colors #selected-color .blue {background: #0075e6;}
-#view-running #table #uno-and-colors #select-color .color-select.yellow, #view-running #table #uno-and-colors #selected-color .yellow {background: #f2f130;}
-#view-running #table #uno-and-colors #selected-color-none .none {background: transparent;}
+#view-running #color-selection .red {background: #cc0000 url('/res/img/color-red.png');}
+#view-running #color-selection .green {background: #1dc300 url('/res/img/color-green.png');}
+#view-running #color-selection .blue {background: #0075e6 url('/res/img/color-blue.png');}
+#view-running #color-selection .yellow {background: #f2f130 url('/res/img/color-yellow.png');}
 
 .errMsg {
     color: #800;
