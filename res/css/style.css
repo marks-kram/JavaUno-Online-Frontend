@@ -128,7 +128,7 @@ header img {
 
 #view-running #table #topCard, #view-running #table #drawPile {
     display: inline-block;
-    margin: 0 10px;
+    margin: 0 2px;
 }
 
 #view-running #table #say-uno {
