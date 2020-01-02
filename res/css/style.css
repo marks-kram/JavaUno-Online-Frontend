@@ -78,15 +78,14 @@ header img {
 }
 
 #view-running #players {
-    max-width: 880px;
+    max-width: 840px;
+    border-bottom: 3px black solid;
+    margin-bottom: 10px;
 }
 
 #view-running .player {
     display: inline-block;
     margin: 10px;
-    background: #b6e4ec;
-    width: 120px;
-    padding: 10px;
 }
 
 #view-running .player .name {
