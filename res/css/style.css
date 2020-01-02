@@ -86,7 +86,7 @@ header img {
 
 #view-running .player {
     display: inline-block;
-    margin: 10px;
+    margin: 2px 0 10px 2px
 }
 
 #view-running .player .name {
