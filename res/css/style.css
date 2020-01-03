@@ -156,7 +156,7 @@ header img {
     vertical-align: middle;
 }
 
-#view-running #color-selection, #view-running #put-drawn {
+.lightbox {
     position: fixed;
     top: 0;
     left: 0;
@@ -165,7 +165,7 @@ header img {
     background: #000d;
 }
 
-#view-running #color-selection > div, #view-running #put-drawn > div {
+.lightbox > div {
     position: fixed;
     top: 50%;
     left: 50%;
@@ -196,6 +196,14 @@ header img {
 
 #view-running #put-drawn button.no {
     float: right;
+}
+
+#view-running #finished div {
+    font-size: 2rem;
+}
+
+#view-running #finished button {
+    width: 50px;
 }
 
 

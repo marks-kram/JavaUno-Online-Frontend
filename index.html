@@ -130,7 +130,7 @@
                     <img v-bind:src="getCardImage(card, 'small')" alt="">
                 </picture>
             </div>
-            <div id="color-selection" v-if="gameState.game.turnState == 'SELECT_COLOR'">
+            <div id="color-selection" class="lightbox" v-if="gameState.game.turnState == 'SELECT_COLOR'">
                 <div>
                     <div class="red"></div>
                     <div class="green"></div>
@@ -138,7 +138,7 @@
                     <div class="yellow"></div>
                 </div>
             </div>
-            <div id="put-drawn" v-if="gameState.game.turnState == 'PUT_DRAWN'">
+            <div id="put-drawn" class="lightbox" v-if="gameState.game.turnState == 'PUT_DRAWN'">
                 <div>
                     <picture>
                         <source v-bind:srcset="getCardImage(gameState.ownCards[gameState.ownCards.length-1], 'large')" media="(min-width: 860px)">
@@ -150,6 +150,19 @@
                         <button class="small yes">Ja</button>
                         <button class="small no">Nein</button>
                     </div>
+                </div>
+            </div>
+            <div id="finished" class="lightbox" v-if="winner >= 0">
+                <div>
+                    <div v-if="winner == gameState.myIndex">
+                        Herzlichen Glückwunsch, {{gameState.players[winner].name != '' ? gameState.players[winner].name : 'Spieler '+(winner+1)}}!<br>
+                        Du hast gewonnen!
+                    </div>
+                    <div v-if="winner != gameState.myIndex">
+                        Das Spiel ist beendet.<br>
+                        {{gameState.players[winner].name != '' ? gameState.players[winner].name : 'Spieler '+(winner+1)}} hat gewonnen!
+                    </div>
+                    <button class="small">OK</button>
                 </div>
             </div>
         </div>

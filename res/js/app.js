@@ -16,6 +16,7 @@ const gameState = {
 
 const data = {
     maxPlayers : maxPlayers,
+    winner: -1,
     showQr: false,
     gameUuid: '',
     playerUuid: '',
