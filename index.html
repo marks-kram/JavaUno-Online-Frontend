@@ -126,8 +126,8 @@
             <div id="ownCards" v-bind:class="gameState.myIndex == gameState.game.currentPlayerIndex ? 'current' : ''">
                 <picture v-for="card in gameState.ownCards">
                     <source v-bind:srcset="getCardImage(card, 'large')" media="(min-width: 860px)">
-                    <source v-bind:srcset="getCardImage(card, 'large')" media="(max-width: 859px)">
-                    <img v-bind:src="getCardImage(card, 'large')" alt="">
+                    <source v-bind:srcset="getCardImage(card, 'small')" media="(max-width: 859px)">
+                    <img v-bind:src="getCardImage(card, 'small')" alt="">
                 </picture>
             </div>
             <div id="color-selection" v-if="gameState.game.turnState == 'SELECT_COLOR'">
@@ -136,6 +136,20 @@
                     <div class="green"></div>
                     <div class="blue"></div>
                     <div class="yellow"></div>
+                </div>
+            </div>
+            <div id="put-drawn" v-if="gameState.game.turnState == 'PUT_DRAWN'">
+                <div>
+                    <picture>
+                        <source v-bind:srcset="getCardImage(gameState.ownCards[gameState.ownCards.length-1], 'large')" media="(min-width: 860px)">
+                        <source v-bind:srcset="getCardImage(gameState.ownCards[gameState.ownCards.length-1], 'small')" media="(max-width: 859px)">
+                        <img v-bind:src="getCardImage(gameState.ownCards[gameState.ownCards.length-1], 'small')" alt="">
+                    </picture>
+                    <div>Möchtest du die gezogene Karte legen?</div>
+                    <div class="buttons">
+                        <button class="small yes">Ja</button>
+                        <button class="small no">Nein</button>
+                    </div>
                 </div>
             </div>
         </div>

@@ -156,20 +156,22 @@ header img {
     vertical-align: middle;
 }
 
-#view-running #color-selection {
+#view-running #color-selection, #view-running #put-drawn {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background: #0009;
+    background: #000d;
 }
 
-#view-running #color-selection > div {
+#view-running #color-selection > div, #view-running #put-drawn > div {
     position: fixed;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+    color: white;
+    text-align: center;
 }
 
 #view-running #color-selection div div {
@@ -179,6 +181,23 @@ header img {
     height: 60px;
     border-radius: 20px;
 }
+
+#view-running #put-drawn .buttons {
+    margin-top: 10px;
+}
+
+#view-running #put-drawn button {
+    width: 80px;
+}
+
+#view-running #put-drawn button.yes {
+    float: left;
+}
+
+#view-running #put-drawn button.no {
+    float: right;
+}
+
 
 #view-running #color-selection .red {background: #cc0000 url('/res/img/color-red.png');}
 #view-running #color-selection .green {background: #1dc300 url('/res/img/color-green.png');}
