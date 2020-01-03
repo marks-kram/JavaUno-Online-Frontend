@@ -30,7 +30,7 @@
     margin-bottom: 0;
 }
 
-#view-set-players .player {
+#current-players .player {
     background: #e0e0e0;
     color: #006;
     font-size: 1.2rem;
@@ -39,6 +39,12 @@
     padding: 10px;
 }
 
-#view-set-players .player span {
+#current-players .player span {
     color: #acaccb;
+}
+
+@media (max-width: 859px) {
+    #current-players .player {
+        font-size: 1.0rem;
+    }
 }

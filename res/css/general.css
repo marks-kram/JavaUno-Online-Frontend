@@ -88,3 +88,10 @@ button.small:active {
     border: 1px #6cbaff solid;
     color: black;
 }
+
+@media (max-width: 859px) {
+    header img {
+        width: 120px;
+        margin-top: 5px;
+    }
+}

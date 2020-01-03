@@ -19,6 +19,10 @@
     font-size: 1.1rem;
     font-weight: bold;
     margin-bottom: 5px;
+    width: 100px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 #table {
@@ -70,6 +74,10 @@
 
 #say-uno {
     display: inline-block;
+}
+
+#say-uno button {
+    margin-top: 0;
 }
 
 #say-uno div {
@@ -156,4 +164,34 @@
     transform: translate(-50%, -50%);
     color: white;
     text-align: center;
+}
+
+@media (max-width: 859px) {
+    #players .player .name {
+        font-size: 0.7rem;
+        width: 65px;
+        text-align: left;
+    }
+
+    #players .player .cards {
+        background-image: url('/res/img/cards/small/back.png');
+        width: 40px;
+        height: 60px;
+        font-size: 3rem;
+    }
+
+    #say-uno div {
+        height: 60px;
+    }
+
+    #say-uno button {
+        font-size: 0.9rem;
+        padding: 4px;
+    }
+
+    #drawPile {
+        background-image: url('/res/img/cards/small/back.png');
+        width: 40px;
+        height: 60px;
+    }
 }
