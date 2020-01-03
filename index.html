@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta property="og:title" content="JavaUno Online">
     <meta property="og:description" content="Spiele das beliebte Kartenspiel mit Freunden oder auch alleine am PC oder Handy.">
-    <meta property="og:image" content="/res/img/og-square.png">
+    <meta property="og:image" content="/res/img/og.png">
     <meta property="og:image:secure_url" content="/res/img/og.png">
     <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
     <link rel="stylesheet" type="text/css" href="/res/css/general.css">
@@ -53,7 +53,8 @@
             </div>
             <div  class="errMsg"
                   v-if="currentView === 'join' && (gameState.players.length >= maxPlayers || gameState.game.gameLifecycle == 'RUNNING')">
-                Es können leider keine weiteren Spieler teilnehmen.
+                Es können leider keine weiteren Spieler teilnehmen.<br>
+                <button class="small" @click="reset()">Eigenes Spiel starten</button>
             </div>
         </div>
 
