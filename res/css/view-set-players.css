@@ -1,0 +1,44 @@
+#view-set-players {
+    max-width: 600px;
+}
+
+#current-players, #add-players, #add-players-limit-reached {
+    border-bottom: 3px black solid;
+    font-size: 1.1rem;
+}
+
+#add-players-limit-reached {
+    padding-bottom: 12px;
+}
+
+#add-players {
+    padding-bottom: 10px;
+}
+
+#invention-link {
+    word-break: break-word;
+    color: blue;
+}
+
+#invention-link-toCopy {
+    position: fixed;
+    top: -1000px;
+}
+
+#view-set-players h3 {
+    font-size: 1.5rem;
+    margin-bottom: 0;
+}
+
+#view-set-players .player {
+    background: #e0e0e0;
+    color: #006;
+    font-size: 1.2rem;
+    font-weight: bolder;
+    margin-bottom: 10px;
+    padding: 10px;
+}
+
+#view-set-players .player span {
+    color: #acaccb;
+}
