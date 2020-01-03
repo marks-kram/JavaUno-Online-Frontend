@@ -1,9 +1,7 @@
+const noSuchGameMessage = 'failure: de.markherrmann.javauno.exceptions.IllegalArgumentException: There is no such game.';
+
 function handleRequestSuccess(response) {
-    if(response.data.success){
-        app.callback(response.data);
-    } else {
-        console.error("Error. Response: " + response.data.message);
-    }
+    app.callback(response.data);
 }
 
 function handleRequestError(response) {

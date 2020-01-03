@@ -1,6 +1,6 @@
 const apiBase = '/api';
-const appId = '#javaUno';
-const noSuchGameMessage = 'failure: de.markherrmann.javauno.exceptions.IllegalArgumentException: There is no such game.';
+const appId = 'javaUno';
+const maxPlayers = 9;
 Vue.config.devtools = true;
 
 const hostname = location.hostname;
@@ -15,6 +15,8 @@ const gameState = {
 };
 
 const data = {
+    maxPlayers : maxPlayers,
+    winner: -1,
     showQr: false,
     gameUuid: '',
     playerUuid: '',
@@ -34,15 +36,17 @@ const methods = {
     addBot: function () {addBot()},
     removeBot: function (player) {removeBot(player)},
     loadGame: function (){loadGame()},
+    loadGameWithoutPlayer: function (){loadGameWithoutPlayer()},
     startGame: function (){startGame()},
     getPlayerName: function(player){getPlayerName(player)},
     getPlayerType: function(player){getPlayerType(player)},
     copyLink: function(){copyLink()},
-    showQrCode: function () {showQrCode()}
+    showQrCode: function () {showQrCode()},
+    getCardImage: function(card, size) { return getCardImage(card, size) }
 };
 
 const app = new Vue({
-    el: appId,
+    el: '#'+appId,
     data: data,
     methods: methods
 });

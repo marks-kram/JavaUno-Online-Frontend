@@ -1,7 +1,7 @@
 function setGame(data){
     app.gameUuid = data.gameUuid;
-    app.currentView = 'join';
     app.$cookies.set('gameUuid', app.gameUuid);
+    loadGameWithoutPlayer();
 }
 
 function setPlayer(data){
@@ -15,9 +15,19 @@ function setGameState(data){
     app.currentView = data.game.gameLifecycle.toLowerCase();
 }
 
+function setGameStateWithoutPlayer(data){
+    app.gameState = data;
+    app.currentView = 'join';
+}
+
 function loadGame(){
     const path = '/gameState/get/' + app.gameUuid + '/' + app.playerUuid;
     doGetRequest(path, setGameState);
+}
+
+function loadGameWithoutPlayer(){
+    const path = '/gameState/get/' + app.gameUuid;
+    doGetRequest(path, setGameStateWithoutPlayer);
 }
 
 function createGame() {
@@ -38,11 +48,16 @@ function handleInvention(){
     if(location.hash !== '' && location.hash !== '#'){
         const gameUuid = location.hash.replace(/^#/, '');
         app.$cookies.set('gameUuid', gameUuid);
+        app.$cookies.set('invention', '1');
         location.replace('/');
     }
 }
 
 function init(){
+    const invention = app.$cookies.get('invention');
+    if(invention != null && invention === '1'){
+        app.invention = true;
+    }
     const gameUuid = app.$cookies.get('gameUuid');
     if(gameUuid == null || gameUuid === undefined){
         app.currentView = 'start';
@@ -54,12 +69,12 @@ function init(){
         app.playerUuid = playerUuid;
         app.loadGame();
     } else {
-        app.currentView = 'join';
+        app.loadGameWithoutPlayer();
     }
 }
 
 window.addEventListener("load", function() {
     handleInvention();
     init();
-    document.getElementById('javaUno').style.display = 'block';
+    document.getElementById(appId).style.display = 'block';
 });
