@@ -41,6 +41,7 @@ function startGame(){
 function reset(){
     app.$cookies.remove('gameUuid');
     app.$cookies.remove('playerUuid');
+    app.$cookies.remove('invention');
     location.reload();
 }
 
@@ -48,6 +49,7 @@ function handleInvention(){
     if(location.hash !== '' && location.hash !== '#'){
         const gameUuid = location.hash.replace(/^#/, '');
         app.$cookies.set('gameUuid', gameUuid);
+        app.$cookies.remove('playerUuid');
         app.$cookies.set('invention', '1');
         location.replace('/');
     }
