@@ -1,0 +1,90 @@
+html, body {
+    margin: 0;
+    padding: 0;
+    font-size: 1em;
+    background: #bebebe;
+}
+
+*{
+    box-sizing: border-box;
+}
+
+header {
+    width: 100%;
+    height: 30px;
+    position: fixed;
+    left: 0;
+    top: 0;
+    background: #6a6264;
+    border-bottom: 1px black solid;
+}
+
+header img {
+    display: inline-block;
+}
+
+#javaUno {
+    display: none;
+    padding: 35px 10px 10px 10px;
+    width: 100%;
+}
+
+.errMsg {
+    color: #800;
+}
+
+input {
+    font-size: 1.5rem;
+    padding: 7px;
+    border: 1px silver solid;
+    border-radius: 11px;
+}
+input:hover, input:focus {
+    border: 1px black solid;
+}
+
+button {
+    font-size: 1.5rem;
+    margin-top: 10px;
+    padding: 7px;
+    background: #137206;
+    border: 1px #137206 solid;
+    color: white;
+    border-radius: 11px;
+    cursor: pointer;
+}
+button:hover, button:focus {
+    background: #148d06;
+    border: 1px #148d06 solid;
+}
+button:active {
+    background: #125306;
+    border: 1px #125306 solid;
+}
+button:disabled{
+    background: #777;
+    border: 1px #777 solid;
+    cursor: not-allowed;
+}
+
+input.small, button.small {
+    margin-top: 0;
+    font-size: 1rem;
+    padding: 3px;
+}
+
+button.small {
+    background: #add9ff;
+    border: 1px #add9ff solid;
+    color: black;
+}
+button.small:hover, button.small:focus {
+    background: #d0e9ff;
+    border: 1px #d0e9ff solid;
+    color: black;
+}
+button.small:active {
+    background: #6cbaff;
+    border: 1px #6cbaff solid;
+    color: black;
+}
