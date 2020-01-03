@@ -143,11 +143,7 @@
             </div>
             <div id="put-drawn" class="lightbox" v-if="gameState.game.turnState == 'PUT_DRAWN'">
                 <div>
-                    <picture>
-                        <source v-bind:srcset="getCardImage(gameState.ownCards[gameState.ownCards.length-1], 'large')" media="(min-width: 860px)">
-                        <source v-bind:srcset="getCardImage(gameState.ownCards[gameState.ownCards.length-1], 'small')" media="(max-width: 859px)">
-                        <img v-bind:src="getCardImage(gameState.ownCards[gameState.ownCards.length-1], 'small')" alt="">
-                    </picture>
+                    <img v-bind:src="getCardImage(gameState.ownCards[gameState.ownCards.length-1], 'large')" alt="">
                     <div>Möchtest du die gezogene Karte legen?</div>
                     <div class="buttons">
                         <button class="small yes">Ja</button>
