@@ -98,9 +98,8 @@
 
         <!-- running game view - shows the running game -->
         <div id="view-running" v-if="currentView === 'running'">
-            <!-- TODO: make running game view -->
             <div id="players">
-                <div class="player" v-for="(player, index) in gameState.players" v-if="index != gameState.myIndex">
+                <div v-bind:class="'player' + (index == gameState.game.currentPlayerIndex ? ' current' : '')" v-for="(player, index) in gameState.players" v-if="index != gameState.myIndex">
                     <div class="name">
                         {{ player.name != '' ? player.name : 'Spieler ' + (index+1) }}
                     </div>
@@ -110,7 +109,7 @@
                 </div>
             </div>
             <div id="table">
-                <div id="topCard">
+                <div id="topCard" v-bind:class="gameState.game.desiredColor != null ? gameState.game.desiredColor : ''">
                     <picture>
                         <source v-bind:srcset="getCardImage(gameState.game.topCard, 'large')" media="(min-width: 860px)">
                         <source v-bind:srcset="getCardImage(gameState.game.topCard, 'small')" media="(max-width: 859px)">
@@ -124,7 +123,7 @@
                 </div>
                 <div id="drawPile"></div>
             </div>
-            <div id="ownCards">
+            <div id="ownCards" v-bind:class="gameState.myIndex == gameState.game.currentPlayerIndex ? 'current' : ''">
                 <picture v-for="card in gameState.ownCards">
                     <source v-bind:srcset="getCardImage(card, 'large')" media="(min-width: 860px)">
                     <source v-bind:srcset="getCardImage(card, 'large')" media="(max-width: 859px)">
