@@ -41,6 +41,7 @@ function startGame(){
 function reset(){
     app.$cookies.remove('gameUuid');
     app.$cookies.remove('playerUuid');
+    app.$cookies.remove('invention');
     location.reload();
 }
 
