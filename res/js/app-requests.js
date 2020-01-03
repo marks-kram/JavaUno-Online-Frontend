@@ -1,4 +1,5 @@
 const noSuchGameMessage = 'failure: de.markherrmann.javauno.exceptions.IllegalArgumentException: There is no such game.';
+const noSuchPlayerMessage = 'failure: de.markherrmann.javauno.exceptions.IllegalArgumentException: There is no such player in this game.';
 
 function handleRequestSuccess(response) {
     app.callback(response.data);
@@ -9,6 +10,10 @@ function handleRequestError(response) {
         console.error("Request-Error: " + response.data.message);
         if(response.data.message === noSuchGameMessage){
             app.currentView = reset();
+        }
+        if(response.data.message === noSuchPlayerMessage){
+            app.$cookies.remove('playerUuid');
+            location.reload();
         }
     } else {
         console.error("Request-Error: " + response);

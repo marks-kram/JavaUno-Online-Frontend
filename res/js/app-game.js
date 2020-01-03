@@ -7,6 +7,7 @@ function setGame(data){
 function setPlayer(data){
     app.playerUuid = data.playerUuid;
     app.$cookies.set('playerUuid', app.playerUuid);
+    app.$cookies.remove('invention');
     app.loadGame();
 }
 
@@ -49,7 +50,6 @@ function handleInvention(){
     if(location.hash !== '' && location.hash !== '#'){
         const gameUuid = location.hash.replace(/^#/, '');
         app.$cookies.set('gameUuid', gameUuid);
-        app.$cookies.remove('playerUuid');
         app.$cookies.set('invention', '1');
         location.replace('/');
     }
