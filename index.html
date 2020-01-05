@@ -41,18 +41,18 @@
             <input v-if="currentView === 'join'" type="text" v-model="name" placeholder="Name (optional)">
             <button v-if="currentView === 'start'" @click="createGame()">Spielspaß beginnen</button>
             <button v-if="currentView === 'join'" @click="joinGame()"
-                    v-bind:disabled="gameState.players.length >= 9 || gameState.game.gameLifecycle == 'RUNNING'">
+                    v-bind:disabled="gameState.players.length >= 9 || gameState.game.gameLifecycle === 'RUNNING'">
                 <span v-if="invention">Jetzt mitspielen</span>
                 <span v-if="!invention">Jetzt loslegen</span>
             </button>
             <div  class="errMsg" v-if="currentView === 'join' && gameState.players.length >= 9">
                 Die maximale Spieleranzahl ({{9}}) wurde erreicht.
             </div>
-            <div  class="errMsg" v-if="currentView === 'join' && gameState.game.gameLifecycle == 'RUNNING'">
+            <div  class="errMsg" v-if="currentView === 'join' && gameState.game.gameLifecycle === 'RUNNING'">
                 Das Spiel wurde bereits gestartet.
             </div>
             <div  class="errMsg"
-                  v-if="currentView === 'join' && (gameState.players.length >= 9 || gameState.game.gameLifecycle == 'RUNNING')">
+                  v-if="currentView === 'join' && (gameState.players.length >= 9 || gameState.game.gameLifecycle === 'RUNNING')">
                 Es können leider keine weiteren Spieler teilnehmen.<br>
                 <button class="small" @click="reset()">Eigenes Spiel starten</button>
             </div>
@@ -63,9 +63,9 @@
             <h3>Aktuelle Spieler ({{gameState.players.length}})</h3>
             <div id="current-players">
                 <div class="player" v-for="(player, index) in gameState.players">
-                    {{ player.name != '' ? player.name : 'Spieler ' + (index+1) }}
-                    <span v-if="index == gameState.myIndex">(Du)</span>
-                    <button v-if="index == gameState.myIndex" class="small" @click="leaveGame()">Spiel verlassen</button>
+                    {{ player.name !== '' ? player.name : 'Spieler ' + (index+1) }}
+                    <span v-if="index === gameState.myIndex">(Du)</span>
+                    <button v-if="index === gameState.myIndex" class="small" @click="leaveGame()">Spiel verlassen</button>
                     <button v-if="player.bot" class="small" @click="removeBot(player)">Bot entfernen</button>
                 </div>
             </div>
@@ -103,9 +103,9 @@
         <!-- running game view - shows the running game -->
         <div id="view-running" v-if="currentView === 'running'">
             <div id="players">
-                <div v-bind:class="'player' + (index == gameState.game.currentPlayerIndex ? ' current' : '')" v-for="(player, index) in gameState.players" v-if="index != gameState.myIndex">
+                <div v-bind:class="'player' + (index === gameState.game.currentPlayerIndex ? ' current' : '')" v-for="(player, index) in gameState.players" v-if="index !== gameState.myIndex">
                     <div class="name">
-                        {{ player.name != '' ? player.name : 'Spieler ' + (index+1) }}
+                        {{ player.name !== '' ? player.name : 'Spieler ' + (index+1) }}
                     </div>
                     <div class="cards">
                         {{ player.cardCount }}
@@ -113,7 +113,7 @@
                 </div>
             </div>
             <div id="table">
-                <div id="topCard" v-bind:class="gameState.game.desiredColor != null ? gameState.game.desiredColor.toLowerCase() : ''">
+                <div id="topCard" v-bind:class="gameState.game.desiredColor !== null ? gameState.game.desiredColor.toLowerCase() : ''">
                     <picture>
                         <source v-bind:srcset="getCardImage(gameState.game.topCard, 'large')" media="(min-width: 860px)">
                         <source v-bind:srcset="getCardImage(gameState.game.topCard, 'small')" media="(max-width: 859px)">
@@ -127,14 +127,14 @@
                 </div>
                 <div id="drawPile"></div>
             </div>
-            <div id="ownCards" v-bind:class="gameState.myIndex == gameState.game.currentPlayerIndex ? 'current' : ''">
+            <div id="ownCards" v-bind:class="gameState.myIndex === gameState.game.currentPlayerIndex ? 'current' : ''">
                 <picture v-for="card in gameState.ownCards">
                     <source v-bind:srcset="getCardImage(card, 'large')" media="(min-width: 860px)">
                     <source v-bind:srcset="getCardImage(card, 'small')" media="(max-width: 859px)">
                     <img v-bind:src="getCardImage(card, 'small')" alt="">
                 </picture>
             </div>
-            <div id="color-selection" class="lightbox" v-if="gameState.game.turnState == 'SELECT_COLOR'">
+            <div id="color-selection" class="lightbox" v-if="gameState.game.turnState === 'SELECT_COLOR'">
                 <div>
                     <div class="red"></div>
                     <div class="green"></div>
@@ -142,7 +142,7 @@
                     <div class="yellow"></div>
                 </div>
             </div>
-            <div id="put-drawn" class="lightbox" v-if="gameState.game.turnState == 'PUT_DRAWN'">
+            <div id="put-drawn" class="lightbox" v-if="gameState.game.turnState === 'PUT_DRAWN'">
                 <div>
                     <img v-bind:src="getCardImage(gameState.ownCards[gameState.ownCards.length-1], 'large')" alt="">
                     <div>Möchtest du die gezogene Karte legen?</div>
@@ -154,13 +154,13 @@
             </div>
             <div id="finished" class="lightbox" v-if="winner >= 0">
                 <div>
-                    <div v-if="winner == gameState.myIndex">
-                        Herzlichen Glückwunsch, {{gameState.players[winner].name != '' ? gameState.players[winner].name : 'Spieler '+(winner+1)}}!<br>
+                    <div v-if="winner === gameState.myIndex">
+                        Herzlichen Glückwunsch, {{gameState.players[winner].name !== '' ? gameState.players[winner].name : 'Spieler '+(winner+1)}}!<br>
                         Du hast gewonnen!
                     </div>
-                    <div v-if="winner != gameState.myIndex">
+                    <div v-if="winner !== gameState.myIndex">
                         Das Spiel ist beendet.<br>
-                        {{gameState.players[winner].name != '' ? gameState.players[winner].name : 'Spieler '+(winner+1)}} hat gewonnen!
+                        {{gameState.players[winner].name !== '' ? gameState.players[winner].name : 'Spieler '+(winner+1)}} hat gewonnen!
                     </div>
                     <button class="small">OK</button>
                 </div>
@@ -174,6 +174,6 @@
     <script src="/res/js/app-requests.js"></script>
     <script src="/res/js/app-game.js"></script>
     <script src="/res/js/app-player.js"></script>
-    <script src="/res/js/app-round.js"></script>
+    <script src="/res/js/app-turn.js"></script>
 </body>
 </html>
