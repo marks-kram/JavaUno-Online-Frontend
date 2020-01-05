@@ -14,6 +14,10 @@ function setPlayer(data){
 function setGameState(data){
     app.gameState = data;
     app.currentView = data.game.gameLifecycle.toLowerCase();
+    if(app.toast !== ''){
+        showToast(app.toast);
+        app.toast = '';
+    }
 }
 
 function setGameStateWithoutPlayer(data){
