@@ -168,7 +168,7 @@
 
 @media (max-width: 859px) {
     #players .player .name {
-        font-size: 0.7rem;
+        font-size: 0.5rem;
         width: 65px;
         text-align: left;
     }

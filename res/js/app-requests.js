@@ -9,7 +9,7 @@ function handleRequestError(response) {
     if(response.data.message !== undefined){
         console.error("Request-Error: " + response.data.message);
         if(response.data.message === noSuchGameMessage){
-            app.currentView = reset();
+            reset();
         }
         if(response.data.message === noSuchPlayerMessage){
             app.$cookies.remove('playerUuid');

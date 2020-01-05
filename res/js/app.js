@@ -1,6 +1,4 @@
 const apiBase = '/api';
-const appId = 'javaUno';
-const maxPlayers = 9;
 Vue.config.devtools = true;
 
 const hostname = location.hostname;
@@ -15,7 +13,6 @@ const gameState = {
 };
 
 const data = {
-    maxPlayers : maxPlayers,
     winner: -1,
     showQr: false,
     gameUuid: '',
@@ -47,7 +44,7 @@ const methods = {
 };
 
 const app = new Vue({
-    el: '#'+appId,
+    el: '#javaUno',
     data: data,
     methods: methods
 });

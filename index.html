@@ -41,18 +41,18 @@
             <input v-if="currentView === 'join'" type="text" v-model="name" placeholder="Name (optional)">
             <button v-if="currentView === 'start'" @click="createGame()">Spielspaß beginnen</button>
             <button v-if="currentView === 'join'" @click="joinGame()"
-                    v-bind:disabled="gameState.players.length >= maxPlayers || gameState.game.gameLifecycle == 'RUNNING'">
+                    v-bind:disabled="gameState.players.length >= 9 || gameState.game.gameLifecycle == 'RUNNING'">
                 <span v-if="invention">Jetzt mitspielen</span>
                 <span v-if="!invention">Jetzt loslegen</span>
             </button>
-            <div  class="errMsg" v-if="currentView === 'join' && gameState.players.length >= maxPlayers">
-                Die maximale Spieleranzahl ({{maxPlayers}}) wurde erreicht.
+            <div  class="errMsg" v-if="currentView === 'join' && gameState.players.length >= 9">
+                Die maximale Spieleranzahl ({{9}}) wurde erreicht.
             </div>
             <div  class="errMsg" v-if="currentView === 'join' && gameState.game.gameLifecycle == 'RUNNING'">
                 Das Spiel wurde bereits gestartet.
             </div>
             <div  class="errMsg"
-                  v-if="currentView === 'join' && (gameState.players.length >= maxPlayers || gameState.game.gameLifecycle == 'RUNNING')">
+                  v-if="currentView === 'join' && (gameState.players.length >= 9 || gameState.game.gameLifecycle == 'RUNNING')">
                 Es können leider keine weiteren Spieler teilnehmen.<br>
                 <button class="small" @click="reset()">Eigenes Spiel starten</button>
             </div>
@@ -66,11 +66,11 @@
                     {{ player.name != '' ? player.name : 'Spieler ' + (index+1) }}
                     <span v-if="index == gameState.myIndex">(Du)</span>
                     <button v-if="index == gameState.myIndex" class="small" @click="leaveGame()">Spiel verlassen</button>
-                    <button v-if="player.bot" class="small" @click="removeBot(player)"> Bot entfernen</button>
+                    <button v-if="player.bot" class="small" @click="removeBot(player)">Bot entfernen</button>
                 </div>
             </div>
             <h3>Spieler hinzufügen</h3>
-            <div id="add-players" v-if="gameState.players.length < maxPlayers">
+            <div id="add-players" v-if="gameState.players.length < 9">
                 Computergesteuerten Gegner
                 <input class="small" type="text" v-model="botName" placeholder="Name (optional)">
                 <button class="small" @click="addBot()">hinzufügen</button><br><br>
@@ -87,8 +87,8 @@
                     <button class="small" @click="showQr = false">ausblenden</button>
                 </div>
             </div>
-            <div id="add-players-limit-reached" v-if="gameState.players.length >= maxPlayers">
-                Die maximale Spieleranzahl ({{maxPlayers}}) wurde erreicht.<br>
+            <div id="add-players-limit-reached" v-if="gameState.players.length >= 9">
+                Die maximale Spieleranzahl ({{9}}) wurde erreicht.<br>
                 Es können keine weiteren Spieler teilnehmen.
             </div>
             <div id="start-game">
@@ -113,7 +113,7 @@
                 </div>
             </div>
             <div id="table">
-                <div id="topCard" v-bind:class="gameState.game.desiredColor != null ? gameState.game.desiredColor : ''">
+                <div id="topCard" v-bind:class="gameState.game.desiredColor != null ? gameState.game.desiredColor.toLowerCase() : ''">
                     <picture>
                         <source v-bind:srcset="getCardImage(gameState.game.topCard, 'large')" media="(min-width: 860px)">
                         <source v-bind:srcset="getCardImage(gameState.game.topCard, 'small')" media="(max-width: 859px)">
