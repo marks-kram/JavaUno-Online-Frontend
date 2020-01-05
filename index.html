@@ -130,6 +130,7 @@
             </div>
             <div id="table">
                 <div id="topCard" v-bind:class="gameState.game.desiredColor !== null ? gameState.game.desiredColor.toLowerCase() : ''">
+                    <div v-bind:class="gameState.game.desiredColor !== null ? gameState.game.desiredColor.toLowerCase() : ''"></div>
                     <picture>
                         <source v-bind:srcset="getCardImage(gameState.game.topCard, 'large')" media="(min-width: 860px)">
                         <source v-bind:srcset="getCardImage(gameState.game.topCard, 'small')" media="(max-width: 859px)">

@@ -41,19 +41,14 @@
     text-shadow: -1px -1px 1px black, 1px 1px 1px black;
 }
 
-#topCard {
-    border-top: 5px transparent solid;
-}
-
-#topCard.red {border-top-color: #cc0000;}
-#topCard.green {border-top-color: #1dc300;}
-#topCard.blue {border-top-color: #0075e6;}
-#topCard.yellow {border-top-color: #f2f130;}
-
 #topCard div {
-    width: 100px;
-    height: 150px;
+    height: 5px;
 }
+
+#topCard div.red {background: #cc0000;}
+#topCard div.green {background: #1dc300;}
+#topCard div.blue {background: #0075e6;}
+#topCard div.yellow {background: #f2f130;}
 
 #drawPile {
     background-image: url('/res/img/cards/large/back.png');
