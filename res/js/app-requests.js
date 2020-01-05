@@ -22,15 +22,15 @@ function handleRequestError(response) {
 
 function doGetRequest(path, callback){
     app.callback = callback;
-    app.$http.get(apiBase+path).then(handleRequestSuccess, handleRequestError);
+    app.$http.get(config.apiBase+path).then(handleRequestSuccess, handleRequestError);
 }
 
 function doPostRequest(path, data, callback){
     app.callback = callback;
-    app.$http.post(apiBase+path, JSON.stringify(data)).then(handleRequestSuccess, handleRequestError);
+    app.$http.post(config.apiBase+path, JSON.stringify(data)).then(handleRequestSuccess, handleRequestError);
 }
 
 function doDeleteRequest(path, callback){
     app.callback = callback;
-    app.$http.delete(apiBase+path).then(handleRequestSuccess, handleRequestError);
+    app.$http.delete(config.apiBase+path).then(handleRequestSuccess, handleRequestError);
 }
