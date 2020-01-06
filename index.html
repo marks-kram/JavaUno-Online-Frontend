@@ -132,8 +132,8 @@
                 <div id="topCard" v-bind:class="gameState.game.desiredColor !== null ? gameState.game.desiredColor.toLowerCase() : ''">
                     <div v-bind:class="gameState.game.desiredColor !== null ? gameState.game.desiredColor.toLowerCase() : ''"></div>
                     <picture>
-                        <source v-bind:srcset="getCardImage(gameState.game.topCard, 'large')" media="(min-width: 860px)">
-                        <source v-bind:srcset="getCardImage(gameState.game.topCard, 'small')" media="(max-width: 859px)">
+                        <source v-bind:srcset="getCardImage(gameState.game.topCard, 'large')" media="(min-width: 860px) and (min-height: 908px)">
+                        <source v-bind:srcset="getCardImage(gameState.game.topCard, 'small')" media="(max-width: 859px), (max-height: 907px)">
                         <img v-bind:src="getCardImage(gameState.game.topCard, 'small')" alt="">
                     </picture>
                 </div>
@@ -147,8 +147,8 @@
             <div id="ownCards">
                 <div class="current" v-bind:style="'width: ' + (gameState.myIndex === gameState.game.currentPlayerIndex ? timeLeftPercent : 0) + '%'"></div>
                 <picture v-for="(card, index) in gameState.ownCards" v-bind:class="isPutAllowed(card) ? 'enabled' : 'disabled'" @click="put(card, index)">
-                    <source v-bind:srcset="getCardImage(card, 'large')" media="(min-width: 860px)">
-                    <source v-bind:srcset="getCardImage(card, 'small')" media="(max-width: 859px)">
+                    <source v-bind:srcset="getCardImage(card, 'large')" media="(min-width: 860px) and (min-height: 908px)">
+                    <source v-bind:srcset="getCardImage(card, 'small')" media="(max-width: 859px), (max-height: 907px)">
                     <img v-bind:src="getCardImage(card, 'small')" alt="">
                 </picture>
             </div>

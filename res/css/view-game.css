@@ -165,7 +165,7 @@
     text-align: center;
 }
 
-@media (max-width: 859px) {
+@media (max-width: 859px), (max-height: 907px) {
     #players .player .name {
         font-size: 0.5rem;
         width: 65px;
