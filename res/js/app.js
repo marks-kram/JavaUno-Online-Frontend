@@ -1,6 +1,4 @@
-const apiBase = '/api';
-Vue.config.devtools = true;
-
+Vue.config.devtools = config.vueDevToolsEnabled;
 const hostname = location.hostname;
 
 const gameState = {
@@ -22,7 +20,9 @@ const data = {
     name: '',
     botName: '',
     gameState: gameState,
-    message: ''
+    message: '',
+    toast: '',
+    timeLeftPercent: 100
 };
 
 const methods = {
@@ -40,7 +40,16 @@ const methods = {
     getPlayerType: function(player){getPlayerType(player)},
     copyLink: function(){copyLink()},
     showQrCode: function () {showQrCode()},
-    getCardImage: function(card, size) { return getCardImage(card, size) }
+    getCardImage: function(card, size) { return getCardImage(card, size) },
+    put: function(card, index) { put(card, index) },
+    putDrawn: function() { putDrawn() },
+    draw: function() { draw() },
+    keep: function() { keep() },
+    selectColor: function(color) { selectColor(color) },
+    sayUno: function() { sayUno() },
+    isPutAllowed: function(card) { return isPutAllowed(card) },
+    isDrawAllowed: function() { return isDrawAllowed() },
+    isSayUnoAllowed: function() { return isSayUnoAllowed() }
 };
 
 const app = new Vue({

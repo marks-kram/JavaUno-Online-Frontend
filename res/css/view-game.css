@@ -10,10 +10,6 @@
     border-top: 5px transparent solid;
 }
 
-#players .player.current {
-    border-top-color: #24bb07;
-}
-
 #players .player .name {
     text-align: center;
     font-size: 1.1rem;
@@ -29,7 +25,7 @@
     border-bottom: 3px black solid;
     margin-bottom: 10px;
     max-width: 840px;
-    padding-bottom: 10px
+    padding-bottom: 10px;
 }
 
 #players .player .cards {
@@ -45,20 +41,14 @@
     text-shadow: -1px -1px 1px black, 1px 1px 1px black;
 }
 
-#topCard {
-    border-top: 5px transparent solid;
-    cursor: pointer;
-}
-
-#topCard.red {border-top-color: #cc0000;}
-#topCard.green {border-top-color: #1dc300;}
-#topCard.blue {border-top-color: #0075e6;}
-#topCard.yellow {border-top-color: #f2f130;}
-
 #topCard div {
-    width: 100px;
-    height: 150px;
+    height: 5px;
 }
+
+#topCard div.red {background: #cc0000;}
+#topCard div.green {background: #1dc300;}
+#topCard div.blue {background: #0075e6;}
+#topCard div.yellow {background: #f2f130;}
 
 #drawPile {
     background-image: url('/res/img/cards/large/back.png');
@@ -80,7 +70,7 @@
     margin-top: 0;
 }
 
-#say-uno div {
+#say-uno > div {
     display: table-cell;
     height: 150px;
     text-align: center;
@@ -126,12 +116,6 @@
 
 #ownCards {
     max-width: 840px;
-    border-top: 5px transparent solid;
-    padding-top: 5px;
-}
-
-#ownCards.current {
-    border-top-color: #24bb07;
 }
 
 #ownCards picture {
@@ -140,12 +124,27 @@
     cursor: pointer;
 }
 
-#topCard:hover, #drawPile:hover, #ownCards picture:hover, #color-selection div div:hover {
+#drawPile.disabled, #ownCards picture.disabled {
+    cursor: not-allowed;
+}
+
+#drawPile.enabled:hover, #ownCards picture.enabled:hover, #color-selection div div:hover {
     transform: scale(1.03);
 }
 
-#topCard:active, #drawPile:active, #ownCards picture:active, #color-selection div div:active {
+#drawPile.enabled:active, #ownCards picture.enabled:active, #color-selection div div:active {
     transform: scale(0.97);
+}
+
+.current {
+    display: block;
+    width: 0;
+    height: 5px;
+    background: #24bb07;
+}
+
+#ownCards .current {
+    margin-bottom: 7px;
 }
 
 .lightbox {
@@ -166,7 +165,7 @@
     text-align: center;
 }
 
-@media (max-width: 859px) {
+@media (max-width: 859px), (max-height: 907px) {
     #players .player .name {
         font-size: 0.5rem;
         width: 65px;
@@ -180,7 +179,7 @@
         font-size: 3rem;
     }
 
-    #say-uno div {
+    #say-uno > div {
         height: 60px;
     }
 

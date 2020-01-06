@@ -3,6 +3,9 @@ const noSuchPlayerMessage = 'failure: de.markherrmann.javauno.exceptions.Illegal
 
 function handleRequestSuccess(response) {
     app.callback(response.data);
+    if(app.callback !== loadGame){
+        stopProcessAnimation();
+    }
 }
 
 function handleRequestError(response) {
@@ -18,19 +21,42 @@ function handleRequestError(response) {
     } else {
         console.error("Request-Error: " + response);
     }
+    stopProcessAnimation();
 }
 
 function doGetRequest(path, callback){
+    startProcessAnimation();
     app.callback = callback;
-    app.$http.get(apiBase+path).then(handleRequestSuccess, handleRequestError);
+    app.$http.get(config.apiBase+path).then(handleRequestSuccess, handleRequestError);
 }
 
 function doPostRequest(path, data, callback){
+    startProcessAnimation();
     app.callback = callback;
-    app.$http.post(apiBase+path, JSON.stringify(data)).then(handleRequestSuccess, handleRequestError);
+    app.$http.post(config.apiBase+path, JSON.stringify(data)).then(handleRequestSuccess, handleRequestError);
 }
 
 function doDeleteRequest(path, callback){
+    startProcessAnimation();
     app.callback = callback;
-    app.$http.delete(apiBase+path).then(handleRequestSuccess, handleRequestError);
+    app.$http.delete(config.apiBase+path).then(handleRequestSuccess, handleRequestError);
+}
+
+let pA;
+let process = false;
+
+function startProcessAnimation(){
+    if(!process){
+        process = true;
+        pA = setTimeout('document.getElementById(\'process\').style.display = \'block\'', 500);
+    }
+}
+
+function stopProcessAnimation(){
+    if(process){
+        process = false;
+        clearTimeout(pA);
+        document.getElementById('process').style.display = 'none';
+    }
+
 }

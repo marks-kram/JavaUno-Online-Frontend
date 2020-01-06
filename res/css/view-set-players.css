@@ -43,7 +43,7 @@
     color: #acaccb;
 }
 
-@media (max-width: 859px) {
+@media (max-width: 619px) {
     #current-players .player {
         font-size: 1.0rem;
     }
