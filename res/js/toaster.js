@@ -152,7 +152,7 @@ iqwerty.toast = (function() {
             this.stylize();
         }
 
-        var body = document.body;
+        var body = document.getElementById('toasts');
         var before = body.firstChild;
 
         // use classes to animate the toast
@@ -174,7 +174,7 @@ iqwerty.toast = (function() {
 
 
         // hide the toast after the specified timeout
-        setTimeout(this.hide.bind(this), this.getDuration());
+        setTimeout(this.hide.bind(this), this.getDuration()*body.children.length);
 
         return this;
     };
@@ -191,7 +191,7 @@ iqwerty.toast = (function() {
 
 
         setTimeout(function() {
-            document.body.removeChild(this.getToastStage());
+            document.getElementById('toasts').removeChild(this.getToastStage());
             this.setToastStage(null);
             this.setText(null);
             this.setTextStage(null);
