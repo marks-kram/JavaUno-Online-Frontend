@@ -1,4 +1,4 @@
-let aC;
+let aC = null;
 let start;
 
 function animateCountdown(){
@@ -12,12 +12,19 @@ function animateCountdown(){
     app.timeLeftPercent = 100 - 100/config.backendCountdownLength*diff;
 
     if(app.timeLeftPercent <= 0){
-        app.timeLeftPercent = 0;
-        clearInterval(aC);
+        stopCountdownAnimation(false);
     }
 }
 
 function startCountdownAnimation() {
     start = new Date().getTime();
     aC = setInterval('animateCountdown()', 10);
+}
+
+function stopCountdownAnimation(nextTurn){
+    if(aC !== null){
+        clearInterval(aC);
+        aC = null;
+    }
+    app.timeLeftPercent = nextTurn ? 100 : 0;
 }

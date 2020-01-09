@@ -26,7 +26,6 @@ const data = {
 };
 
 const methods = {
-    callback: null,
     createGame: function(){createGame()},
     joinGame: function () {joinGame()},
     leaveGame: function () {leaveGame()},

@@ -1,0 +1,170 @@
+let stompClient = null;
+let wasConnected = false;
+let cC;
+
+function checkConnected(){
+    const connected = stompClient !== null && stompClient.connected !== undefined && stompClient.connected;
+    if(connected){
+        wasConnected = connected;
+    } else {
+        if(wasConnected){
+            clearInterval(cC);
+            self.location.reload();
+        }
+    }
+}
+
+cC = setInterval('checkConnected()', 1000);
+
+function connectPush(gameUuid) {
+    const socket = new SockJS('/ws');
+    stompClient = Stomp.over(socket);
+    stompClient.connect({}, function (frame) {
+        console.log('Connected: ' + frame);
+        stompClient.subscribe('/api/push/'+gameUuid, function (message) {
+            handleMessage(message);
+        });
+    });
+}
+
+async function handleMessage(message){
+    let waitFor = 0;
+    while(joinGameRunning){
+        waitFor++;
+        await sleep();
+    }
+    console.log('Wait for joinGame to be finished for ' + waitFor + ' times');
+    doPushActions(message);
+}
+
+function doPushActions(message){
+    const messageType = message.body.replace(/:.*$/, '');
+    pushActions[messageType](message);
+}
+
+const doPushActionStartedGame = function(){
+    app.gameState.game.gameLifeCycle = 'RUNNING';
+    showToast('Es geht los');
+    updateView();
+};
+
+const doPushActionAddedPlayer = function(message){
+    if(message.body.startsWith('added-player')){
+        const index = parseInt(message.body.replace(/^added-player:(\d).*$/, '$1'));
+        if(index !== app.gameState.myIndex && app.gameState.myIndex >= 0){
+            let name = message.body.replace(/^added-player:\d:(.*)$/, '$1');
+            if(name === ''){
+                name = 'Spieler ' + (index+1);
+            }
+            showToast(name + ' macht mit');
+        }
+    }
+    updateView();
+};
+
+const  doPushActionRemovedPlayer = function(message){
+    if(message.body.startsWith('removed-player')){
+        const index = parseInt(message.body.replace(/removed-player:/, ''));
+        if(index !== app.gameState.myIndex && app.gameState.myIndex >= 0){
+            let name = app.gameState.players[index].name;
+            if(name === ''){
+                name = 'Der ehemalige Spieler ' + (index+1);
+            }
+            app.gameState.players.splice(index, 1);
+            showToast(name + ' ist gegangen');
+        }
+    }
+};
+
+const doPushActionPutCard = function(message){
+    if(!message.body.endsWith(':joker')){
+        startCountdown();
+    }
+    updateView();
+};
+
+const doPushActionDrawnCard = function(message){
+    if(message.body.endsWith(':countdown')){
+        startCountdown();
+    }
+    updateView();
+};
+
+const doPushActionKeptCard = function(){
+    startCountdown();
+};
+
+const doPushActionSelectedColor = function(){
+    startCountdown();
+};
+
+const doPushActionSaidUno = function(){
+    if(app.currentView === 'running'){
+        const index = app.gameState.game.currentPlayerIndex;
+        if(index !== app.gameState.myIndex){
+            let name = app.gameState.players[index].name;
+            if(name === ''){
+                name = 'Spieler ' + (index+1);
+            }
+            showToast(name + ': „Uno“');
+        }
+    }
+};
+
+const doPushActionNextTurn = function(message){
+    if(app.currentView === 'running'){
+        stopCountdownAnimation(true);
+        const index = parseInt(message.body.replace(/next-turn:/, ''));
+        app.gameState.game.currentPlayerIndex = index;
+        let name = app.gameState.players[index].name;
+        if(name === ''){
+            name = 'Spieler ' + (index+1);
+        }
+        if(index === app.gameState.myIndex){
+            showToast('Du bist dran, ' + name);
+        } else {
+            showToast(name + ' ist dran');
+        }
+    }
+    updateView();
+};
+
+const  doPushActionFinishedGame = function() {
+    if(app.currentView === 'running'){
+        app.winner = app.gameState.game.currentPlayerIndex;
+    }
+};
+
+const  doPushActionEnd = function() {
+    showToast('Spiel beendet. Danke für\'s Spielen');
+    reset();
+};
+
+function startCountdown(){
+    if(app.currentView === 'running'){
+        app.gameState.game.turnState = 'FINAL_COUNTDOWN';
+        startCountdownAnimation();
+    }
+}
+
+function updateView(){
+    if(app.playerUuid !== ''){
+        loadGame();
+    } else {
+        loadGameWithoutPlayer();
+    }
+}
+
+const pushActions = {
+    'started-game': doPushActionStartedGame,
+    'added-player': doPushActionAddedPlayer,
+    'removed-player': doPushActionRemovedPlayer,
+    'put-card': doPushActionPutCard,
+    'drawn-card': doPushActionDrawnCard,
+    'kept-card': doPushActionKeptCard,
+    'selected-color': doPushActionSelectedColor,
+    'said-uno': doPushActionSaidUno,
+    'next-turn': doPushActionNextTurn,
+    'finished-game': doPushActionFinishedGame,
+    'end': doPushActionEnd
+};

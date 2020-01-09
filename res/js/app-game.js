@@ -1,28 +1,39 @@
 function setGame(data){
     app.gameUuid = data.gameUuid;
     app.$cookies.set('gameUuid', app.gameUuid);
+    connectPush(app.gameUuid);
     loadGameWithoutPlayer();
 }
 
-function setPlayer(data){
-    app.playerUuid = data.playerUuid;
-    app.$cookies.set('playerUuid', app.playerUuid);
-    app.$cookies.remove('invention');
-    app.loadGame();
+let setGameStateRunning = false;
+
+async function waitForGameStateToBeSet(){
+    let waitFor = 0;
+    while(setGameStateRunning){
+       waitFor++;
+       await sleep();
+    }
+    console.log('Wait for setGameState to be finished for ' + waitFor + ' times.');
+    setGameStateRunning = true;
 }
 
 function setGameState(data){
+    waitForGameStateToBeSet();
     app.gameState = data;
     app.currentView = data.game.gameLifecycle.toLowerCase();
     if(app.toast !== ''){
         showToast(app.toast);
         app.toast = '';
     }
+    joinGameRunning = false;
+    setGameStateRunning = false;
 }
 
 function setGameStateWithoutPlayer(data){
+    waitForGameStateToBeSet();
     app.gameState = data;
     app.currentView = 'join';
+    setGameStateRunning = false;
 }
 
 function loadGame(){
@@ -47,7 +58,7 @@ function reset(){
     app.$cookies.remove('gameUuid');
     app.$cookies.remove('playerUuid');
     app.$cookies.remove('invention');
-    location.reload();
+    self.location.reload();
 }
 
 function handleInvention(){
@@ -70,6 +81,7 @@ function init(){
         return;
     }
     app.gameUuid = gameUuid;
+    connectPush(gameUuid);
     const playerUuid = app.$cookies.get('playerUuid');
     if(playerUuid != null && playerUuid !== undefined){
         app.playerUuid = playerUuid;
