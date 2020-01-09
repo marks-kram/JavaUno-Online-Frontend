@@ -75,9 +75,6 @@
             </div>
             <h3>Spieler hinzufügen</h3>
             <div id="add-players" v-if="gameState.players.length < 9">
-                Computergesteuerten Gegner
-                <input class="small" type="text" v-model="botName" placeholder="Name (optional)">
-                <button class="small" @click="addBot()">hinzufügen</button><br><br>
                 Freunde einladen:<br>
                 Schicke deinen Freunden folgenden Link:<br>
                 <button class="small" @click="copyLink()">Kopieren</button>
@@ -90,6 +87,10 @@
                     <div id="invention-qr-code"></div>
                     <button class="small" @click="showQr = false">ausblenden</button>
                 </div>
+                <br><br>
+                Alternativ kannst du einen computergesteuerten Gegner hinzufügen.<br>
+                <input class="small" type="text" v-model="botName" placeholder="Name (optional)">
+                <button class="small" @click="addBot()">Hinzufügen</button>
             </div>
             <div id="add-players-limit-reached" v-if="gameState.players.length >= 9">
                 Die maximale Spieleranzahl ({{9}}) wurde erreicht.<br>
@@ -176,7 +177,7 @@
             </div>
         </div>
     </div>
-    
+
     <div id="process">
         <img src="/res/img/process.svg" alt="">
     </div>
