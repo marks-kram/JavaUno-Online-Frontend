@@ -109,7 +109,9 @@
         <div id="view-running" v-if="currentView === 'running'">
             <div id="players">
                 <div class="player" v-for="(player, index) in gameState.players" v-if="index !== gameState.myIndex">
-                    <div class="current" v-bind:style="'width: ' + (index === gameState.game.currentPlayerIndex ? timeLeftPercent : 0) + '%'"></div>
+                    <div class="current">
+                        <div v-bind:style="'width: ' + (index === gameState.game.currentPlayerIndex ? timeLeftPercent : 0) + '%'"></div>
+                    </div>
                     <div class="name">
                         {{ player.name !== '' ? player.name : 'Spieler ' + (index+1) }}
                     </div>

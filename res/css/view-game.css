@@ -140,7 +140,7 @@
     transform: scale(0.97);
 }
 
-.current {
+.current div {
     display: block;
     width: 0;
     height: 5px;
@@ -181,6 +181,10 @@
         width: 40px;
         height: 60px;
         font-size: 3rem;
+    }
+
+    #players .player .current {
+        width: 40px;
     }
 
     #players .player .cards.more {
