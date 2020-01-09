@@ -1,10 +1,20 @@
+let joinGameRunning = false;
+
 function joinGame(){
+    joinGameRunning = true;
     const data = {
         bot: false,
         gameUuid: app.gameUuid,
         name: app.name
     };
     doPostRequest('/player/add', data, setPlayer);
+}
+
+function setPlayer(data){
+    app.playerUuid = data.playerUuid;
+    app.$cookies.set('playerUuid', app.playerUuid);
+    app.$cookies.remove('invention');
+    app.loadGame();
 }
 
 function addBot(){

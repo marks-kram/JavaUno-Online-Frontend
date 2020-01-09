@@ -1,9 +1,9 @@
 const noSuchGameMessage = 'failure: de.markherrmann.javauno.exceptions.IllegalArgumentException: There is no such game.';
 const noSuchPlayerMessage = 'failure: de.markherrmann.javauno.exceptions.IllegalArgumentException: There is no such player in this game.';
 
-function handleRequestSuccess(response) {
-    app.callback(response.data);
-    if(app.callback !== loadGame){
+function handleRequestSuccess(response, callback) {
+    callback(response.data);
+    if(callback === setGameState || callback === setGameStateWithoutPlayer){
         stopProcessAnimation();
     }
 }
@@ -16,30 +16,33 @@ function handleRequestError(response) {
         }
         if(response.data.message === noSuchPlayerMessage){
             app.$cookies.remove('playerUuid');
-            location.reload();
+            self.location.reload();
         }
     } else {
-        console.error("Request-Error: " + response);
+        console.error("Request-Error: responseObject: " + JSON.stringify(response));
     }
     stopProcessAnimation();
 }
 
 function doGetRequest(path, callback){
     startProcessAnimation();
-    app.callback = callback;
-    app.$http.get(config.apiBase+path).then(handleRequestSuccess, handleRequestError);
+    app.$http.get(config.apiBase+path).then(function (response) {
+        handleRequestSuccess(response, callback);
+    }, handleRequestError);
 }
 
 function doPostRequest(path, data, callback){
     startProcessAnimation();
-    app.callback = callback;
-    app.$http.post(config.apiBase+path, JSON.stringify(data)).then(handleRequestSuccess, handleRequestError);
+    app.$http.post(config.apiBase+path, JSON.stringify(data)).then(function (response) {
+        handleRequestSuccess(response, callback);
+    }, handleRequestError);
 }
 
 function doDeleteRequest(path, callback){
     startProcessAnimation();
-    app.callback = callback;
-    app.$http.delete(config.apiBase+path).then(handleRequestSuccess, handleRequestError);
+    app.$http.delete(config.apiBase+path).then(function (response) {
+        handleRequestSuccess(response, callback);
+    }, handleRequestError);
 }
 
 let pA;
@@ -59,4 +62,8 @@ function stopProcessAnimation(){
         document.getElementById('process').style.display = 'none';
     }
 
+}
+
+function sleep(){
+    return new Promise(resolve => setTimeout(resolve, 50));
 }
