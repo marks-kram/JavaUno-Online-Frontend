@@ -137,7 +137,9 @@
                 <div id="drawPile" v-bind:class="isDrawAllowed() ? 'enabled' : 'disabled'" @click="draw()"></div>
             </div>
             <div id="ownCards">
-                <div class="current" v-bind:style="'width: ' + (gameState.myIndex === gameState.game.currentPlayerIndex ? timeLeftPercent : 0) + '%'"></div>
+                <div class="current">
+                    <div v-bind:style="'width: ' + (gameState.myIndex === gameState.game.currentPlayerIndex ? timeLeftPercent : 0) + '%'"></div>
+                </div>
                 <picture v-for="(card, index) in gameState.ownCards" v-bind:class="isPutAllowed(card) ? 'enabled' : 'disabled'" @click="put(card, index)">
                     <source v-bind:srcset="getCardImage(card, 'large')" media="(min-width: 860px) and (min-height: 908px)">
                     <source v-bind:srcset="getCardImage(card, 'small')" media="(max-width: 859px), (max-height: 907px)">
@@ -146,10 +148,10 @@
             </div>
             <div id="color-selection" class="lightbox" v-if="gameState.game.turnState === 'SELECT_COLOR' && gameState.myIndex === gameState.game.currentPlayerIndex">
                 <div>
-                    <div class="red" @click="selectColor('red')"></div>
-                    <div class="green" @click="selectColor('green')"></div>
-                    <div class="blue" @click="selectColor('blue')"></div>
-                    <div class="yellow" @click="selectColor('yellow')"></div>
+                    <div class="red" @click="selectColor('red')">{{getColoredCardCount('RED')}}</div>
+                    <div class="green" @click="selectColor('green')">{{getColoredCardCount('GREEN')}}</div>
+                    <div class="blue" @click="selectColor('blue')">{{getColoredCardCount('BLUE')}}</div>
+                    <div class="yellow" @click="selectColor('yellow')">{{getColoredCardCount('YELLOW')}}</div>
                 </div>
             </div>
             <div id="put-drawn" class="lightbox" v-if="gameState.game.turnState === 'PUT_DRAWN' && gameState.myIndex === gameState.game.currentPlayerIndex">

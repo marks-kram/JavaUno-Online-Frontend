@@ -40,6 +40,7 @@ const methods = {
     copyLink: function(){copyLink()},
     showQrCode: function () {showQrCode()},
     getCardImage: function(card, size) { return getCardImage(card, size) },
+    getColoredCardCount: function(color) { return getColoredCardCount(color) },
     put: function(card, index) { put(card, index) },
     putDrawn: function() { putDrawn() },
     draw: function() { draw() },

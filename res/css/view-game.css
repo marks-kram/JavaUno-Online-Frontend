@@ -87,6 +87,9 @@
     width: 200px;
     height: 60px;
     border-radius: 20px;
+    font-size: 3rem;
+    color: black;
+    font-weight: bolder;
 }
 
 #color-selection .red {background: #cc0000 url('/res/img/color-red.png');}
