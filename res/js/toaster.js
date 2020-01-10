@@ -6,6 +6,8 @@
  http://michaelcheng.us/
  michael@michaelcheng.us
  --All Rights Reserved--
+ edited for javaUno by me:
+  * multiple toasters are positioned one above the other instead of stacked positioning
 
  ***********************************************/
 
@@ -171,10 +173,11 @@ iqwerty.toast = (function() {
 
 
 
-
+        //offset position for multiple toasts
+        this.getToastStage().style.bottom = 'calc(10vh + ' + 50*(body.children.length-1) + 'px)';
 
         // hide the toast after the specified timeout
-        setTimeout(this.hide.bind(this), this.getDuration()*body.children.length);
+        setTimeout(this.hide.bind(this), this.getDuration());
 
         return this;
     };
@@ -184,14 +187,17 @@ iqwerty.toast = (function() {
      * @return {Object} Returns the Toast object
      */
     Toast.prototype.hide = function() {
+
+        var body = document.getElementById('toasts');
+
         if(this.getToastStage() == null) return;
 
+        this.getToastStage().style.bottom = '';
         this.getToastStage().classList.remove(iqwerty.toast.identifiers.CLASS_SLIDE_IN);
         this.getToastStage().classList.add(iqwerty.toast.identifiers.CLASS_SLIDE_OUT);
 
-
         setTimeout(function() {
-            document.getElementById('toasts').removeChild(this.getToastStage());
+            body.removeChild(this.getToastStage());
             this.setToastStage(null);
             this.setText(null);
             this.setTextStage(null);
