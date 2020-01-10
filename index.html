@@ -134,7 +134,15 @@
                         <button @click="sayUno()" v-bind:disabled="!isSayUnoAllowed()">Uno sagen</button>
                     </div>
                 </div>
-                <div id="drawPile" v-bind:class="isDrawAllowed() ? 'enabled' : 'disabled'" @click="draw()"></div>
+                <!-- TODO: test -->
+                <div id="drawPile" v-bind:class="isDrawAllowed() ? 'enabled' : 'disabled'" @click="draw()">
+                    <div class="penalties" v-if="gameState.game.turnState === 'DRAW_PENALTIES'">
+                        {{gameState.players[gameState.myIndex].drawPenalties}}
+                    </div>
+                    <div class="duties" v-if="gameState.game.turnState.startsWith('DRAW_DUTIES')">
+                        {{gameState.game.drawDuties}}
+                    </div>
+                </div>
             </div>
             <div id="ownCards">
                 <div class="current">

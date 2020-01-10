@@ -21,13 +21,6 @@
     white-space: nowrap;
 }
 
-#table {
-    border-bottom: 3px black solid;
-    margin-bottom: 10px;
-    max-width: 840px;
-    padding-bottom: 10px;
-}
-
 #players .player .cards {
     background-image: url('/res/img/cards/large/back.png');
     width: 100px;
@@ -45,6 +38,13 @@
     font-size: 5rem;
 }
 
+#table {
+    border-bottom: 3px black solid;
+    margin-bottom: 10px;
+    max-width: 840px;
+    padding-bottom: 10px;
+}
+
 #topCard div {
     height: 5px;
 }
@@ -60,6 +60,27 @@
     height: 150px;
     cursor: pointer;
 }
+
+#drawPile div {
+    display: table-cell;
+    width: 100px;
+    height: 150px;
+    vertical-align: middle;
+    text-align: center;
+    font-size: 7rem;
+    text-shadow: -1px -1px 1px
+    black, 1px 1px 1px black;
+}
+
+#drawPile div.penalties {
+    color: #ff9e9e;
+}
+
+#drawPile div.duties {
+    color: #99ecff;
+}
+
+/* TODO: define classes above also for mobile*/
 
 #topCard, #drawPile {
     display: inline-block;
@@ -175,7 +196,7 @@
 @media (max-width: 859px), (max-height: 907px) {
     #players .player .name {
         font-size: 0.5rem;
-        width: 65px;
+        width: 50px;
         text-align: left;
     }
 
@@ -207,5 +228,11 @@
         background-image: url('/res/img/cards/small/back.png');
         width: 40px;
         height: 60px;
+    }
+
+    #drawPile div {
+        width: 40px;
+        height: 60px;
+        font-size: 3rem;
     }
 }
