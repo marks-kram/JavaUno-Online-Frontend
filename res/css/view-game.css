@@ -80,8 +80,6 @@
     color: #99ecff;
 }
 
-/* TODO: define classes above also for mobile*/
-
 #topCard, #drawPile {
     display: inline-block;
     margin: 0 2px;
