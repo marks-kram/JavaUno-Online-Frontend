@@ -51,6 +51,7 @@ function createGame() {
 }
 
 function startGame(){
+    app.timeLeftPercent = 100;
     doPostRequest('/game/start/' + app.gameUuid, {}, loadGame);
 }
 
