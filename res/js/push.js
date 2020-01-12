@@ -113,6 +113,7 @@ const doPushActionSaidUno = function(){
 
 const doPushActionNextTurn = function(message){
     if(app.currentView === 'running'){
+        app.gameState.game.turnState = '';
         stopCountdownAnimation(true);
         const index = parseInt(message.body.replace(/next-turn:/, ''));
         app.gameState.game.currentPlayerIndex = index;
