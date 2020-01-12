@@ -110,7 +110,7 @@
             <div id="players">
                 <div class="player" v-for="(player, index) in gameState.players" v-if="index !== gameState.myIndex">
                     <div class="current">
-                        <div v-bind:style="'width: ' + (index === gameState.game.currentPlayerIndex ? timeLeftPercent : 0) + '%'"></div>
+                        <div v-bind:style="'width: ' + (isPlayersTurn(index) ? timeLeftPercent : 0) + '%'"></div>
                     </div>
                     <div class="name">
                         {{ player.name !== '' ? player.name : 'Spieler ' + (index+1) }}
@@ -135,10 +135,10 @@
                     </div>
                 </div>
                 <div id="drawPile" v-bind:class="isDrawAllowed() ? 'enabled' : 'disabled'" @click="draw()">
-                    <div class="penalties" v-if="gameState.game.turnState === 'DRAW_PENALTIES'">
+                    <div class="penalties" v-if="gameState.game.turnState === 'DRAW_PENALTIES' && isMyTurn()">
                         {{gameState.players[gameState.myIndex].drawPenalties}}
                     </div>
-                    <div class="duties" v-if="gameState.game.turnState.startsWith('DRAW_DUTIES')">
+                    <div class="duties" v-if="gameState.game.turnState.startsWith('DRAW_DUTIES') && isMyTurn()">
                         {{gameState.game.drawDuties}}
                     </div>
                 </div>
@@ -153,7 +153,7 @@
                     <img v-bind:src="getCardImage(card, 'small')" alt="">
                 </picture>
             </div>
-            <div id="color-selection" class="lightbox" v-if="gameState.game.turnState === 'SELECT_COLOR' && gameState.myIndex === gameState.game.currentPlayerIndex">
+            <div id="color-selection" class="lightbox" v-if="gameState.game.turnState === 'SELECT_COLOR' && isMyTurn()">
                 <div>
                     <div class="red" @click="selectColor('red')">{{getColoredCardCount('RED')}}</div>
                     <div class="green" @click="selectColor('green')">{{getColoredCardCount('GREEN')}}</div>
@@ -161,7 +161,7 @@
                     <div class="yellow" @click="selectColor('yellow')">{{getColoredCardCount('YELLOW')}}</div>
                 </div>
             </div>
-            <div id="put-drawn" class="lightbox" v-if="gameState.game.turnState === 'PUT_DRAWN' && gameState.myIndex === gameState.game.currentPlayerIndex">
+            <div id="put-drawn" class="lightbox" v-if="gameState.game.turnState === 'PUT_DRAWN' && isMyTurn()">
                 <div>
                     <img v-bind:src="getCardImage(gameState.ownCards[gameState.ownCards.length-1], 'large')" alt="">
                     <div>Möchtest du die gezogene Karte legen?</div>

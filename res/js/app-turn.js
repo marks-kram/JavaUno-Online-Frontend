@@ -105,7 +105,11 @@ function isSayUnoAllowed() {
 }
 
 function isMyTurn(){
-    return app.gameState.game.currentPlayerIndex === app.gameState.myIndex;
+    return isPlayersTurn(app.gameState.myIndex);
+}
+
+function isPlayersTurn(index){
+    return app.gameState.game.currentPlayerIndex === index && app.gameState.myIndex >= 0;
 }
 
 function doAction(action){

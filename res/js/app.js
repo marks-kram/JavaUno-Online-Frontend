@@ -49,7 +49,9 @@ const methods = {
     sayUno: function() { sayUno() },
     isPutAllowed: function(card) { return isPutAllowed(card) },
     isDrawAllowed: function() { return isDrawAllowed() },
-    isSayUnoAllowed: function() { return isSayUnoAllowed() }
+    isSayUnoAllowed: function() { return isSayUnoAllowed() },
+    isMyTurn: function() { return isMyTurn() },
+    isPlayersTurn: function(index) { return isPlayersTurn(index) }
 };
 
 const app = new Vue({

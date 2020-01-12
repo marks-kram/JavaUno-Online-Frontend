@@ -51,7 +51,7 @@ const doPushActionStartedGame = function(){
 const doPushActionAddedPlayer = function(message){
     if(message.body.startsWith('added-player')){
         const index = parseInt(message.body.replace(/^added-player:(\d).*$/, '$1'));
-        if(index !== app.gameState.myIndex && app.gameState.myIndex >= 0){
+        if(!isMyTurn()){
             let name = message.body.replace(/^added-player:\d:(.*)$/, '$1');
             if(name === ''){
                 name = 'Spieler ' + (index+1);
@@ -65,7 +65,7 @@ const doPushActionAddedPlayer = function(message){
 const  doPushActionRemovedPlayer = function(message){
     if(message.body.startsWith('removed-player')){
         const index = parseInt(message.body.replace(/removed-player:/, ''));
-        if(index !== app.gameState.myIndex && app.gameState.myIndex >= 0){
+        if(!isMyTurn()){
             let name = app.gameState.players[index].name;
             if(name === ''){
                 name = 'Der ehemalige Spieler ' + (index+1);
@@ -101,7 +101,7 @@ const doPushActionSelectedColor = function(){
 const doPushActionSaidUno = function(){
     if(app.currentView === 'running'){
         const index = app.gameState.game.currentPlayerIndex;
-        if(index !== app.gameState.myIndex){
+        if(!isMyTurn()){
             let name = app.gameState.players[index].name;
             if(name === ''){
                 name = 'Spieler ' + (index+1);
@@ -121,7 +121,7 @@ const doPushActionNextTurn = function(message){
         if(name === ''){
             name = 'Spieler ' + (index+1);
         }
-        if(index === app.gameState.myIndex){
+        if(isMyTurn()){
             showToast('Du bist dran, ' + name);
         } else {
             showToast(name + ' ist dran');
