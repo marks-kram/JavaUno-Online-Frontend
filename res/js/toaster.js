@@ -8,6 +8,7 @@
  --All Rights Reserved--
  edited for javaUno by me:
   * multiple toasters are positioned one above the other instead of stacked positioning
+ original version is here: https://github.com/mlcheng/js-toast
 
  ***********************************************/
 
@@ -17,6 +18,7 @@
  * The iqwerty namespace
  */
 var iqwerty = iqwerty || {};
+var positionOffsets = [];
 
 /**
  * Toasts are here
@@ -174,7 +176,7 @@ iqwerty.toast = (function() {
 
 
         //offset position for multiple toasts
-        this.getToastStage().style.bottom = 'calc(10vh + ' + 50*(body.children.length-1) + 'px)';
+        this.getToastStage().style.bottom = 'calc(10vh + ' + getPositionOffset() + 'px)';
 
         // hide the toast after the specified timeout
         setTimeout(this.hide.bind(this), this.getDuration());
@@ -191,6 +193,8 @@ iqwerty.toast = (function() {
         var body = document.getElementById('toasts');
 
         if(this.getToastStage() == null) return;
+
+        removePositionOffset(this.getToastStage());
 
         this.getToastStage().style.bottom = '';
         this.getToastStage().classList.remove(iqwerty.toast.identifiers.CLASS_SLIDE_IN);
@@ -280,3 +284,27 @@ iqwerty.toast = (function() {
         }
     };
 })();
+
+function getPositionOffset(){
+    const offset = getMaxPositionOffset() + 60;
+    positionOffsets.push(offset);
+    console.log('pushed: ' + offset);
+    return offset;
+}
+
+function getMaxPositionOffset(){
+    let max = 0;
+    for(let i = 0; i < positionOffsets.length; i++){
+        if(positionOffsets[i] > max){
+            max = positionOffsets[i];
+        }
+    }
+    return max;
+}
+
+function removePositionOffset(toastStage){
+    const offset = parseInt(toastStage.style.bottom.replace(/^.*?(\d+)px.*$/, '$1'));
+    const index = positionOffsets.indexOf(offset);
+    console.log('spliced: ' + offset);
+    positionOffsets.splice(index, 1);
+}
