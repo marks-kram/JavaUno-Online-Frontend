@@ -100,15 +100,29 @@
     vertical-align: middle;
 }
 
-#color-selection div div {
-    margin: 20px;
-    cursor: pointer;
-    width: 200px;
+#color-selection {
+    display: inline-block;
+    height: 150px;
+}
+
+#color-selection > div{
+    display: table;
+}
+
+#color-selection > div > div {
+    display: inline-block;
+}
+
+#color-selection > div > div > div {
+    width: 170px;
     height: 60px;
+    margin: 11px 5px 11px 6px;
     border-radius: 20px;
-    font-size: 3rem;
     color: black;
+    font-size: 3rem;
     font-weight: bolder;
+    text-align: center;
+    cursor: pointer;
 }
 
 #color-selection .red {background: #cc0000 url('/res/img/color-red.png');}
@@ -154,11 +168,11 @@
     cursor: not-allowed;
 }
 
-#drawPile.enabled:hover, #ownCards picture.enabled:hover, #color-selection div div:hover {
+#drawPile.enabled:hover, #ownCards picture.enabled:hover, #color-selection div>div>div:hover {
     transform: scale(1.03);
 }
 
-#drawPile.enabled:active, #ownCards picture.enabled:active, #color-selection div div:active {
+#drawPile.enabled:active, #ownCards picture.enabled:active, #color-selection div>div>div:active {
     transform: scale(0.97);
 }
 
@@ -232,5 +246,15 @@
         width: 40px;
         height: 60px;
         font-size: 3rem;
+    }
+
+    #color-selection {
+        height: 60px;
+    }
+
+    #color-selection > div > div > div {
+        width: 40px;
+        height: 18px;
+        margin: 8px 2px 11px 5px;
     }
 }

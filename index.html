@@ -142,6 +142,18 @@
                         {{gameState.game.drawDuties}}
                     </div>
                 </div>
+                <div id="color-selection" v-if="gameState.game.turnState === 'SELECT_COLOR' && isMyTurn()">
+                    <div>
+                        <div>
+                            <div class="red" @click="selectColor('red')"></div>
+                            <div class="green" @click="selectColor('green')"></div>
+                        </div>
+                        <div>
+                            <div class="blue" @click="selectColor('blue')"></div>
+                            <div class="yellow" @click="selectColor('yellow')"></div>
+                        </div>
+                    </div>
+                </div>
             </div>
             <div id="ownCards">
                 <div class="current">
@@ -152,14 +164,6 @@
                     <source v-bind:srcset="getCardImage(card, 'small')" media="(max-width: 859px), (max-height: 907px)">
                     <img v-bind:src="getCardImage(card, 'small')" alt="">
                 </picture>
-            </div>
-            <div id="color-selection" class="lightbox" v-if="gameState.game.turnState === 'SELECT_COLOR' && isMyTurn()">
-                <div>
-                    <div class="red" @click="selectColor('red')">{{getColoredCardCount('RED')}}</div>
-                    <div class="green" @click="selectColor('green')">{{getColoredCardCount('GREEN')}}</div>
-                    <div class="blue" @click="selectColor('blue')">{{getColoredCardCount('BLUE')}}</div>
-                    <div class="yellow" @click="selectColor('yellow')">{{getColoredCardCount('YELLOW')}}</div>
-                </div>
             </div>
             <div id="put-drawn" class="lightbox" v-if="gameState.game.turnState === 'PUT_DRAWN' && isMyTurn()">
                 <div>
