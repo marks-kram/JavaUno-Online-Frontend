@@ -1,6 +1,39 @@
 # JavaUno-Online-Frontend
-Cardgame - Multiplayer browser game - Das Backend
+Cardgame - Multiplayer browser game - The Frontend
 
-## Beschreibung
-Das Frontend liefert die Darstellung für das Kartenspiel.\
-Es handelt sich um eine Frontend-Application.
+## Version
+1.0_beta.1 (2020, Jan. 15th)
+
+## Description
+The Frontend offers the view to the card game.\
+It is an VUE.js-Application
+
+## Backend
+You can use your own backend or use my backend under: https://github.com/tomatenmark/JavaUno-Online-Backend.\
+If you want to use your own backend, it has to offer the same api endpoints like my backend
+(see readme.md of my backend to get further information)
+
+## Configuration
+Following settings have to be made in config.js
+* apiBase: the base url for the backend api ()
+* vueDevToolsEnabled: set the value to true, to use vue devtools in browser, not recommended is production
+* backendCountdownLength: The length of countdown between the turns, before the next player has its turn.
+  unit: milliseconds
+
+## Live
+You can play this version (my backend and my frontend) at:\
+https://java-uno.de/
+
+### Spielanleitung
+https://java-uno.de/spielanleitung.pdf
+
+## License
+* The Frontend source code is licensed under a CC-BY-SA-NC 4.0 Licence\
+   * License: https://creativecommons.org/licenses/by-nc-sa/4.0/
+   * Creator: Mark Herrmann (Nickname: Tomatenmark)
+* For the card images all rights are reserved to Creator Denis Oster
+* For the original card game all rights are reserved to Mattel games.\
+  (I have no co-operation with Mattel)
+  
+Notice: Mattel also offers an own free app to play UNO.
+See my version as fun project
