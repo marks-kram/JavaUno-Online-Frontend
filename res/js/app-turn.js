@@ -97,7 +97,10 @@ function isDrawAllowed() {
 }
 
 function isSayUnoAllowed() {
-    return isMyTurn() && app.gameState.game.turnState === 'FINAL_COUNTDOWN';
+    if(!isMyTurn()){
+        return false;
+    }
+    return app.gameState.game.turnState === 'SELECT_COLOR' || app.gameState.game.turnState === 'FINAL_COUNTDOWN';
 }
 
 function isMyTurn(){
