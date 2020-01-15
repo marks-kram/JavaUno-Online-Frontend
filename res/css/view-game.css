@@ -130,22 +130,6 @@
 #color-selection .blue {background: #0075e6 url('/res/img/color-blue.png');}
 #color-selection .yellow {background: #f2f130 url('/res/img/color-yellow.png');}
 
-#put-drawn .buttons {
-    margin-top: 10px;
-}
-
-#put-drawn button {
-    width: 80px;
-}
-
-#put-drawn button.yes {
-    float: left;
-}
-
-#put-drawn button.no {
-    float: right;
-}
-
 #finished div {
     font-size: 2rem;
 }
@@ -158,10 +142,20 @@
     max-width: 840px;
 }
 
+#ownCards div.card {
+    display: inline-block;
+}
+
 #ownCards picture {
     display: inline-block;
     margin: 0 2px;
     cursor: pointer;
+}
+
+#ownCards button {
+    position: relative;
+    top: -7px;
+    left: 2px;
 }
 
 #drawPile.disabled, #ownCards picture.disabled {

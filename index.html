@@ -159,20 +159,16 @@
                 <div class="current">
                     <div v-bind:style="'width: ' + (gameState.myIndex === gameState.game.currentPlayerIndex ? timeLeftPercent : 0) + '%'"></div>
                 </div>
-                <picture v-for="(card, index) in gameState.ownCards" v-bind:class="isPutAllowed(card) ? 'enabled' : 'disabled'" @click="put(card, index)">
-                    <source v-bind:srcset="getCardImage(card, 'large')" media="(min-width: 860px) and (min-height: 908px)">
-                    <source v-bind:srcset="getCardImage(card, 'small')" media="(max-width: 859px), (max-height: 907px)">
-                    <img v-bind:src="getCardImage(card, 'small')" alt="">
-                </picture>
-            </div>
-            <div id="put-drawn" class="lightbox" v-if="gameState.game.turnState === 'PUT_DRAWN' && isMyTurn()">
-                <div>
-                    <img v-bind:src="getCardImage(gameState.ownCards[gameState.ownCards.length-1], 'large')" alt="">
-                    <div>Möchtest du die gezogene Karte legen?</div>
-                    <div class="buttons">
-                        <button class="small yes" @click="putDrawn()">Ja</button>
-                        <button class="small no" @click="keep()">Nein</button>
-                    </div>
+                <div class="card" v-for="(card, index) in gameState.ownCards">
+                    <picture v-bind:class="isPutAllowed(card, index) ? 'enabled' : 'disabled'" @click="put(card, index)">
+                        <source v-bind:srcset="getCardImage(card, 'large')" media="(min-width: 860px) and (min-height: 908px)">
+                        <source v-bind:srcset="getCardImage(card, 'small')" media="(max-width: 859px), (max-height: 907px)">
+                        <img v-bind:src="getCardImage(card, 'small')" alt="">
+                    </picture>
+                    <button
+                            v-if="isMyTurn() && gameState.game.turnState === 'PUT_DRAWN' && index === (gameState.ownCards.length-1)"
+                            class="small"
+                            @click="keep()">&larr; Behalten</button>
                 </div>
             </div>
         </div>
