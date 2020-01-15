@@ -80,7 +80,7 @@ function isPutAllowed(card, index){
     if(app.gameState.game.turnState === 'PUT_DRAWN'){
         return index === (app.gameState.ownCards.length-1);
     }
-    return app.gameState.game.turnState === 'PUT_DRAWN' || app.gameState.game.turnState === 'DRAW_DUTIES_OR_CUMULATIVE';
+    return app.gameState.game.turnState === 'PUT_OR_DRAW' || app.gameState.game.turnState === 'DRAW_DUTIES_OR_CUMULATIVE';
 }
 
 function isDrawAllowed() {
