@@ -13,7 +13,7 @@ function joinGame(){
 function setPlayer(data){
     app.playerUuid = data.playerUuid;
     app.$cookies.set('playerUuid', app.playerUuid);
-    app.$cookies.remove('invention');
+    app.$cookies.remove('invitation');
     app.loadGame();
 }
 
@@ -49,7 +49,7 @@ function getPlayerType(player) {
 }
 
 function copyLink(){
-    const copyText = document.getElementById('invention-link-toCopy');
+    const copyText = document.getElementById('invitation-link-toCopy');
     copyText.select();
     copyText.setSelectionRange(0, 99); /*For mobile devices*/
     document.execCommand("copy");
@@ -60,8 +60,8 @@ function showQrCode(){
     const typeNumber = 0;
     const errorCorrectionLevel = 'L';
     const qr = qrcode(typeNumber, errorCorrectionLevel);
-    qr.addData('https://' + hostname + '/invention.html#' + app.gameUuid);
+    qr.addData('https://' + hostname + '/invitation.html#' + app.gameUuid);
     qr.make();
-    document.getElementById('invention-qr-code').innerHTML = qr.createImgTag(8, 32, '');
+    document.getElementById('invitation-qr-code').innerHTML = qr.createImgTag(8, 32, '');
     app.showQr = true;
 }

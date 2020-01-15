@@ -15,7 +15,7 @@ const data = {
     showQr: false,
     gameUuid: '',
     playerUuid: '',
-    invention: false,
+    invitation: false,
     currentView: '',
     name: '',
     botName: '',

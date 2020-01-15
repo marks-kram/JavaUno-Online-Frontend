@@ -35,11 +35,11 @@
 
         <!-- Start/Join view - From here a game can be created or joined -->
         <div id="view-start" v-if="currentView === 'start' || currentView === 'join'">
-            <p v-if="!invention">
+            <p v-if="!invitation">
                 Spiele das beliebte Kartenspiel UNO online am PC oder Smartphone.<br>
                 Du kannst mit Freunden spielen oder aber auch alleine gegen computergesteuerte Gegner.
             </p>
-            <p v-if="invention">
+            <p v-if="invitation">
                 Mach' mit beim beliebten Kartenspiel UNO.<br>
                 Du wurdest eingeladen, mitzuspielen. Viel Spaß!
             </p>
@@ -47,8 +47,8 @@
             <button v-if="currentView === 'start'" @click="createGame()">Spielspaß beginnen</button>
             <button v-if="currentView === 'join'" @click="joinGame()"
                     v-bind:disabled="gameState.players.length >= 9 || gameState.game.gameLifecycle === 'RUNNING'">
-                <span v-if="invention">Jetzt mitspielen</span>
-                <span v-if="!invention">Jetzt loslegen</span>
+                <span v-if="invitation">Jetzt mitspielen</span>
+                <span v-if="!invitation">Jetzt loslegen</span>
             </button>
             <div  class="errMsg" v-if="currentView === 'join' && gameState.players.length >= 9">
                 Die maximale Spieleranzahl ({{9}}) wurde erreicht.
@@ -79,13 +79,13 @@
                 Freunde einladen:<br>
                 Schicke deinen Freunden folgenden Link:<br>
                 <button class="small" @click="copyLink()">Kopieren</button>
-                <textarea id="invention-link-toCopy">https://{{hostname}}/invention.html#{{gameUuid}}</textarea>
-                <span id="invention-link">https://{{hostname}}/invention.html#{{gameUuid}}</span>
+                <textarea id="invitation-link-toCopy">https://{{hostname}}/invitation.html#{{gameUuid}}</textarea>
+                <span id="invitation-link">https://{{hostname}}/invitation.html#{{gameUuid}}</span>
                 <br><br>
                 Oder, wenn sie eh bei dir sind, lasse einfach den
                 <button class="small" @click="showQrCode()">QR-Code scannen</button>
-                <div id="invention-qr" v-show="showQr">
-                    <div id="invention-qr-code"></div>
+                <div id="invitation-qr" v-show="showQr">
+                    <div id="invitation-qr-code"></div>
                     <button class="small" @click="showQr = false">ausblenden</button>
                 </div>
                 <br><br>
