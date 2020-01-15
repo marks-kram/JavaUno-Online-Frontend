@@ -51,7 +51,7 @@ const doPushActionStartedGame = function(){
 const doPushActionAddedPlayer = function(message){
     if(message.body.startsWith('added-player')){
         const index = parseInt(message.body.replace(/^added-player:(\d).*$/, '$1'));
-        if(!isMyTurn()){
+        if(isNotMe(index)){
             let name = message.body.replace(/^added-player:\d:(.*)$/, '$1');
             if(name === ''){
                 name = 'Spieler ' + (index+1);
@@ -65,7 +65,7 @@ const doPushActionAddedPlayer = function(message){
 const  doPushActionRemovedPlayer = function(message){
     if(message.body.startsWith('removed-player')){
         const index = parseInt(message.body.replace(/removed-player:/, ''));
-        if(!isMyTurn()){
+        if(isNotMe(index)){
             let name = app.gameState.players[index].name;
             if(name === ''){
                 name = 'Der ehemalige Spieler ' + (index+1);

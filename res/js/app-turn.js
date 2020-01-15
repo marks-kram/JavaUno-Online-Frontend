@@ -107,6 +107,10 @@ function isMyTurn(){
     return isPlayersTurn(app.gameState.myIndex);
 }
 
+function isNotMe(index){
+    return index !== app.gameState.myIndex && app.gameState.myIndex >= 0;
+}
+
 function isPlayersTurn(index){
     return app.gameState.game.currentPlayerIndex === index && app.gameState.myIndex >= 0;
 }
