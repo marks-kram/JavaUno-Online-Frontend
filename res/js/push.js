@@ -44,6 +44,8 @@ function doPushActions(message){
 
 const doPushActionStartedGame = function(){
     app.gameState.game.gameLifeCycle = 'RUNNING';
+    app.timeLeftPercent = 100;
+    app.winner = -1;
     showToast('Es geht los');
     updateView();
 };
