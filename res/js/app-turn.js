@@ -66,7 +66,6 @@ function selectColor(color){
 }
 
 function sayUno(){
-    app.toast = 'Du: „Uno“';
     doAction('say-uno');
 }
 

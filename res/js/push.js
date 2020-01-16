@@ -122,6 +122,8 @@ const doPushActionSaidUno = function(){
                 name = 'Spieler ' + (index+1);
             }
             showToast(name + ': „Uno“');
+        } else {
+            showToast('Du : „Uno“');
         }
         app.gameState.players[index].unoSaid = true;
     }
