@@ -148,6 +148,7 @@
 
 #ownCards div.card {
     display: inline-block;
+    position: relative;
 }
 
 #ownCards picture {
@@ -157,9 +158,11 @@
 }
 
 #ownCards button {
-    position: relative;
-    top: -7px;
-    left: 2px;
+    position: absolute;
+    top: 50%;
+    left: 107px;
+    transform: translateY(-50%);
+    white-space: nowrap;
 }
 
 #drawPile.disabled, #ownCards picture.disabled {
@@ -254,5 +257,10 @@
         width: 40px;
         height: 18px;
         margin: 8px 2px 11px 5px;
+    }
+
+    #ownCards button {
+        left: 45px;
+        font-size: 0.8rem;
     }
 }
