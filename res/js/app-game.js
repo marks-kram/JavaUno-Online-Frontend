@@ -21,10 +21,6 @@ function setGameState(data){
     waitForGameStateToBeSet();
     app.gameState = data;
     app.currentView = data.game.gameLifecycle.toLowerCase();
-    if(app.toast !== ''){
-        showToast(app.toast);
-        app.toast = '';
-    }
     joinGameRunning = false;
     setGameStateRunning = false;
 }

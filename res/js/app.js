@@ -20,8 +20,6 @@ const data = {
     name: '',
     botName: '',
     gameState: gameState,
-    message: '',
-    toast: '',
     timeLeftPercent: 100
 };
 
