@@ -104,8 +104,11 @@ const doPushActionKeptCard = function(){
     }
 };
 
-const doPushActionSelectedColor = function(){
+const doPushActionSelectedColor = function(message){
     if(app.currentView === 'running') {
+        if(!isMyTurn()){
+            app.gameState.game.desiredColor = message.body.replace(/selected-color:/, '');
+        }
         startCountdown();
     }
 };
