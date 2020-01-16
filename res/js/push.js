@@ -108,6 +108,7 @@ const doPushActionSaidUno = function(){
             }
             showToast(name + ': „Uno“');
         }
+        app.gameState.players[index].unoSaid = true;
     }
 };
 

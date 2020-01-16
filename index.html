@@ -116,7 +116,7 @@
                     <div class="name">
                         {{ player.name !== '' ? player.name : 'Spieler ' + (index+1) }}
                     </div>
-                    <div v-bind:class="'cards' + (player.cardCount > 9 ? ' more' : '') + (player.cardCount === 1 && player.unoSaid ? ' red' : '')">
+                    <div v-bind:class="'cards ' + (player.cardCount > 9 ? ' more' : '') + (player.cardCount === 1 && player.unoSaid ? ' red' : '')">
                         {{ player.cardCount }}
                     </div>
                 </div>
