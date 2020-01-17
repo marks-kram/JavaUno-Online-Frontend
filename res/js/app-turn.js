@@ -26,7 +26,7 @@ function getCardImage(card, size) {
 }
 
 function put(card, index){
-    if(isPutAllowed(card)){
+    if(isPutAllowed(card, index)){
         const data = {
             card: card,
             cardIndex: index,
@@ -35,12 +35,6 @@ function put(card, index){
         };
         doPostRequest('/action/put', data, loadGame);
     }
-}
-
-function putDrawn(){
-    const cardIndex = app.gameState.ownCards.length-1;
-    const card = app.gameState.ownCards[cardIndex];
-    put(card, cardIndex);
 }
 
 function draw(){
@@ -59,19 +53,20 @@ function selectColor(color){
 }
 
 function sayUno(){
-    app.toast = 'Du: „Uno“';
     doAction('say-uno');
 }
 
-function isPutAllowed(card){
+function isPutAllowed(card, index){
     if(!isMyTurn()){
         return false;
     }
     if(!isPlayable(card)){
         return false;
     }
-    return app.gameState.game.turnState === 'PUT_OR_DRAW' ||
-        app.gameState.game.turnState === 'PUT_DRAWN' || app.gameState.game.turnState === 'DRAW_DUTIES_OR_CUMULATIVE';
+    if(app.gameState.game.turnState === 'PUT_DRAWN'){
+        return index === (app.gameState.ownCards.length-1);
+    }
+    return app.gameState.game.turnState === 'PUT_OR_DRAW' || app.gameState.game.turnState === 'DRAW_DUTIES_OR_CUMULATIVE';
 }
 
 function isDrawAllowed() {
@@ -95,7 +90,15 @@ function isSayUnoAllowed() {
 }
 
 function isMyTurn(){
-    return app.gameState.game.currentPlayerIndex === app.gameState.myIndex;
+    return isPlayersTurn(app.gameState.myIndex);
+}
+
+function isNotMe(index){
+    return index !== app.gameState.myIndex && app.gameState.myIndex >= 0;
+}
+
+function isPlayersTurn(index){
+    return app.gameState.game.currentPlayerIndex === index && app.gameState.myIndex >= 0;
 }
 
 function doAction(action){

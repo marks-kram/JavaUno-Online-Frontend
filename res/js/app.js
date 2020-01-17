@@ -15,13 +15,11 @@ const data = {
     showQr: false,
     gameUuid: '',
     playerUuid: '',
-    invention: false,
+    invitation: false,
     currentView: '',
     name: '',
     botName: '',
     gameState: gameState,
-    message: '',
-    toast: '',
     timeLeftPercent: 100
 };
 
@@ -41,14 +39,15 @@ const methods = {
     showQrCode: function () {showQrCode()},
     getCardImage: function(card, size) { return getCardImage(card, size) },
     put: function(card, index) { put(card, index) },
-    putDrawn: function() { putDrawn() },
     draw: function() { draw() },
     keep: function() { keep() },
     selectColor: function(color) { selectColor(color) },
     sayUno: function() { sayUno() },
-    isPutAllowed: function(card) { return isPutAllowed(card) },
+    isPutAllowed: function(card, index) { return isPutAllowed(card, index) },
     isDrawAllowed: function() { return isDrawAllowed() },
-    isSayUnoAllowed: function() { return isSayUnoAllowed() }
+    isSayUnoAllowed: function() { return isSayUnoAllowed() },
+    isMyTurn: function() { return isMyTurn() },
+    isPlayersTurn: function(index) { return isPlayersTurn(index) }
 };
 
 const app = new Vue({

@@ -15,12 +15,12 @@
     padding-bottom: 10px;
 }
 
-#invention-link {
+#invitation-link {
     word-break: break-word;
     color: blue;
 }
 
-#invention-link-toCopy {
+#invitation-link-toCopy {
     position: fixed;
     top: -1000px;
 }

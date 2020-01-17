@@ -1,6 +1,6 @@
-function showToast(text) {
-    let toast = document.getElementById('toast');
-    toast.innerText = text;
-    toast.className = "show";
-    setTimeout(function(){ toast.className = toast.className.replace("show", ""); }, 3000);
+
+function showToast(text){
+    let toast = new iqwerty.toast.Toast();
+    toast = toast.setText(text).setDuration(3000);
+    toast.show();
 }

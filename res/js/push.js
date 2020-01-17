@@ -44,6 +44,8 @@ function doPushActions(message){
 
 const doPushActionStartedGame = function(){
     app.gameState.game.gameLifeCycle = 'RUNNING';
+    app.timeLeftPercent = 100;
+    app.winner = -1;
     showToast('Es geht los');
     updateView();
 };
@@ -51,7 +53,7 @@ const doPushActionStartedGame = function(){
 const doPushActionAddedPlayer = function(message){
     if(message.body.startsWith('added-player')){
         const index = parseInt(message.body.replace(/^added-player:(\d).*$/, '$1'));
-        if(index !== app.gameState.myIndex && app.gameState.myIndex >= 0){
+        if(isNotMe(index)){
             let name = message.body.replace(/^added-player:\d:(.*)$/, '$1');
             if(name === ''){
                 name = 'Spieler ' + (index+1);
@@ -65,54 +67,71 @@ const doPushActionAddedPlayer = function(message){
 const  doPushActionRemovedPlayer = function(message){
     if(message.body.startsWith('removed-player')){
         const index = parseInt(message.body.replace(/removed-player:/, ''));
-        if(index !== app.gameState.myIndex && app.gameState.myIndex >= 0){
+        if(isNotMe(index)){
             let name = app.gameState.players[index].name;
             if(name === ''){
                 name = 'Der ehemalige Spieler ' + (index+1);
             }
-            app.gameState.players.splice(index, 1);
             showToast(name + ' ist gegangen');
+        }
+        if(isNotMe(index) || app.currentView === 'join'){
+            app.gameState.players.splice(index, 1);
         }
     }
 };
 
 const doPushActionPutCard = function(message){
-    if(!message.body.endsWith(':joker')){
-        startCountdown();
+    if(app.currentView === 'running') {
+        if(!message.body.endsWith(':joker')){
+            startCountdown();
+        }
+        updateView();
     }
-    updateView();
 };
 
 const doPushActionDrawnCard = function(message){
-    if(message.body.endsWith(':countdown')){
-        startCountdown();
+    if(app.currentView === 'running') {
+        if(message.body.endsWith(':countdown')){
+            startCountdown();
+        }
+        updateView();
     }
-    updateView();
 };
 
 const doPushActionKeptCard = function(){
-    startCountdown();
+    if(app.currentView === 'running') {
+        startCountdown();
+    }
 };
 
-const doPushActionSelectedColor = function(){
-    startCountdown();
+const doPushActionSelectedColor = function(message){
+    if(app.currentView === 'running') {
+        if(!isMyTurn()){
+            app.gameState.game.desiredColor = message.body.replace(/selected-color:/, '');
+        }
+        startCountdown();
+    }
 };
 
 const doPushActionSaidUno = function(){
     if(app.currentView === 'running'){
         const index = app.gameState.game.currentPlayerIndex;
-        if(index !== app.gameState.myIndex){
+        if(!isMyTurn()){
             let name = app.gameState.players[index].name;
             if(name === ''){
                 name = 'Spieler ' + (index+1);
             }
             showToast(name + ': „Uno“');
+        } else {
+            showToast('Du : „Uno“');
         }
+        app.gameState.players[index].unoSaid = true;
     }
 };
 
 const doPushActionNextTurn = function(message){
     if(app.currentView === 'running'){
+        app.gameState.game.turnState = '';
         stopCountdownAnimation(true);
         const index = parseInt(message.body.replace(/next-turn:/, ''));
         app.gameState.game.currentPlayerIndex = index;
@@ -120,7 +139,7 @@ const doPushActionNextTurn = function(message){
         if(name === ''){
             name = 'Spieler ' + (index+1);
         }
-        if(index === app.gameState.myIndex){
+        if(isMyTurn()){
             showToast('Du bist dran, ' + name);
         } else {
             showToast(name + ' ist dran');
@@ -133,6 +152,7 @@ const  doPushActionFinishedGame = function() {
     if(app.currentView === 'running'){
         app.winner = app.gameState.game.currentPlayerIndex;
     }
+    app.gameState.game.gameLifeCycle = 'SET_PLAYERS';
 };
 
 const  doPushActionEnd = function() {

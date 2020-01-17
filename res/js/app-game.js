@@ -21,10 +21,6 @@ function setGameState(data){
     waitForGameStateToBeSet();
     app.gameState = data;
     app.currentView = data.game.gameLifecycle.toLowerCase();
-    if(app.toast !== ''){
-        showToast(app.toast);
-        app.toast = '';
-    }
     joinGameRunning = false;
     setGameStateRunning = false;
 }
@@ -51,29 +47,30 @@ function createGame() {
 }
 
 function startGame(){
+    app.timeLeftPercent = 100;
     doPostRequest('/game/start/' + app.gameUuid, {}, loadGame);
 }
 
 function reset(){
     app.$cookies.remove('gameUuid');
     app.$cookies.remove('playerUuid');
-    app.$cookies.remove('invention');
+    app.$cookies.remove('invitation');
     self.location.reload();
 }
 
-function handleInvention(){
+function handleInvitation(){
     if(location.hash !== '' && location.hash !== '#'){
         const gameUuid = location.hash.replace(/^#/, '');
         app.$cookies.set('gameUuid', gameUuid);
-        app.$cookies.set('invention', '1');
+        app.$cookies.set('invitation', '1');
         location.replace('/');
     }
 }
 
 function init(){
-    const invention = app.$cookies.get('invention');
-    if(invention != null && invention === '1'){
-        app.invention = true;
+    const invitation = app.$cookies.get('invitation');
+    if(invitation != null && invitation === '1'){
+        app.invitation = true;
     }
     const gameUuid = app.$cookies.get('gameUuid');
     if(gameUuid == null || gameUuid === undefined){
@@ -92,7 +89,7 @@ function init(){
 }
 
 window.addEventListener("load", function() {
-    handleInvention();
+    handleInvitation();
     init();
     document.getElementById('javaUno').style.display = 'block';
 });

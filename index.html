@@ -13,11 +13,11 @@
     <link rel="stylesheet" type="text/css" href="/res/css/view-start.css">
     <link rel="stylesheet" type="text/css" href="/res/css/view-set-players.css">
     <link rel="stylesheet" type="text/css" href="/res/css/view-game.css">
-    <link rel="stylesheet" type="text/css" href="/res/css/toast.css">
     <script src="/res/js/config.js"></script>
     <script src="/res/js/vue-core.js"></script>
     <script src="/res/js/vue-cookies.js"></script>
     <script src="/res/js/vue-resource.js"></script>
+    <script src="/res/js/toaster.js"></script>
     <script src="/res/js/toast.js"></script>
     <script src="/res/js/qr.js"></script>
     <script src="/res/js/countdown.js"></script>
@@ -27,6 +27,7 @@
 <body>
     <header>
         <img src="/res/img/logo.png" alt="">
+        <a href="/spielanleitung.pdf" target="_blank">Spielanleitung</a>
     </header>
     <noscript>JavaUno als Browsergame basiert auf JavaScript. Bitte aktiviere JavaScript in deinen Browsereinstellungen.</noscript>
 
@@ -34,11 +35,11 @@
 
         <!-- Start/Join view - From here a game can be created or joined -->
         <div id="view-start" v-if="currentView === 'start' || currentView === 'join'">
-            <p v-if="!invention">
+            <p v-if="!invitation">
                 Spiele das beliebte Kartenspiel UNO online am PC oder Smartphone.<br>
                 Du kannst mit Freunden spielen oder aber auch alleine gegen computergesteuerte Gegner.
             </p>
-            <p v-if="invention">
+            <p v-if="invitation">
                 Mach' mit beim beliebten Kartenspiel UNO.<br>
                 Du wurdest eingeladen, mitzuspielen. Viel Spaß!
             </p>
@@ -46,8 +47,8 @@
             <button v-if="currentView === 'start'" @click="createGame()">Spielspaß beginnen</button>
             <button v-if="currentView === 'join'" @click="joinGame()"
                     v-bind:disabled="gameState.players.length >= 9 || gameState.game.gameLifecycle === 'RUNNING'">
-                <span v-if="invention">Jetzt mitspielen</span>
-                <span v-if="!invention">Jetzt loslegen</span>
+                <span v-if="invitation">Jetzt mitspielen</span>
+                <span v-if="!invitation">Jetzt loslegen</span>
             </button>
             <div  class="errMsg" v-if="currentView === 'join' && gameState.players.length >= 9">
                 Die maximale Spieleranzahl ({{9}}) wurde erreicht.
@@ -75,21 +76,22 @@
             </div>
             <h3>Spieler hinzufügen</h3>
             <div id="add-players" v-if="gameState.players.length < 9">
-                Computergesteuerten Gegner
-                <input class="small" type="text" v-model="botName" placeholder="Name (optional)">
-                <button class="small" @click="addBot()">hinzufügen</button><br><br>
                 Freunde einladen:<br>
                 Schicke deinen Freunden folgenden Link:<br>
                 <button class="small" @click="copyLink()">Kopieren</button>
-                <textarea id="invention-link-toCopy">https://{{hostname}}/invention.html#{{gameUuid}}</textarea>
-                <span id="invention-link">https://{{hostname}}/invention.html#{{gameUuid}}</span>
+                <textarea id="invitation-link-toCopy">https://{{hostname}}/invitation.html#{{gameUuid}}</textarea>
+                <span id="invitation-link">https://{{hostname}}/invitation.html#{{gameUuid}}</span>
                 <br><br>
                 Oder, wenn sie eh bei dir sind, lasse einfach den
                 <button class="small" @click="showQrCode()">QR-Code scannen</button>
-                <div id="invention-qr" v-show="showQr">
-                    <div id="invention-qr-code"></div>
+                <div id="invitation-qr" v-show="showQr">
+                    <div id="invitation-qr-code"></div>
                     <button class="small" @click="showQr = false">ausblenden</button>
                 </div>
+                <br><br>
+                Alternativ kannst du einen computergesteuerten Gegner hinzufügen.<br>
+                <input class="small" type="text" v-model="botName" placeholder="Name (optional)">
+                <button class="small" @click="addBot()">Hinzufügen</button>
             </div>
             <div id="add-players-limit-reached" v-if="gameState.players.length >= 9">
                 Die maximale Spieleranzahl ({{9}}) wurde erreicht.<br>
@@ -108,11 +110,13 @@
         <div id="view-running" v-if="currentView === 'running'">
             <div id="players">
                 <div class="player" v-for="(player, index) in gameState.players" v-if="index !== gameState.myIndex">
-                    <div class="current" v-bind:style="'width: ' + (index === gameState.game.currentPlayerIndex ? timeLeftPercent : 0) + '%'"></div>
+                    <div class="current">
+                        <div v-bind:style="'width: ' + (isPlayersTurn(index) ? timeLeftPercent : 0) + '%'"></div>
+                    </div>
                     <div class="name">
                         {{ player.name !== '' ? player.name : 'Spieler ' + (index+1) }}
                     </div>
-                    <div class="cards">
+                    <div v-bind:class="'cards ' + (player.cardCount > 9 ? ' more' : '') + (player.cardCount === 1 && player.unoSaid ? ' red' : '')">
                         {{ player.cardCount }}
                     </div>
                 </div>
@@ -131,32 +135,41 @@
                         <button @click="sayUno()" v-bind:disabled="!isSayUnoAllowed()">Uno sagen</button>
                     </div>
                 </div>
-                <div id="drawPile" v-bind:class="isDrawAllowed() ? 'enabled' : 'disabled'" @click="draw()"></div>
-            </div>
-            <div id="ownCards">
-                <div class="current" v-bind:style="'width: ' + (gameState.myIndex === gameState.game.currentPlayerIndex ? timeLeftPercent : 0) + '%'"></div>
-                <picture v-for="(card, index) in gameState.ownCards" v-bind:class="isPutAllowed(card) ? 'enabled' : 'disabled'" @click="put(card, index)">
-                    <source v-bind:srcset="getCardImage(card, 'large')" media="(min-width: 860px) and (min-height: 908px)">
-                    <source v-bind:srcset="getCardImage(card, 'small')" media="(max-width: 859px), (max-height: 907px)">
-                    <img v-bind:src="getCardImage(card, 'small')" alt="">
-                </picture>
-            </div>
-            <div id="color-selection" class="lightbox" v-if="gameState.game.turnState === 'SELECT_COLOR' && gameState.myIndex === gameState.game.currentPlayerIndex">
-                <div>
-                    <div class="red" @click="selectColor('red')"></div>
-                    <div class="green" @click="selectColor('green')"></div>
-                    <div class="blue" @click="selectColor('blue')"></div>
-                    <div class="yellow" @click="selectColor('yellow')"></div>
+                <div id="drawPile" v-bind:class="isDrawAllowed() ? 'enabled' : 'disabled'" @click="draw()">
+                    <div class="penalties" v-if="gameState.game.turnState === 'DRAW_PENALTIES' && isMyTurn()">
+                        {{gameState.players[gameState.myIndex].drawPenalties}}
+                    </div>
+                    <div class="duties" v-if="gameState.game.turnState.startsWith('DRAW_DUTIES') && isMyTurn()">
+                        {{gameState.game.drawDuties}}
+                    </div>
+                </div>
+                <div id="color-selection" v-if="gameState.game.turnState === 'SELECT_COLOR' && isMyTurn()">
+                    <div>
+                        <div>
+                            <div class="red" @click="selectColor('red')"></div>
+                            <div class="green" @click="selectColor('green')"></div>
+                        </div>
+                        <div>
+                            <div class="blue" @click="selectColor('blue')"></div>
+                            <div class="yellow" @click="selectColor('yellow')"></div>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <div id="put-drawn" class="lightbox" v-if="gameState.game.turnState === 'PUT_DRAWN' && gameState.myIndex === gameState.game.currentPlayerIndex">
-                <div>
-                    <img v-bind:src="getCardImage(gameState.ownCards[gameState.ownCards.length-1], 'large')" alt="">
-                    <div>Möchtest du die gezogene Karte legen?</div>
-                    <div class="buttons">
-                        <button class="small yes" @click="putDrawn()">Ja</button>
-                        <button class="small no" @click="keep()">Nein</button>
-                    </div>
+            <div id="ownCards">
+                <div class="current">
+                    <div v-bind:style="'width: ' + (gameState.myIndex === gameState.game.currentPlayerIndex ? timeLeftPercent : 0) + '%'"></div>
+                </div>
+                <div class="card" v-for="(card, index) in gameState.ownCards">
+                    <picture v-bind:class="isPutAllowed(card, index) ? 'enabled' : 'disabled'" @click="put(card, index)">
+                        <source v-bind:srcset="getCardImage(card, 'large')" media="(min-width: 860px) and (min-height: 908px)">
+                        <source v-bind:srcset="getCardImage(card, 'small')" media="(max-width: 859px), (max-height: 907px)">
+                        <img v-bind:src="getCardImage(card, 'small')" alt="">
+                    </picture>
+                    <button
+                            v-if="isMyTurn() && gameState.game.turnState === 'PUT_DRAWN' && index === (gameState.ownCards.length-1)"
+                            class="small"
+                            @click="keep()">&larr; Behalten</button>
                 </div>
             </div>
         </div>
@@ -177,7 +190,7 @@
         </div>
     </div>
 
-    <div id="toast"></div>
+    <div id="toasts"></div>
     <div id="process">
         <img src="/res/img/process.svg" alt="">
     </div>
