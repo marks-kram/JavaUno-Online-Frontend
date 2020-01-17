@@ -47,19 +47,6 @@ function keep(){
     doAction('keep');
 }
 
-function getColoredCardCount(color){
-    let count = 0;
-    for(let i = 0; i < app.gameState.ownCards.length; i++){
-        const card = app.gameState.ownCards[i];
-        console.log(color + '==' + card.color + '?')
-        if(card.color === color){
-            console.log('yes');
-            count++;
-        }
-    }
-    return count;
-}
-
 function selectColor(color){
     const path = '/action/select-color/' + app.gameUuid + '/' + app.playerUuid + '/' + color;
     doPostRequest(path, {}, loadGame);
