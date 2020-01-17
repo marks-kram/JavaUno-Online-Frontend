@@ -62,6 +62,7 @@ function showQrCode(){
     const qr = qrcode(typeNumber, errorCorrectionLevel);
     qr.addData('https://' + hostname + '/invitation.html#' + app.gameUuid);
     qr.make();
-    document.getElementById('invitation-qr-code').innerHTML = qr.createImgTag(8, 32, '');
+    //document.getElementById('invitation-qr-code').innerHTML = qr.createImgTag(8, 32, '');
+    app.qr = qr.createDataURL(8, 32, '');
     app.showQr = true;
 }

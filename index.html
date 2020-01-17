@@ -85,7 +85,9 @@
                 Oder, wenn sie eh bei dir sind, lasse einfach den
                 <button class="small" @click="showQrCode()">QR-Code scannen</button>
                 <div id="invitation-qr" v-show="showQr">
-                    <div id="invitation-qr-code"></div>
+                    <div id="invitation-qr-code">
+                        <img v-bind:src="qr" alt="">
+                    </div>
                     <button class="small" @click="showQr = false">ausblenden</button>
                 </div>
                 <br><br>

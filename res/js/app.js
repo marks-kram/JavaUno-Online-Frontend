@@ -13,6 +13,7 @@ const gameState = {
 const data = {
     winner: -1,
     showQr: false,
+    qr: '',
     gameUuid: '',
     playerUuid: '',
     invitation: false,
