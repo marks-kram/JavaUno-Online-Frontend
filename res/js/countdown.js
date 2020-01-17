@@ -13,6 +13,9 @@ function animateCountdown(){
 
     if(app.timeLeftPercent <= 0){
         stopCountdownAnimation(false);
+        if(isMyTurn()){
+            next();
+        }
     }
 }
 
