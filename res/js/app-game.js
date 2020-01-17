@@ -23,6 +23,9 @@ function setGameState(data){
     app.currentView = data.game.gameLifecycle.toLowerCase();
     joinGameRunning = false;
     setGameStateRunning = false;
+    if(app.gameState.game.turnState === 'FINAL_COUNTDOWN' && aC === null){
+        startCountdown();
+    }
 }
 
 function setGameStateWithoutPlayer(data){

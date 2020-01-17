@@ -288,7 +288,6 @@ iqwerty.toast = (function() {
 function getPositionOffset(){
     const offset = getMaxPositionOffset() + 60;
     positionOffsets.push(offset);
-    console.log('pushed: ' + offset);
     return offset;
 }
 
@@ -305,6 +304,5 @@ function getMaxPositionOffset(){
 function removePositionOffset(toastStage){
     const offset = parseInt(toastStage.style.bottom.replace(/^.*?(\d+)px.*$/, '$1'));
     const index = positionOffsets.indexOf(offset);
-    console.log('spliced: ' + offset);
     positionOffsets.splice(index, 1);
 }

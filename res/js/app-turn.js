@@ -33,7 +33,7 @@ function put(card, index){
             gameUuid: app.gameUuid,
             playerUuid: app.playerUuid
         };
-        doPostRequest('/action/put', data, loadGame);
+        doPostRequest('/turn/put', data, loadGame);
     }
 }
 
@@ -48,12 +48,17 @@ function keep(){
 }
 
 function selectColor(color){
-    const path = '/action/select-color/' + app.gameUuid + '/' + app.playerUuid + '/' + color;
+    const path = '/turn/select-color/' + app.gameUuid + '/' + app.playerUuid + '/' + color;
     doPostRequest(path, {}, loadGame);
 }
 
 function sayUno(){
     doAction('say-uno');
+}
+
+function next() {
+    const path = '/turn/next/' + app.gameUuid + '/' + app.playerUuid;
+    doPostRequest(path, {}, nullCallback);
 }
 
 function isPutAllowed(card, index){
@@ -102,7 +107,7 @@ function isPlayersTurn(index){
 }
 
 function doAction(action){
-    const path = '/action/' + action + '/' + app.gameUuid + '/' + app.playerUuid;
+    const path = '/turn/' + action + '/' + app.gameUuid + '/' + app.playerUuid;
     doPostRequest(path, {}, loadGame);
 }
 
@@ -133,4 +138,8 @@ function isMatch(topCard, card){
             return card.color === app.gameState.game.desiredColor;
     }
     return false;
+}
+
+function nullCallback(data){
+    data = null;
 }
