@@ -5,11 +5,11 @@ function animateCountdown(){
     const now = new Date().getTime();
     let diff = now-start;
 
-    if(diff > config.backendCountdownLength){
-        diff = config.backendCountdownLength;
+    if(diff > 3000){
+        diff = 3000;
     }
 
-    app.timeLeftPercent = 100 - 100/config.backendCountdownLength*diff;
+    app.timeLeftPercent = 100 - 100/3000*diff;
 
     if(app.timeLeftPercent <= 0){
         stopCountdownAnimation(false);
