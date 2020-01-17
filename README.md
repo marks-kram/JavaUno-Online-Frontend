@@ -2,7 +2,7 @@
 Cardgame - Multiplayer browser game - The Frontend
 
 ## Version
-1.0_beta.3 (2020, Jan. 17th)
+1.0_beta.4 (2020, Jan. 17th)
 
 ## Description
 The Frontend offers the view to the card game.\
@@ -17,8 +17,6 @@ If you want to use your own backend, it has to offer the same api endpoints like
 Following settings have to be made in config.js
 * apiBase: the base url for the backend api ()
 * vueDevToolsEnabled: set the value to true, to use vue devtools in browser, not recommended is production
-* backendCountdownLength: The length of countdown between the turns, before the next player has its turn.
-  unit: milliseconds
 * error messages from backend for no such game and no such player (used to handle out dated cookies)
     * noSuchGameMessage: error message for no such game
     * noSuchPlayerMessage: error message for no such player
