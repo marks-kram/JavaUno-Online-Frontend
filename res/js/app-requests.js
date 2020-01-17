@@ -1,14 +1,21 @@
 const noSuchGameMessage = 'failure: de.markherrmann.javauno.exceptions.IllegalArgumentException: There is no such game.';
 const noSuchPlayerMessage = 'failure: de.markherrmann.javauno.exceptions.IllegalArgumentException: There is no such player in this game.';
 
+let rI;
+
 function handleRequestSuccess(response, callback) {
     callback(response.data);
     if(callback === setGameState || callback === setGameStateWithoutPlayer){
         stopProcessAnimation();
     }
+    clearInterval(rI);
 }
 
 function handleRequestError(response) {
+    if(response.status === 502){
+        app.currentView = 'backend-down';
+        rI = setInterval('self.location.reload()', 5000);
+    }
     if(response.data.message !== undefined){
         console.error("Request-Error: " + response.data.message);
         if(response.data.message === noSuchGameMessage){

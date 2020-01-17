@@ -50,6 +50,15 @@ header img {
     transform: translate(-50%, -50%);
 }
 
+#view-backend-down img {
+    border: 1px black solid;
+}
+
+#view-backend-down div {
+    margin: 5px 0;
+    font-size: 2rem;
+}
+
 input {
     font-size: 1.5rem;
     padding: 7px;
