@@ -19,6 +19,9 @@ Following settings have to be made in config.js
 * vueDevToolsEnabled: set the value to true, to use vue devtools in browser, not recommended is production
 * backendCountdownLength: The length of countdown between the turns, before the next player has its turn.
   unit: milliseconds
+* error messages from backend for no such game and no such player (used to handle out dated cookies)
+    * noSuchGameMessage: error message for no such game
+    * noSuchPlayerMessage: error message for no such player
 
 ## Live
 You can play this version (my backend and my frontend) at:\

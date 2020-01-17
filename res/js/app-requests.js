@@ -1,5 +1,5 @@
-const noSuchGameMessage = 'failure: de.markherrmann.javauno.exceptions.IllegalArgumentException: There is no such game.';
-const noSuchPlayerMessage = 'failure: de.markherrmann.javauno.exceptions.IllegalArgumentException: There is no such player in this game.';
+const noSuchGameMessage = config.noSuchGameMessage;
+const noSuchPlayerMessage = config.noSuchPlayerMessage;
 
 let rI;
 
