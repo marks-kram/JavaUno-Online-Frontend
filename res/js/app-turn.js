@@ -1,3 +1,5 @@
+let sayUnoRequestRunning = false;
+
 function getCardImage(card, size) {
     let image = '/res/img/cards/' + size + '/';
 
@@ -53,12 +55,21 @@ function selectColor(color){
 }
 
 function sayUno(){
+    sayUnoRequestRunning = true;
+    app.$cookies.set('sayUno', '1');
     doAction('say-uno');
 }
 
 function next() {
-    const path = '/turn/next/' + app.gameUuid + '/' + app.playerUuid;
-    doPostRequest(path, {}, nullCallback);
+    if(!isMyTurn()){
+        return;
+    }
+    if(!sayUnoRequestRunning){
+        const path = '/turn/next/' + app.gameUuid + '/' + app.playerUuid;
+        doPostRequest(path, {}, nullCallback);
+    } else {
+        setTimeout('next()', 1000);
+    }
 }
 
 function isPutAllowed(card, index){

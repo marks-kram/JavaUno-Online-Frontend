@@ -4,6 +4,10 @@ const noSuchPlayerMessage = config.noSuchPlayerMessage;
 let rI;
 
 function handleRequestSuccess(response, callback) {
+    if(response.url.indexOf('say-uno') >= 0){
+        sayUnoRequestRunning = false;
+        app.$cookies.remove('sayUno');
+    }
     callback(response.data);
     if(callback === setGameState || callback === setGameStateWithoutPlayer){
         stopProcessAnimation();
@@ -15,6 +19,11 @@ function handleRequestError(response) {
     if(response.status === 502){
         app.currentView = 'backend-down';
         rI = setInterval('self.location.reload()', 5000);
+    }
+    if(response.url.indexOf('say-uno') >= 0){
+        setTimeout('sayUno()', 1000)
+    } else {
+        stopProcessAnimation();
     }
     if(response.data.message !== undefined){
         console.error("Request-Error: " + response.data.message);
@@ -28,7 +37,6 @@ function handleRequestError(response) {
     } else {
         console.error("Request-Error: responseObject: " + JSON.stringify(response));
     }
-    stopProcessAnimation();
 }
 
 function doGetRequest(path, callback){

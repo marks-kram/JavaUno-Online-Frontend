@@ -24,6 +24,9 @@ function setGameState(data){
     joinGameRunning = false;
     setGameStateRunning = false;
     if(app.gameState.game.turnState === 'FINAL_COUNTDOWN' && aC === null){
+        if(app.$cookies.get('sayUno') !== null && app.$cookies.get('sayUno') === '1'){
+            sayUno();
+        }
         startCountdown();
     }
 }
