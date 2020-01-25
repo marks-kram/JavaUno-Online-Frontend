@@ -37,11 +37,12 @@ function leaveGame(){
     doDeleteRequest(path, reset);
 }
 
-function getPlayerName(player) {
-    if(player.name !== ''){
-        return player.name;
+function getPlayerName(name, index) {
+    const indexedPlayerName = 'Spieler ' + (index+1) + '';
+    if(name.trim() === '' || new RegExp('^Spieler\\s+\\d+').test(name.trim())){
+        return indexedPlayerName;
     }
-    return 'Spieler ' + (app.players.indexOf(player)+1);
+    return name.trim().replace(/(<.*?>|&.*?;)/g, '');
 }
 
 function getPlayerType(player) {

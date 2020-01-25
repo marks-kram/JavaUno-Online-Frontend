@@ -34,7 +34,7 @@ const methods = {
     loadGame: function (){loadGame()},
     loadGameWithoutPlayer: function (){loadGameWithoutPlayer()},
     startGame: function (){startGame()},
-    getPlayerName: function(player){getPlayerName(player)},
+    getPlayerName: function(name, index){ return getPlayerName(name, index)},
     getPlayerType: function(player){getPlayerType(player)},
     copyLink: function(){copyLink()},
     showQrCode: function () {showQrCode()},

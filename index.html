@@ -68,7 +68,7 @@
             <h3>Aktuelle Spieler ({{gameState.players.length}})</h3>
             <div id="current-players">
                 <div class="player" v-for="(player, index) in gameState.players">
-                    {{ player.name !== '' ? player.name : 'Spieler ' + (index+1) }}
+                    {{ getPlayerName(player.name, index) }}
                     <span v-if="index === gameState.myIndex">(Du)</span>
                     <button v-if="index === gameState.myIndex" class="small" @click="leaveGame()">Spiel verlassen</button>
                     <button v-if="player.bot" class="small" @click="removeBot(player)">Bot entfernen</button>
@@ -116,7 +116,7 @@
                         <div v-bind:style="'width: ' + (isPlayersTurn(index) ? timeLeftPercent : 0) + '%'"></div>
                     </div>
                     <div class="name">
-                        {{ player.name !== '' ? player.name : 'Spieler ' + (index+1) }}
+                        {{ getPlayerName(player.name, index) }}
                     </div>
                     <div v-bind:class="'cards ' + (player.cardCount > 9 ? ' more' : '') + (player.cardCount === 1 && player.unoSaid ? ' red' : '')">
                         {{ player.cardCount }}

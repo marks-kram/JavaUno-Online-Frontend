@@ -55,9 +55,7 @@ const doPushActionAddedPlayer = function(message){
         const index = parseInt(message.body.replace(/^added-player:(\d).*$/, '$1'));
         if(isNotMe(index)){
             let name = message.body.replace(/^added-player:\d:(.*)$/, '$1');
-            if(name === ''){
-                name = 'Spieler ' + (index+1);
-            }
+            name = getPlayerName(name, index);
             showToast(name + ' macht mit');
         }
     }
@@ -69,9 +67,7 @@ const  doPushActionRemovedPlayer = function(message){
         const index = parseInt(message.body.replace(/removed-player:/, ''));
         if(isNotMe(index)){
             let name = app.gameState.players[index].name;
-            if(name === ''){
-                name = 'Der ehemalige Spieler ' + (index+1);
-            }
+            name = getPlayerName(name, index).replace(/^Spieler\s+(\d+)$/, 'Der ehemalige Spieler $1');
             showToast(name + ' ist gegangen');
         }
         if(isNotMe(index) || app.currentView === 'join'){
@@ -118,9 +114,7 @@ const doPushActionSaidUno = function(){
         const index = app.gameState.game.currentPlayerIndex;
         if(!isMyTurn()){
             let name = app.gameState.players[index].name;
-            if(name === ''){
-                name = 'Spieler ' + (index+1);
-            }
+            name = getPlayerName(name, index);
             showToast(name + ': „Uno“');
         } else {
             showToast('Du : „Uno“');
@@ -136,9 +130,7 @@ const doPushActionNextTurn = function(message){
         const index = parseInt(message.body.replace(/next-turn:/, ''));
         app.gameState.game.currentPlayerIndex = index;
         let name = app.gameState.players[index].name;
-        if(name === ''){
-            name = 'Spieler ' + (index+1);
-        }
+        name = getPlayerName(name, index);
         if(isMyTurn()){
             showToast('Du bist dran, ' + name);
         } else {
