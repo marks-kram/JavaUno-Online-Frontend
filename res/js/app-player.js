@@ -45,10 +45,6 @@ function getPlayerName(name, index) {
     return name.trim().replace(/(<.*?>|&.*?;)/g, '');
 }
 
-function getPlayerType(player) {
-    return player.bot ? 'Computer' : 'Mensch';
-}
-
 function copyLink(){
     const copyText = document.getElementById('invitation-link-toCopy');
     copyText.select();
