@@ -79,8 +79,8 @@
                 Freunde einladen:<br>
                 Schicke deinen Freunden folgenden Link:<br>
                 <button class="small" @click="copyLink()">Kopieren</button>
-                <textarea id="invitation-link-toCopy">https://{{hostname}}/invitation.html#{{gameUuid}}</textarea>
-                <span id="invitation-link">https://{{hostname}}/invitation.html#{{gameUuid}}</span>
+                <textarea id="invitation-link-toCopy">https://{{hostname}}/invitation.html#game:{{gameUuid}}</textarea>
+                <span id="invitation-link">https://{{hostname}}/invitation.html#game:{{gameUuid}}</span>
                 <br><br>
                 Oder, wenn sie eh bei dir sind, lasse einfach den
                 <button class="small" @click="showQrCode()">QR-Code scannen</button>

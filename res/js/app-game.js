@@ -65,8 +65,8 @@ function reset(){
 }
 
 function handleInvitation(){
-    if(location.hash !== '' && location.hash !== '#'){
-        const gameUuid = location.hash.replace(/^#/, '');
+    if(location.hash.startsWith("#game:")){
+        const gameUuid = location.hash.replace(/^#game:/, '');
         app.$cookies.set('gameUuid', gameUuid);
         app.$cookies.set('invitation', '1');
         location.replace('/');
