@@ -51,7 +51,7 @@
                 <span v-if="!invitation">Jetzt loslegen</span>
             </button>
             <div  class="errMsg" v-if="currentView === 'join' && gameState.players.length >= 9">
-                Die maximale Spieleranzahl ({{9}}) wurde erreicht.
+                Die maximale Spieleranzahl (9) wurde erreicht.
             </div>
             <div  class="errMsg" v-if="currentView === 'join' && gameState.game.gameLifecycle === 'RUNNING'">
                 Das Spiel wurde bereits gestartet.
@@ -96,7 +96,7 @@
                 <button class="small" @click="addBot()">Hinzufügen</button>
             </div>
             <div id="add-players-limit-reached" v-if="gameState.players.length >= 9">
-                Die maximale Spieleranzahl ({{9}}) wurde erreicht.<br>
+                Die maximale Spieleranzahl (9) wurde erreicht.<br>
                 Es können keine weiteren Spieler teilnehmen.
             </div>
             <div id="start-game">
