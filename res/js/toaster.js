@@ -105,10 +105,10 @@ iqwerty.toast = (function() {
         style.classList.add(iqwerty.toast.identifiers.CLASS_STYLESHEET);
 
         style.innerHTML = "." + iqwerty.toast.identifiers.CLASS_SLIDE_IN +
-            "{opacity: 1; bottom: 10%;}" +
+            "{opacity: 1; bottom: 30px}" +
 
             "." + iqwerty.toast.identifiers.CLASS_SLIDE_OUT +
-            "{opacity: 0; bottom: -10%;}" +
+            "{opacity: 0; bottom: -30px}" +
 
             "." + iqwerty.toast.identifiers.CLASS_ANIMATED +
             "{transition: opacity " + iqwerty.toast.style.TOAST_ANIMATION_SPEED + "ms, bottom " + iqwerty.toast.style.TOAST_ANIMATION_SPEED + "ms;}";
@@ -176,10 +176,10 @@ iqwerty.toast = (function() {
 
 
         //offset position for multiple toasts
-        this.getToastStage().style.bottom = 'calc(10vh + ' + getPositionOffset() + 'px)';
+        this.getToastStage().style.bottom = getPositionOffset() + 'px';
 
         // hide the toast after the specified timeout
-        setTimeout(this.hide.bind(this), this.getDuration());
+        setTimeout(this.hide.bind(this), this.getDuration()*1000);
 
         return this;
     };
@@ -292,7 +292,7 @@ function getPositionOffset(){
 }
 
 function getMaxPositionOffset(){
-    let max = 0;
+    let max = -30;
     for(let i = 0; i < positionOffsets.length; i++){
         if(positionOffsets[i] > max){
             max = positionOffsets[i];
