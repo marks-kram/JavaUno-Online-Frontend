@@ -65,6 +65,8 @@ function next() {
         return;
     }
     if(!sayUnoRequestRunning){
+        app.gameState.game.currentPlayerIndex = -1;
+        app.gameState.game.turnState = '';
         const path = '/turn/next/' + app.gameUuid + '/' + app.playerUuid;
         doPostRequest(path, {}, nullCallback);
     } else {
