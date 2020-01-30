@@ -179,7 +179,7 @@ iqwerty.toast = (function() {
         this.getToastStage().style.bottom = getPositionOffset() + 'px';
 
         // hide the toast after the specified timeout
-        setTimeout(this.hide.bind(this), this.getDuration()*1000);
+        setTimeout(this.hide.bind(this), this.getDuration());
 
         return this;
     };
