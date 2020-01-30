@@ -2,7 +2,7 @@
 Cardgame - Multiplayer browser game - The Frontend
 
 ## Version
-1.0_beta.8 (2020, Jan. 28th)
+1.0_beta.9 (2020, Jan. 30th)
 
 ## Description
 The Frontend offers the view to the card game.\
@@ -32,7 +32,7 @@ https://java-uno.de/spielanleitung.pdf
 * The Frontend source code is licensed under a CC-BY-SA-NC 4.0 Licence\
    * License: https://creativecommons.org/licenses/by-nc-sa/4.0/
    * Creator: Mark Herrmann (Nickname: Tomatenmark)
-* For the card images all rights are reserved to Creator Denis Oster
+* For the card images all rights are reserved to Creators Denis Oster and Mark Herrmann (Nickname: Tomatenmark)
 * For the original card game all rights are reserved to Mattel games.\
   (I have no co-operation with Mattel)
   
