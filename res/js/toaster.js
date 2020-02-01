@@ -21,6 +21,14 @@ var iqwerty = iqwerty || {};
 var positionOffsets = [];
 
 /**
+ * my positioning settings
+ */
+const initialPosition = -5;
+const firstPosition = 5;
+const positionOffset = 35;
+
+
+/**
  * Toasts are here
  */
 iqwerty.toast = (function() {
@@ -105,10 +113,10 @@ iqwerty.toast = (function() {
         style.classList.add(iqwerty.toast.identifiers.CLASS_STYLESHEET);
 
         style.innerHTML = "." + iqwerty.toast.identifiers.CLASS_SLIDE_IN +
-            "{opacity: 1; bottom: 30px}" +
+            "{opacity: 1; bottom: " + firstPosition + "px}" +
 
             "." + iqwerty.toast.identifiers.CLASS_SLIDE_OUT +
-            "{opacity: 0; bottom: -30px}" +
+            "{opacity: 0; bottom: " + initialPosition + "px}" +
 
             "." + iqwerty.toast.identifiers.CLASS_ANIMATED +
             "{transition: opacity " + iqwerty.toast.style.TOAST_ANIMATION_SPEED + "ms, bottom " + iqwerty.toast.style.TOAST_ANIMATION_SPEED + "ms;}";
@@ -256,14 +264,15 @@ iqwerty.toast = (function() {
             "z-index: 99999;" +
             "border-radius: 3px;" +
             "color: rgba(255, 255, 255, .9);" +
-            "padding: 10px 15px;" +
-            "max-width: 40%;" +
+            "padding: 5px;" +
+            "font-size: 0.9rem;" +
             "word-break: keep-all;" +
+            "white-space: nowrap;" +
             "margin: 0 auto;" +
             "text-align: center;" +
             "position: fixed;" +
-            "left: 0;" +
-            "right: 0;",
+            "left: 50%;" +
+            "transform: translateX(-50%);",
 
             /**
              * The speed of the toast animation, i.e. how long it takes to fade in/out. Preferably not more than 500
@@ -285,14 +294,18 @@ iqwerty.toast = (function() {
     };
 })();
 
+/**
+ * positioning
+ */
+
 function getPositionOffset(){
-    const offset = getMaxPositionOffset() + 60;
+    const offset = getMaxPositionOffset() + positionOffset;
     positionOffsets.push(offset);
     return offset;
 }
 
 function getMaxPositionOffset(){
-    let max = -30;
+    let max = initialPosition;
     for(let i = 0; i < positionOffsets.length; i++){
         if(positionOffsets[i] > max){
             max = positionOffsets[i];
