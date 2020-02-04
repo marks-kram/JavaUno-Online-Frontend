@@ -2,7 +2,7 @@
 Cardgame - Multiplayer browser game - The Frontend
 
 ## Version
-1.0_beta.10 (2020, Feb. 1st)
+1.0_beta.11 (2020, Feb. 4th)
 
 ## Description
 The Frontend offers the view to the card game.\
