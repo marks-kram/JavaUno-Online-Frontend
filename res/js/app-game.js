@@ -27,7 +27,7 @@ function setGameState(data){
         if(app.$cookies.get('sayUno') !== null && app.$cookies.get('sayUno') === '1'){
             sayUno();
         }
-        startCountdown();
+        startCountdownAnimation();
     }
 }
 

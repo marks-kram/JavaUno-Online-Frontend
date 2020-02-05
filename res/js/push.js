@@ -153,7 +153,7 @@ const  doPushActionEnd = function() {
 };
 
 function startCountdown(){
-    if(app.currentView === 'running'){
+    if(app.currentView === 'running' && aC === null){
         app.gameState.game.turnState = 'FINAL_COUNTDOWN';
         startCountdownAnimation();
     }
