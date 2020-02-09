@@ -77,10 +77,12 @@ const  doPushActionRemovedPlayer = function(message){
 };
 
 const doPushActionPutCard = function(message){
-    if(app.currentView === 'running') {
-        if(!message.body.endsWith(':joker')){
+    if(app.gameState.game.gameLifeCycle === 'RUNNING') {
+        if(!message.body.endsWith(':joker') && app.gameState.players[app.gameState.game.currentPlayerIndex].cardCount > 0){
             startCountdown();
         }
+    }
+    if(app.currentView === 'running'){
         updateView();
     }
 };
@@ -141,10 +143,10 @@ const doPushActionNextTurn = function(message){
 };
 
 const  doPushActionFinishedGame = function() {
+    app.gameState.game.gameLifeCycle = 'SET_PLAYERS';
     if(app.currentView === 'running'){
         app.winner = app.gameState.game.currentPlayerIndex;
     }
-    app.gameState.game.gameLifeCycle = 'SET_PLAYERS';
 };
 
 const  doPushActionEnd = function() {
@@ -154,6 +156,7 @@ const  doPushActionEnd = function() {
 
 function startCountdown(){
     if(app.currentView === 'running' && aC === null){
+        aC = 0;
         app.gameState.game.turnState = 'FINAL_COUNTDOWN';
         startCountdownAnimation();
     }
