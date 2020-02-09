@@ -50,6 +50,7 @@ function loadGameWithoutPlayer(){
 }
 
 function createGame() {
+    app.btnCreateGameDisabled = true;
     doPostRequest('/game/create', {}, setGame);
 }
 

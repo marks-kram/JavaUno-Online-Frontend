@@ -21,7 +21,9 @@ const data = {
     name: '',
     botName: '',
     gameState: gameState,
-    timeLeftPercent: 100
+    timeLeftPercent: 100,
+    btnCreateGameDisabled: false,
+    btnJoinGameDisabled: false
 };
 
 const methods = {

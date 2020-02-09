@@ -1,6 +1,7 @@
 let joinGameRunning = false;
 
 function joinGame(){
+    app.btnJoinGameDisabled = true;
     joinGameRunning = true;
     const data = {
         bot: false,

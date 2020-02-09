@@ -44,9 +44,9 @@
                 Du wurdest eingeladen, mitzuspielen. Viel Spaß!
             </p>
             <input v-if="currentView === 'join'" type="text" v-model="name" placeholder="Name (optional)">
-            <button v-if="currentView === 'start'" @click="createGame()">Spielspaß beginnen</button>
+            <button v-if="currentView === 'start'" @click="createGame()" v-bind:disabled="btnCreateGameDisabled">Spielspaß beginnen</button>
             <button v-if="currentView === 'join'" @click="joinGame()"
-                    v-bind:disabled="gameState.players.length >= 9 || gameState.game.gameLifecycle === 'RUNNING'">
+                    v-bind:disabled="gameState.players.length >= 9 || gameState.game.gameLifecycle === 'RUNNING' || btnJoinGameDisabled">
                 <span v-if="invitation">Jetzt mitspielen</span>
                 <span v-if="!invitation">Jetzt loslegen</span>
             </button>
