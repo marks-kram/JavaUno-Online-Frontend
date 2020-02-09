@@ -43,7 +43,7 @@ function doPushActions(message){
 }
 
 const doPushActionStartedGame = function(){
-    app.gameState.game.gameLifeCycle = 'RUNNING';
+    app.gameState.game.gameLifecycle = 'RUNNING';
     app.timeLeftPercent = 100;
     app.winner = -1;
     showToast('Es geht los');
@@ -77,8 +77,9 @@ const  doPushActionRemovedPlayer = function(message){
 };
 
 const doPushActionPutCard = function(message){
-    if(app.gameState.game.gameLifeCycle === 'RUNNING') {
-        if(!message.body.endsWith(':joker') && app.gameState.players[app.gameState.game.currentPlayerIndex].cardCount > 0){
+    if(app.gameState.game.gameLifecycle === 'RUNNING') {
+        const cardCount = app.gameState.players[app.gameState.game.currentPlayerIndex].cardCount - 1;
+        if(!message.body.endsWith(':joker') && cardCount > 0){
             startCountdown();
         }
     }
@@ -143,7 +144,7 @@ const doPushActionNextTurn = function(message){
 };
 
 const  doPushActionFinishedGame = function() {
-    app.gameState.game.gameLifeCycle = 'SET_PLAYERS';
+    app.gameState.game.gameLifecycle = 'SET_PLAYERS';
     if(app.currentView === 'running'){
         app.winner = app.gameState.game.currentPlayerIndex;
     }

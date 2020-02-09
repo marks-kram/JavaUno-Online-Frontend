@@ -23,7 +23,7 @@ function setGameState(data){
     app.currentView = data.game.gameLifecycle.toLowerCase();
     joinGameRunning = false;
     setGameStateRunning = false;
-    if(app.gameState.game.turnState === 'FINAL_COUNTDOWN' && app.gameState.game.gameLifeCycle === 'RUNNING' && aC === null){
+    if(app.gameState.game.turnState === 'FINAL_COUNTDOWN' && app.gameState.game.gameLifecycle === 'RUNNING' && aC === null){
         aC = 0;
         if(app.$cookies.get('sayUno') !== null && app.$cookies.get('sayUno') === '1'){
             sayUno();
