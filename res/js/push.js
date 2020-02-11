@@ -143,11 +143,12 @@ const doPushActionNextTurn = function(message){
     updateView();
 };
 
-const  doPushActionFinishedGame = function() {
-    app.gameState.game.gameLifecycle = 'SET_PLAYERS';
-    if(app.currentView === 'running'){
+const  doPushActionFinishedGame = function(message) {
+    const party = parseInt(message.body.replace(/finished-game:/, ''));
+    if(app.currentView === 'running' && party === app.gameState.game.party){
         app.winner = app.gameState.game.currentPlayerIndex;
     }
+    updateView();
 };
 
 const  doPushActionEnd = function() {

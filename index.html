@@ -181,12 +181,11 @@
         <div id="finished" class="lightbox" v-if="winner >= 0">
             <div>
                 <div v-if="winner === gameState.myIndex">
-                    Herzlichen Glückwunsch, {{gameState.players[winner].name !== '' ? gameState.players[winner].name : 'Spieler '+(winner+1)}}!<br>
+                    Herzlichen Glückwunsch, {{getPlayerName(gameState.players[winner].name, winner)}}!<br>
                     Du hast gewonnen!
                 </div>
                 <div v-if="winner !== gameState.myIndex">
-                    Das Spiel ist beendet.<br>
-                    {{gameState.players[winner].name !== '' ? gameState.players[winner].name : 'Spieler '+(winner+1)}} hat gewonnen!
+                    {{getPlayerName(gameState.players[winner].name, winner)}} hat gewonnen!
                 </div>
                 <button class="small" @click="winner = -1">OK</button>
             </div>
