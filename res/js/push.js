@@ -47,6 +47,7 @@ const doPushActionStartedGame = function(){
     app.timeLeftPercent = 100;
     app.winner = -1;
     showToast('Es geht los');
+    showTurnToast(app.gameState.game.currentPlayerIndex);
     updateView();
 };
 
@@ -132,13 +133,7 @@ const doPushActionNextTurn = function(message){
         stopCountdownAnimation(true);
         const index = parseInt(message.body.replace(/next-turn:/, ''));
         app.gameState.game.currentPlayerIndex = index;
-        let name = app.gameState.players[index].name;
-        name = getPlayerName(name, index);
-        if(isMyTurn()){
-            showToast('Du bist dran, ' + name);
-        } else {
-            showToast(name + ' ist dran');
-        }
+        showTurnToast(index);
     }
     updateView();
 };
@@ -155,6 +150,16 @@ const  doPushActionEnd = function() {
     showToast('Spiel beendet. Danke für\'s Spielen');
     reset();
 };
+
+function showTurnToast(index){
+    let name = app.gameState.players[index].name;
+    name = getPlayerName(name, index);
+    if(isMyTurn()){
+        showToast('Du bist dran, ' + name);
+    } else {
+        showToast(name + ' ist dran');
+    }
+}
 
 function startCountdown(){
     if(app.currentView === 'running' && aC === null){
