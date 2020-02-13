@@ -2,7 +2,7 @@
 Cardgame - Multiplayer browser game - The Frontend
 
 ## Version
-1.0_beta.17_release_candidate4 (2020, Feb. 11th)
+1.0_beta.18_release_candidate5 (2020, Feb. 13th)
 
 ## Description
 The Frontend offers the view to the card game.\
@@ -26,7 +26,7 @@ You can play this version (my backend and my frontend) at:\
 https://java-uno.de/
 
 ### Spielanleitung
-https://java-uno.de/spielanleitung.pdf
+./manual.pdf
 
 ## License
 * The Frontend source code is licensed under a CC-BY-SA-NC 4.0 Licence\
