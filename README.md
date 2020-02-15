@@ -2,7 +2,7 @@
 Cardgame - Multiplayer browser game - The Frontend
 
 ## Version
-1.0_beta.18_release_candidate5 (2020, Feb. 13th)
+1.0 (2020, Feb. 15th)
 
 ## Description
 The Frontend offers the view to the card game.\
@@ -11,7 +11,7 @@ It is an VUE.js-Application
 ## Backend
 You can use your own backend or use my backend under: https://github.com/tomatenmark/JavaUno-Online-Backend.\
 If you want to use your own backend, it has to offer the same api endpoints like my backend
-(see readme.md of my backend to get further information)
+(see README.md of my backend to get further information)
 
 ## Configuration
 Following settings have to be made in config.js
@@ -20,10 +20,6 @@ Following settings have to be made in config.js
 * error messages from backend for no such game and no such player (used to handle out dated cookies)
     * noSuchGameMessage: error message for no such game
     * noSuchPlayerMessage: error message for no such player
-
-## Live
-You can play this version (my backend and my frontend) at:\
-https://java-uno.de/
 
 ### Spielanleitung
 ./manual.pdf
