@@ -46,8 +46,8 @@ const doPushActionStartedGame = function(){
     app.gameState.game.gameLifecycle = 'RUNNING';
     app.timeLeftPercent = 100;
     app.winner = -1;
-    showToast('Es geht los');
     showTurnToast(app.gameState.game.currentPlayerIndex);
+    showToast('Es geht los');
     updateView();
 };
 
