@@ -169,7 +169,7 @@
     cursor: not-allowed;
 }
 
-#drawPile.enabled:hover, #ownCards picture.enabled:hover, #color-selection div>div>div:hover {
+body.hover #drawPile.enabled:hover, body.hover #ownCards picture.enabled:hover, body.hover #color-selection div>div>div:hover {
     transform: scale(1.03);
 }
 

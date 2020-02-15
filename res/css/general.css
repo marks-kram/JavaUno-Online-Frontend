@@ -65,7 +65,7 @@ input {
     border: 1px silver solid;
     border-radius: 11px;
 }
-input:hover, input:focus {
+body.hover input:hover, input:focus {
     border: 1px black solid;
 }
 
@@ -79,7 +79,7 @@ button {
     border-radius: 11px;
     cursor: pointer;
 }
-button:hover, button:focus {
+body.hover button:hover, button:focus {
     background: #148d06;
     border: 1px #148d06 solid;
 }
@@ -87,7 +87,7 @@ button:active {
     background: #125306;
     border: 1px #125306 solid;
 }
-button:disabled{
+button:disabled, body.hover button:disabled {
     background: #777;
     border: 1px #777 solid;
     cursor: not-allowed;
@@ -104,7 +104,7 @@ button.small {
     border: 1px #add9ff solid;
     color: black;
 }
-button.small:hover, button.small:focus {
+body.hover button.small:hover, button.small:focus {
     background: #d0e9ff;
     border: 1px #d0e9ff solid;
     color: black;
@@ -126,7 +126,7 @@ header a:link, header a:visited {
     color: black;
     text-decoration: none;
 }
-header a:focus, header a:hover {
+header a:focus, body.hover header a:hover {
     color: black;
     background: #d0e9ff;
 }
@@ -139,5 +139,10 @@ header a:active {
     header img {
         width: 120px;
         margin-top: 5px;
+    }
+
+    header a:link, header a:visited, header a:focus, body.hover header a:hover, header a:hover {
+        left: 135px;
+        font-size: 0.8rem;
     }
 }

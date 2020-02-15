@@ -57,3 +57,13 @@ const app = new Vue({
     data: data,
     methods: methods
 });
+
+function hasTouch() {
+    return 'ontouchstart' in document.documentElement
+        || navigator.maxTouchPoints > 0
+        || navigator.msMaxTouchPoints > 0;
+}
+
+if(!hasTouch()){
+    document.body.setAttribute('class', 'hover');
+}
