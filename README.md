@@ -38,3 +38,6 @@ See my version as fun project
 ## changeLog
 
 ### Version 1.1
+* improved ux
+   * show myself in players list instead of only showing the others
+   * reverse display order of players if playing direction is reversed
