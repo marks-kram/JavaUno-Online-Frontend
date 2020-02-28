@@ -46,18 +46,18 @@
             <input v-if="currentView === 'join'" type="text" v-model="name" placeholder="Name (optional)">
             <button v-if="currentView === 'start'" @click="createGame()" v-bind:disabled="btnCreateGameDisabled">Spielspaß beginnen</button>
             <button v-if="currentView === 'join'" @click="joinGame()"
-                    v-bind:disabled="gameState.players.length >= 9 || gameState.game.gameLifecycle === 'RUNNING' || btnJoinGameDisabled">
+                    v-bind:disabled="gameState.players.length >= 8 || gameState.game.gameLifecycle === 'RUNNING' || btnJoinGameDisabled">
                 <span v-if="invitation">Jetzt mitspielen</span>
                 <span v-if="!invitation">Jetzt loslegen</span>
             </button>
-            <div  class="errMsg" v-if="currentView === 'join' && gameState.players.length >= 9">
-                Die maximale Spieleranzahl (9) wurde erreicht.
+            <div  class="errMsg" v-if="currentView === 'join' && gameState.players.length >= 8">
+                Die maximale Spieleranzahl (8) wurde erreicht.
             </div>
             <div  class="errMsg" v-if="currentView === 'join' && gameState.game.gameLifecycle === 'RUNNING'">
                 Das Spiel wurde bereits gestartet.
             </div>
             <div  class="errMsg"
-                  v-if="currentView === 'join' && (gameState.players.length >= 9 || gameState.game.gameLifecycle === 'RUNNING')">
+                  v-if="currentView === 'join' && (gameState.players.length >= 8 || gameState.game.gameLifecycle === 'RUNNING')">
                 Es können leider keine weiteren Spieler teilnehmen.<br>
                 <button class="small" @click="reset()">Eigenes Spiel starten</button>
             </div>
@@ -75,7 +75,7 @@
                 </div>
             </div>
             <h3>Spieler hinzufügen</h3>
-            <div id="add-players" v-if="gameState.players.length < 9">
+            <div id="add-players" v-if="gameState.players.length < 8">
                 Freunde einladen:<br>
                 Schicke deinen Freunden folgenden Link:<br>
                 <button class="small" @click="copyLink()">Kopieren</button>
@@ -95,8 +95,8 @@
                 <input class="small" type="text" v-model="botName" placeholder="Name (optional)">
                 <button class="small" @click="addBot()">Hinzufügen</button>
             </div>
-            <div id="add-players-limit-reached" v-if="gameState.players.length >= 9">
-                Die maximale Spieleranzahl (9) wurde erreicht.<br>
+            <div id="add-players-limit-reached" v-if="gameState.players.length >= 8">
+                Die maximale Spieleranzahl (8) wurde erreicht.<br>
                 Es können keine weiteren Spieler teilnehmen.
             </div>
             <div id="start-game">
@@ -111,12 +111,23 @@
         <!-- running game view - shows the running game -->
         <div id="view-running" v-if="currentView === 'running'">
             <div id="players">
-                <div class="player" v-for="(player, index) in gameState.players" v-if="index !== gameState.myIndex">
+                <div class="player" v-for="(player, index) in gameState.players" v-if="!gameState.game.reversed">
                     <div class="current">
                         <div v-bind:style="'width: ' + (isPlayersTurn(index) ? timeLeftPercent : 0) + '%'"></div>
                     </div>
                     <div class="name">
                         {{ getPlayerName(player.name, index) }}
+                    </div>
+                    <div v-bind:class="'cards ' + (player.cardCount > 9 ? ' more' : '') + (player.cardCount === 1 && player.unoSaid ? ' red' : '')">
+                        {{ player.cardCount }}
+                    </div>
+                </div>
+                <div class="player" v-for="(player, index) in gameState.players.slice().reverse()" v-if="gameState.game.reversed">
+                    <div class="current">
+                        <div v-bind:style="'width: ' + (isPlayersTurn(gameState.players.length-index-1) ? timeLeftPercent : 0) + '%'"></div>
+                    </div>
+                    <div class="name">
+                        {{ getPlayerName(player.name, gameState.players.length-index-1) }}
                     </div>
                     <div v-bind:class="'cards ' + (player.cardCount > 9 ? ' more' : '') + (player.cardCount === 1 && player.unoSaid ? ' red' : '')">
                         {{ player.cardCount }}
