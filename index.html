@@ -111,12 +111,23 @@
         <!-- running game view - shows the running game -->
         <div id="view-running" v-if="currentView === 'running'">
             <div id="players">
-                <div class="player" v-for="(player, index) in gameState.players">
+                <div class="player" v-for="(player, index) in gameState.players" v-if="!gameState.game.reversed">
                     <div class="current">
                         <div v-bind:style="'width: ' + (isPlayersTurn(index) ? timeLeftPercent : 0) + '%'"></div>
                     </div>
                     <div class="name">
                         {{ getPlayerName(player.name, index) }}
+                    </div>
+                    <div v-bind:class="'cards ' + (player.cardCount > 9 ? ' more' : '') + (player.cardCount === 1 && player.unoSaid ? ' red' : '')">
+                        {{ player.cardCount }}
+                    </div>
+                </div>
+                <div class="player" v-for="(player, index) in gameState.players.slice().reverse()" v-if="gameState.game.reversed">
+                    <div class="current">
+                        <div v-bind:style="'width: ' + (isPlayersTurn(gameState.players.length-index-1) ? timeLeftPercent : 0) + '%'"></div>
+                    </div>
+                    <div class="name">
+                        {{ getPlayerName(player.name, gameState.players.length-index-1) }}
                     </div>
                     <div v-bind:class="'cards ' + (player.cardCount > 9 ? ' more' : '') + (player.cardCount === 1 && player.unoSaid ? ' red' : '')">
                         {{ player.cardCount }}
