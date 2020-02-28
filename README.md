@@ -2,7 +2,7 @@
 Cardgame - Multiplayer browser game - The Frontend
 
 ## Version
-1.0 (2020, Feb. 15th)
+1.1 (2020, Feb. 28th)
 
 ## Description
 The Frontend offers the view to the card game.\
@@ -34,3 +34,7 @@ Following settings have to be made in config.js
   
 Notice: Mattel also offers an own free app to play UNO.
 See my version as fun project
+
+## changeLog
+
+### Version 1.1
