@@ -111,7 +111,7 @@
         <!-- running game view - shows the running game -->
         <div id="view-running" v-if="currentView === 'running'">
             <div id="players">
-                <div class="player" v-for="(player, index) in gameState.players" v-if="index !== gameState.myIndex">
+                <div class="player" v-for="(player, index) in gameState.players">
                     <div class="current">
                         <div v-bind:style="'width: ' + (isPlayersTurn(index) ? timeLeftPercent : 0) + '%'"></div>
                     </div>
