@@ -59,3 +59,7 @@ function doDeleteRequest(path, callback){
         handleRequestSuccess(response, callback);
     }, handleRequestError);
 }
+
+function sleep(){
+    return new Promise(resolve => setTimeout(resolve, 50));
+}
