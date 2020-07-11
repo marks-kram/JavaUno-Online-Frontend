@@ -23,7 +23,9 @@ const data = {
     gameState: gameState,
     timeLeftPercent: 100,
     btnCreateGameDisabled: false,
-    btnJoinGameDisabled: false
+    btnJoinGameDisabled: false,
+    processing: false,
+    processingEnd: false
 };
 
 const methods = {

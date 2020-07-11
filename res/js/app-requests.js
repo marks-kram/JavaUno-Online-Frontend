@@ -10,7 +10,7 @@ function handleRequestSuccess(response, callback) {
     }
     callback(response.data);
     if(callback === setGameState || callback === setGameStateWithoutPlayer){
-        stopProcessAnimation();
+        stopProcessingAnimation();
     }
     clearInterval(rI);
 }
@@ -23,7 +23,7 @@ function handleRequestError(response) {
     if(response.url.indexOf('say-uno') >= 0){
         setTimeout('sayUno()', 1000)
     } else {
-        stopProcessAnimation();
+        stopProcessingAnimation();
     }
     if(response.data.message !== undefined){
         console.error("Request-Error: " + response.data.message);
@@ -40,45 +40,22 @@ function handleRequestError(response) {
 }
 
 function doGetRequest(path, callback){
-    startProcessAnimation();
+    startProcessingAnimation();
     app.$http.get(config.apiBase+path).then(function (response) {
         handleRequestSuccess(response, callback);
     }, handleRequestError);
 }
 
 function doPostRequest(path, data, callback){
-    startProcessAnimation();
+    startProcessingAnimation();
     app.$http.post(config.apiBase+path, JSON.stringify(data)).then(function (response) {
         handleRequestSuccess(response, callback);
     }, handleRequestError);
 }
 
 function doDeleteRequest(path, callback){
-    startProcessAnimation();
+    startProcessingAnimation();
     app.$http.delete(config.apiBase+path).then(function (response) {
         handleRequestSuccess(response, callback);
     }, handleRequestError);
-}
-
-let pA;
-let process = false;
-
-function startProcessAnimation(){
-    if(!process){
-        process = true;
-        pA = setTimeout('document.getElementById(\'process\').style.display = \'block\'', 500);
-    }
-}
-
-function stopProcessAnimation(){
-    if(process){
-        process = false;
-        clearTimeout(pA);
-        document.getElementById('process').style.display = 'none';
-    }
-
-}
-
-function sleep(){
-    return new Promise(resolve => setTimeout(resolve, 50));
 }
