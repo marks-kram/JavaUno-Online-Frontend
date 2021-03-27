@@ -25,11 +25,15 @@ function addBot(){
         name: app.botName
     };
     app.botName = '';
+    app.$cookies.set('gameUuid', app.gameUuid);
+    app.$cookies.set('playerUuid', app.playerUuid);
     doPostRequest('/player/add', data, loadGame);
 }
 
 function removeBot(player){
     let path = '/player/removeBot/' + app.gameUuid + '/' + player.botUuid;
+    app.$cookies.set('gameUuid', app.gameUuid);
+    app.$cookies.set('playerUuid', app.playerUuid);
     doDeleteRequest(path, loadGame);
 }
 

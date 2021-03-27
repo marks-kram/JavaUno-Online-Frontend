@@ -35,6 +35,8 @@ function put(card, index){
             gameUuid: app.gameUuid,
             playerUuid: app.playerUuid
         };
+        app.$cookies.set('gameUuid', app.gameUuid);
+        app.$cookies.set('playerUuid', app.playerUuid);
         doPostRequest('/turn/put', data, loadGame);
     }
 }
@@ -121,6 +123,8 @@ function isPlayersTurn(index){
 
 function doAction(action){
     const path = '/turn/' + action + '/' + app.gameUuid + '/' + app.playerUuid;
+    app.$cookies.set('gameUuid', app.gameUuid);
+    app.$cookies.set('playerUuid', app.playerUuid);
     doPostRequest(path, {}, loadGame);
 }
 
