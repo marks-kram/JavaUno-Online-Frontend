@@ -52,6 +52,7 @@ const doPushActionStartedGame = function(){
 };
 
 const doPushActionAddedPlayer = function(message){
+    app.winner = -1;
     if(message.body.startsWith('added-player')){
         const index = parseInt(message.body.replace(/^added-player:(\d).*$/, '$1'));
         if(isNotMe(index)){
@@ -64,6 +65,7 @@ const doPushActionAddedPlayer = function(message){
 };
 
 const  doPushActionRemovedPlayer = function(message){
+    app.winner = -1;
     if(message.body.startsWith('removed-player')){
         const index = parseInt(message.body.replace(/removed-player:/, ''));
         if(isNotMe(index)){

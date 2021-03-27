@@ -34,8 +34,7 @@ header img {
     color: #800;
 }
 
-#process {
-    display: none;
+#processingBg {
     position: fixed;
     top: 0;
     left: 0;
@@ -43,11 +42,64 @@ header img {
     height: 100%;
 }
 
-#process img {
-    position: relative;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+#processingAnimation, #processingEndAnimation {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 3px;
+}
+
+#processingAnimation {
+    background: #016b70;
+    border-left: 0 #00989f solid;
+    border-right: 0 #00989f solid;
+    animation: animateProcessing 2s linear infinite alternate;
+}
+
+#processingEndAnimation {
+    background: green;
+    border-left: 0 #00b100 solid;
+    opacity: 0;
+    animation: animateProcessingEnd 0.5s linear 1;
+}
+
+@keyframes animateProcessing {
+    0%   {
+        border-left-width: 0;
+        border-right-width: 0;
+    }
+    50%  {
+        border-left-width: 100vw;
+        border-right-width: 0;
+    }
+    51%  {
+        border-left-width: 100vw;
+        border-right-width: 100vw;
+    }
+    52%  {
+        border-left-width: 0;
+        border-right-width: 100vw;
+    }
+    100% {
+        border-left-width: 0;
+        border-right-width: 0;
+    }
+}
+
+@keyframes animateProcessingEnd {
+    0%   {
+        border-left-width: 0;
+        opacity: 0;
+    }
+    1%   {
+        border-left-width: 0;
+        opacity: 1;
+    }
+    100% {
+        border-left-width: 100vw;
+        opacity: 1;
+    }
 }
 
 #view-backend-down img {

@@ -2,7 +2,7 @@
 Cardgame - Multiplayer browser game - The Frontend
 
 ## Version
-1.1 (2020, Feb. 28th)
+1.2 (2020, Mar. 1st)
 
 ## Description
 The Frontend offers the view to the card game.\
@@ -37,7 +37,15 @@ See my version as fun project
 
 ## changeLog
 
+### Version 1.2
+* improved ux
+   * beautified processing animation
+
 ### Version 1.1
 * improved ux
    * show myself in players list instead of only showing the others
    * reverse display order of players if playing direction is reversed
+   
+### Version 1.1
+* fix
+  * do not show winner anymore, when player appears or disappears
