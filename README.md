@@ -37,6 +37,9 @@ See my version as fun project
 
 ## changeLog
 
+### Version 1.2
+* bugfix: restore cookies. could be removed while leaving another game
+
 ### Version 1.1
 * improved ux
    * show myself in players list instead of only showing the others
