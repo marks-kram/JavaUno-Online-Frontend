@@ -212,14 +212,17 @@
                 Bitte versuche es später wieder.
             </div>
         </div>
+
+        <!-- processing -->
+        <div id="processingBg" v-if="processing"></div>
+        <div id="processingAnimation" v-if="processing"></div>
+        <div id="processingEndAnimation" v-if="processingEnd"></div>
     </div>
 
     <div id="toasts"></div>
-    <div id="process">
-        <img src="/res/img/process.svg" alt="">
-    </div>
 
     <script src="/res/js/app.js"></script>
+    <script src="/res/js/app-processing.js"></script>
     <script src="/res/js/app-requests.js"></script>
     <script src="/res/js/app-game.js"></script>
     <script src="/res/js/app-player.js"></script>

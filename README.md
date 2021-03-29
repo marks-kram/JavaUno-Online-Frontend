@@ -38,6 +38,7 @@ See my version as fun project
 ## changeLog
 
 ### Version 1.2
+* improved ux: beautified processing animation
 * bugfix: restore cookies. could be removed while leaving another game
 
 ### Version 1.1
