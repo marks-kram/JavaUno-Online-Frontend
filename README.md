@@ -35,6 +35,11 @@ Following settings have to be made in config.js
 Notice: Mattel also offers an own free app to play UNO.
 See my version as fun project
 
+## tokenized-game-create
+* visitors have to provide a valid token to create a game
+* token is given by url (/?token=...)
+* token validation happens in backend (see: https://github.com/tomatenmark/JavaUno-Online-Backend/blob/master/readme.md#tokenized-game-create)
+
 ## changeLog
 
 ### Version 1.2

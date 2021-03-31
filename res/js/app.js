@@ -25,7 +25,8 @@ const data = {
     btnCreateGameDisabled: false,
     btnJoinGameDisabled: false,
     processing: false,
-    processingEnd: false
+    processingEnd: false,
+    token: 'empty'
 };
 
 const methods = {
