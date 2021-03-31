@@ -2,7 +2,7 @@
 Cardgame - Multiplayer browser game - The Frontend
 
 ## Version
-1.1 (2020, Feb. 28th)
+1.2 (2020, March 1st)
 
 ## Description
 The Frontend offers the view to the card game.\
@@ -36,6 +36,10 @@ Notice: Mattel also offers an own free app to play UNO.
 See my version as fun project
 
 ## tokenized-game-create
+* Optional feature
+  * Disable: put features.enableTokenizedGameCreate=false; in /features.js
+  * Enable: put features.enableTokenizedGameCreate=true; in /features.js
+  * Default: disabled
 * visitors have to provide a valid token to create a game
 * token is given by url (/?token=...)
 * token validation happens in backend (see: https://github.com/tomatenmark/JavaUno-Online-Backend/blob/master/readme.md#tokenized-game-create)
