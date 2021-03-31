@@ -1,8 +1,7 @@
 function setGame(data){
     app.gameUuid = data.gameUuid;
     app.$cookies.set('gameUuid', app.gameUuid);
-    connectPush(app.gameUuid);
-    loadGameWithoutPlayer();
+    self.location.replace('/');
 }
 
 let setGameStateRunning = false;
@@ -50,8 +49,11 @@ function loadGameWithoutPlayer(){
 }
 
 function createGame() {
+    if(config.enableTokenizedGameCreate && app.token === ''){
+        return;
+    }
     app.btnCreateGameDisabled = true;
-    doPostRequest('/game/create', {}, setGame);
+    doPostRequest('/game/create/'+app.token, {}, setGame);
 }
 
 function startGame(){
@@ -77,20 +79,29 @@ function handleInvitation(){
     }
 }
 
+function handleToken(){
+    if(!features.enableTokenizedGameCreate){
+        return;
+    }
+    const urlParams = new URLSearchParams(window.location.search);
+    const token = urlParams.get('token');
+    app.token = (token === null || token === '') ? 'empty' : token.replace('/', '');
+}
+
 function init(){
     const invitation = app.$cookies.get('invitation');
     if(invitation != null && invitation === '1'){
         app.invitation = true;
     }
     const gameUuid = app.$cookies.get('gameUuid');
-    if(gameUuid == null || gameUuid === undefined){
-        app.currentView = 'start';
+    if(gameUuid == null){
+        app.currentView = (features.enableTokenizedGameCreate && app.token === 'empty') ? 'noToken' : 'start';
         return;
     }
     app.gameUuid = gameUuid;
     connectPush(gameUuid);
     const playerUuid = app.$cookies.get('playerUuid');
-    if(playerUuid != null && playerUuid !== undefined){
+    if(playerUuid != null){
         app.playerUuid = playerUuid;
         app.loadGame();
     } else {
@@ -100,6 +111,7 @@ function init(){
 
 window.addEventListener("load", function() {
     handleInvitation();
+    handleToken();
     init();
     document.getElementById('javaUno').style.display = 'block';
 });

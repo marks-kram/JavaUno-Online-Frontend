@@ -14,6 +14,7 @@
     <link rel="stylesheet" type="text/css" href="/res/css/view-set-players.css">
     <link rel="stylesheet" type="text/css" href="/res/css/view-game.css">
     <script src="/res/js/config.js"></script>
+    <script src="./features.js"></script>
     <script src="/res/js/vue-core.js"></script>
     <script src="/res/js/vue-cookies.js"></script>
     <script src="/res/js/vue-resource.js"></script>
@@ -34,7 +35,7 @@
     <div id="javaUno">
 
         <!-- Start/Join view - From here a game can be created or joined -->
-        <div id="view-start" v-if="currentView === 'start' || currentView === 'join'">
+        <div id="view-start" v-if="currentView === 'start' || currentView === 'join' || currentView === 'noToken'">
             <p v-if="!invitation">
                 Spiele das beliebte Kartenspiel UNO online am PC oder Smartphone.<br>
                 Du kannst mit Freunden spielen oder aber auch alleine gegen computergesteuerte Gegner.
@@ -45,6 +46,14 @@
             </p>
             <input v-if="currentView === 'join'" type="text" v-model="name" placeholder="Name (optional)">
             <button v-if="currentView === 'start'" @click="createGame()" v-bind:disabled="btnCreateGameDisabled">Spielspaß beginnen</button>
+            <div v-if="currentView === 'noToken'">
+                <button disabled="disabled">Spielspaß beginnen</button><br><br>
+                Um zu spielen musst du einen der beiden folgenden Links erhalten:
+                <ul>
+                    <li>Erstellungslink: Enthält einen Token zur Berechtigung ein Uno-Spiel zu erstellen</li>
+                    <li>Einladungslink: Enthält Daten zu einem bestehenden Spiel, um diesem beizutreten</li>
+                </ul>
+            </div>
             <button v-if="currentView === 'join'" @click="joinGame()"
                     v-bind:disabled="gameState.players.length >= 8 || gameState.game.gameLifecycle === 'RUNNING' || btnJoinGameDisabled">
                 <span v-if="invitation">Jetzt mitspielen</span>
