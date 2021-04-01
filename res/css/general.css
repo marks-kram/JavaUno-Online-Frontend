@@ -198,3 +198,10 @@ header a:active {
         font-size: 0.8rem;
     }
 }
+
+#legalHint {
+    position: fixed;
+    bottom: 4px;
+    left: 7px;
+    color: #7b7b7b;
+}
