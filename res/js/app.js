@@ -1,5 +1,6 @@
 Vue.config.devtools = config.vueDevToolsEnabled;
-const hostname = location.hostname;
+const siteHostname = location.hostname;
+const siteProtocol = location.protocol;
 
 const gameState = {
     success: true,
@@ -41,7 +42,7 @@ const methods = {
     startGame: function (){startGame()},
     getPlayerName: function(name, index){ return getPlayerName(name, index)},
     copyLink: function(){copyLink()},
-    showQrCode: function () {showQrCode()},
+    showInvitationQrCode: function () {showInvitationQrCode()},
     getCardImage: function(card, size) { return getCardImage(card, size) },
     put: function(card, index) { put(card, index) },
     draw: function() { draw() },

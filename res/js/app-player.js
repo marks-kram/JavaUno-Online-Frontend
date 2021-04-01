@@ -58,12 +58,7 @@ function copyLink(){
     showToast('Erfolgreich kopiert!');
 }
 
-function showQrCode(){
-    const typeNumber = 0;
-    const errorCorrectionLevel = 'L';
-    const qr = qrcode(typeNumber, errorCorrectionLevel);
-    qr.addData('https://' + hostname + '/invitation.html#game:' + app.gameUuid);
-    qr.make();
-    app.qr = qr.createDataURL(8, 32, '');
+function showInvitationQrCode(){
+    app.qr = genQr(siteProtocol+'//' + siteHostname + '/invitation.html#game:' + app.gameUuid);
     app.showQr = true;
 }
