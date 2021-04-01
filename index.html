@@ -20,7 +20,7 @@
     <script src="/res/js/vue-resource.js"></script>
     <script src="/res/js/toaster.js"></script>
     <script src="/res/js/toast.js"></script>
-    <script src="/res/js/qr.js"></script>
+    <script src="/res/js/qr-generator.js"></script>
     <script src="/res/js/countdown.js"></script>
     <script src="/res/js/sockjs.min.js"></script>
     <script src="/res/js/stomp.min.js"></script>
@@ -48,10 +48,20 @@
             <button v-if="currentView === 'start'" @click="createGame()" v-bind:disabled="btnCreateGameDisabled">Spielspaß beginnen</button>
             <div v-if="currentView === 'noToken'">
                 <button disabled="disabled">Spielspaß beginnen</button><br><br>
-                Um zu spielen musst du einen der beiden folgenden Links erhalten:
+                Du hast folgende Möglichkeiten:
                 <ul>
-                    <li>Erstellungslink: Enthält einen Token zur Berechtigung ein Uno-Spiel zu erstellen</li>
-                    <li>Einladungslink: Enthält Daten zu einem bestehenden Spiel, um diesem beizutreten</li>
+                    <li>Bestehendem Spiel beitreten
+                        <ul>
+                            <li>Erhalte einen Einladungslink</li>
+                            <li>Scanne den QR-Code eines Freundes, der ein Spiel erstellt hat</li>
+                        </ul>
+                    </li>
+                    <li>Neues Uno-Spiel erstellen
+                        <ul>
+                            <li>Erhalte einen Erstellungslink. Er enthält einen Token zur Berechtigung ein Uno-Spiel zu erstellen</li>
+                            <li>Scanne den Token-QR-Code den du erhalten hast</li>
+                        </ul>
+                    </li>
                 </ul>
             </div>
             <button v-if="currentView === 'join'" @click="joinGame()"
@@ -239,7 +249,7 @@
     <script src="/res/js/app-turn.js"></script>
     <script src="/res/js/push.js"></script>
 
-    <div class="legalHint">
+    <div id="legalHint">
         Private fun project by Tomatenmark - Not related to Mattel or their original game.
     </div>
 </body>
