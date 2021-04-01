@@ -88,6 +88,11 @@ function handleToken(){
     app.token = (token === null || token === '') ? 'empty' : token.replace('/', '');
 }
 
+function isTokenPatternValid(token){
+    const tokenRegex = "^([a-zA-Z0-9_-]{11})\\.([a-zA-Z0-9_-]{11})$";
+    return new RegExp(tokenRegex).test(token);
+}
+
 function init(){
     const invitation = app.$cookies.get('invitation');
     if(invitation != null && invitation === '1'){
@@ -95,7 +100,7 @@ function init(){
     }
     const gameUuid = app.$cookies.get('gameUuid');
     if(gameUuid == null){
-        app.currentView = (features.enableTokenizedGameCreate && app.token === 'empty') ? 'noToken' : 'start';
+        app.currentView = (features.enableTokenizedGameCreate && !isTokenPatternValid(app.token)) ? 'noToken' : 'start';
         return;
     }
     app.gameUuid = gameUuid;
