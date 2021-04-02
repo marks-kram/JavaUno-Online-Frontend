@@ -10,5 +10,13 @@ function genQr(data){
 
 function handleQrScanResult(result){
     console.debug(result);
+    if(result.indexOf(app.protocol+'://'+app.hostname+'/') >= 0){
+        self.location.href = result;
+    } else {
+        console.log('skipped redirection to qr code target. target is cross-site');
+    }
+}
 
+function scanQr(){
+    document.getElementById('qrScanBtn').click();
 }
