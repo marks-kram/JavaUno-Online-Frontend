@@ -88,9 +88,9 @@ function handleToken(){
     app.token = (token === null || token === '') ? 'empty' : token.replace('/', '');
 }
 
-function isTokenPatternValid(token){
+function isTokenPatternValid(){
     const tokenRegex = "^([a-zA-Z0-9_-]{11})\\.([a-zA-Z0-9_-]{11})$";
-    return new RegExp(tokenRegex).test(token);
+    return new RegExp(tokenRegex).test(app.token);
 }
 
 function init(){
@@ -100,7 +100,9 @@ function init(){
     }
     const gameUuid = app.$cookies.get('gameUuid');
     if(gameUuid == null){
-        app.currentView = (features.enableTokenizedGameCreate && !isTokenPatternValid(app.token)) ? 'noToken' : 'start';
+        app.currentView = 'start';
+        app.tokenValidPattern = isTokenPatternValid();
+        app.tokenLockedGameCreate = features.enableTokenizedGameCreate && !isTokenPatternValid();
         return;
     }
     app.gameUuid = gameUuid;

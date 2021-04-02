@@ -25,7 +25,9 @@ const data = {
     btnJoinGameDisabled: false,
     processing: false,
     processingEnd: false,
+    enableTokenizedGameCreate: features.enableTokenizedGameCreate,
     token: 'empty',
+    tokenLockedGameCreate: false,
     hostname: config.siteHostname,
     protocol: config.siteProtocol,
     hasCamera: false
@@ -54,7 +56,8 @@ const methods = {
     isDrawAllowed: function() { return isDrawAllowed() },
     isSayUnoAllowed: function() { return isSayUnoAllowed() },
     isMyTurn: function() { return isMyTurn() },
-    isPlayersTurn: function(index) { return isPlayersTurn(index) }
+    isPlayersTurn: function(index) { return isPlayersTurn(index) },
+    scanQr: function() { scanQr() }
 };
 
 const app = new Vue({

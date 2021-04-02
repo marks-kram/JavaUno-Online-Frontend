@@ -44,26 +44,26 @@
                 Mach' mit beim beliebten Kartenspiel UNO.<br>
                 Du wurdest eingeladen, mitzuspielen. Viel Spaß!
             </p>
-            <input v-if="currentView === 'join'" type="text" v-model="name" placeholder="Name (optional)">
-            <button v-if="currentView === 'start'" @click="createGame()" v-bind:disabled="btnCreateGameDisabled">Spielspaß beginnen</button>
-            <div v-if="currentView === 'noToken'">
-                <button disabled="disabled">Spielspaß beginnen</button><br><br>
-                Du hast folgende Möglichkeiten:
+            <div v-if="currentView === 'start'">
+                Wege zum Spielspaß:
                 <ul>
+                    <li>Neues Uno-Spiel erstellen
+                        <ul v-if="tokenLockedGameCreate">
+                            <li>Erhalte einen Erstellungslink. Er enthält einen Token zur Berechtigung ein Uno-Spiel zu erstellen</li>
+                            <li v-if="hasCamera">Scanne den Token-QR-Code den du erhalten hast</li>
+                        </ul>
+                    </li>
                     <li>Bestehendem Spiel beitreten
                         <ul>
                             <li>Erhalte einen Einladungslink</li>
-                            <li>Scanne den QR-Code eines Freundes, der ein Spiel erstellt hat</li>
-                        </ul>
-                    </li>
-                    <li>Neues Uno-Spiel erstellen
-                        <ul>
-                            <li>Erhalte einen Erstellungslink. Er enthält einen Token zur Berechtigung ein Uno-Spiel zu erstellen</li>
-                            <li>Scanne den Token-QR-Code den du erhalten hast</li>
+                            <li v-if="hasCamera">Scanne den QR-Code eines Freundes, der ein Spiel erstellt hat</li>
                         </ul>
                     </li>
                 </ul>
+                <button v-if="hasCamera" @click="scanQr()" class="small">QR-Code scannen</button>
             </div>
+            <input v-if="currentView === 'join'" type="text" v-model="name" placeholder="Name (optional)">
+            <button v-if="currentView === 'start' && !tokenLockedGameCreate" @click="createGame()" v-bind:disabled="btnCreateGameDisabled">Uno-Spiel erstellen</button>
             <button v-if="currentView === 'join'" @click="joinGame()"
                     v-bind:disabled="gameState.players.length >= 8 || gameState.game.gameLifecycle === 'RUNNING' || btnJoinGameDisabled">
                 <span v-if="invitation">Jetzt mitspielen</span>
