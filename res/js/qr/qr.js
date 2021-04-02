@@ -7,3 +7,8 @@ function genQr(data){
     qr.make();
     return qr.createDataURL(8, 32, '');
 }
+
+function handleQrScanResult(result){
+    console.debug(result);
+
+}

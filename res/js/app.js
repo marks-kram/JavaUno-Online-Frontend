@@ -1,6 +1,4 @@
 Vue.config.devtools = config.vueDevToolsEnabled;
-const siteHostname = location.hostname;
-const siteProtocol = location.protocol;
 
 const gameState = {
     success: true,
@@ -27,7 +25,8 @@ const data = {
     btnJoinGameDisabled: false,
     processing: false,
     processingEnd: false,
-    token: 'empty'
+    token: 'empty',
+    hasCamera: false
 };
 
 const methods = {

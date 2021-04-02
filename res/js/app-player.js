@@ -59,6 +59,6 @@ function copyLink(){
 }
 
 function showInvitationQrCode(){
-    app.qr = genQr(siteProtocol+'//' + siteHostname + '/invitation.html#game:' + app.gameUuid);
+    app.qr = genQr(config.siteProtocol+'//' + config.siteHostname + '/invitation.html#game:' + app.gameUuid);
     app.showQr = true;
 }
