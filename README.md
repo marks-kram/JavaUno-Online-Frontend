@@ -49,8 +49,14 @@ There are two files for config:
 * visitors have to provide a valid token to create a game
 * token is given by url (/?token=...)
 * token validation happens in backend (see: https://github.com/tomatenmark/JavaUno-Online-Backend/blob/master/readme.md#tokenized-game-create)
+* frontend with this feature (enabled or disable) is not compatible with backend without the feature
 
 ## changeLog
+
+### Version 2.0
+* New feature: built-in qr-scanner
+* New optional feature: tokenized-game-create (see #tokenized-game-create)
+* Security: use trusted base for urls in generated qr-codes
 
 ### Version 1.2
 * improved ux: beautified processing animation
