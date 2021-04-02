@@ -101,8 +101,8 @@
                 <textarea id="invitation-link-toCopy">{{protocol}}://{{hostname}}/invitation.html#game:{{gameUuid}}</textarea>
                 <span id="invitation-link">{{protocol}}://{{hostname}}/invitation.html#game:{{gameUuid}}</span>
                 <br><br>
-                Oder, wenn sie eh bei dir sind, lasse einfach den
-                <button class="small" @click="showQrCode()">QR-Code scannen</button>
+                Oder, wenn sie eh bei dir sind, lasse einfach den QR-Code scannen.<br>
+                <button class="small" @click="showQrCode()">QR-Code anzeigen</button>
                 <div id="invitation-qr" v-show="showQr">
                     <div id="invitation-qr-code">
                         <img v-bind:src="qr" alt="">
