@@ -26,6 +26,8 @@ const data = {
     processing: false,
     processingEnd: false,
     token: 'empty',
+    hostname: config.siteHostname,
+    protocol: config.siteProtocol,
     hasCamera: false
 };
 
