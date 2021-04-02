@@ -7,5 +7,3 @@ function genQr(data){
     qr.make();
     return qr.createDataURL(8, 32, '');
 }
-
-//TODO: check this: https://github.com/nimiq/qr-scanner
