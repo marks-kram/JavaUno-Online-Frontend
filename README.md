@@ -1,5 +1,5 @@
 # JavaUno-Online-Frontend
-Cardgame - Multiplayer browser game - The Frontend
+Card game - Multiplayer browser game - The Frontend
 
 ## Version
 1.1 (2020, Feb. 28th)
