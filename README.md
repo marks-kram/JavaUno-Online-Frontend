@@ -13,14 +13,6 @@ You can use your own backend or use my backend under: https://github.com/tomaten
 If you want to use your own backend, it has to offer the same api endpoints like my backend
 (see README.md of my backend to get further information)
 
-## Configuration
-Following settings have to be made in config.js
-* apiBase: the base url for the backend api ()
-* vueDevToolsEnabled: set the value to true, to use vue devtools in browser, not recommended is production
-* error messages from backend for no such game and no such player (used to handle out dated cookies)
-    * noSuchGameMessage: error message for no such game
-    * noSuchPlayerMessage: error message for no such player
-
 ### Spielanleitung
 ./manual.pdf
 
