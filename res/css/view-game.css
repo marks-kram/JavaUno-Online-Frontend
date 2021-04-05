@@ -206,6 +206,12 @@ body.hover #drawPile.enabled:hover, body.hover #ownCards picture.enabled:hover, 
     text-align: center;
 }
 
+#in-game-switch-device {
+    position: fixed;
+    bottom: 15px;
+    right: 15px;
+}
+
 @media (max-width: 859px), (max-height: 907px) {
     #players .player .name {
         font-size: 0.5rem;
@@ -262,5 +268,9 @@ body.hover #drawPile.enabled:hover, body.hover #ownCards picture.enabled:hover, 
     #ownCards button {
         left: 45px;
         font-size: 0.8rem;
+    }
+
+    #in-game-switch-device {
+        bottom: 45px;
     }
 }
