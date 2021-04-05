@@ -11,12 +11,15 @@ const gameState = {
 
 const data = {
     winner: -1,
-    showQr: false,
+    showInvitationQr: false,
+    showSwitchOutQr: false,
+    showSwitchInQr: false,
     qr: '',
     gameUuid: '',
     playerUuid: '',
     invitation: false,
     currentView: '',
+    previousView: '',
     name: '',
     botName: '',
     gameState: gameState,
@@ -30,7 +33,11 @@ const data = {
     tokenLockedGameCreate: false,
     hostname: config.siteHostname,
     protocol: config.siteProtocol,
-    hasCamera: false
+    hasCamera: false,
+    pendingRemoveAfterSwitch: false,
+    pendingSwitch: false,
+    pushUuid: '',
+    dialog: null
 };
 
 const methods = {
@@ -57,7 +64,13 @@ const methods = {
     isSayUnoAllowed: function() { return isSayUnoAllowed() },
     isMyTurn: function() { return isMyTurn() },
     isPlayersTurn: function(index) { return isPlayersTurn(index) },
-    scanQr: function() { scanQr() }
+    scanQr: function() { scanQr() },
+    prepareSwitchDevice: function (){ prepareSwitchDevice() },
+    abortSwitchDevice: function (){ abortSwitchDevice() },
+    prepareSwitchOut: function (){ prepareSwitchOut() },
+    abortSwitchOut: function (){ abortSwitchOut() },
+    prepareSwitchIn: function (){ prepareSwitchIn() },
+    abortSwitchIn: function (){ abortSwitchIn() }
 };
 
 const app = new Vue({
@@ -74,4 +87,11 @@ function hasTouch() {
 
 if(!hasTouch()){
     document.body.setAttribute('class', 'hover');
+}
+
+function showErrorDialog(text){
+    app.dialog = {
+        error: true,
+        text: text
+    }
 }
