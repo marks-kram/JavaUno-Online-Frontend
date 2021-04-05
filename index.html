@@ -13,21 +13,21 @@
     <link rel="stylesheet" type="text/css" href="/res/css/view-start.css">
     <link rel="stylesheet" type="text/css" href="/res/css/view-set-players.css">
     <link rel="stylesheet" type="text/css" href="/res/css/view-game.css">
-    <script src="/res/js/config.js"></script>
-    <script src="./features.js"></script>
+    <script src="/res/js/config-default.js"></script>
+    <script src="config.js"></script>
     <script src="/res/js/vue-core.js"></script>
     <script src="/res/js/vue-cookies.js"></script>
     <script src="/res/js/vue-resource.js"></script>
     <script src="/res/js/toaster.js"></script>
     <script src="/res/js/toast.js"></script>
-    <script src="/res/js/qr.js"></script>
+    <script src="/res/js/qr/qr-generator.js"></script>
     <script src="/res/js/countdown.js"></script>
     <script src="/res/js/sockjs.min.js"></script>
     <script src="/res/js/stomp.min.js"></script>
 </head>
 <body>
     <header>
-        <img src="/res/img/logo.png" alt="">
+        <img src="/res/img/logo.png" alt="" onclick="self.location.href='/';">
         <a href="/manual.pdf" target="_blank">Bedienungs- und Spielanleitung</a>
     </header>
     <noscript>JavaUno als Browsergame basiert auf JavaScript. Bitte aktiviere JavaScript in deinen Browsereinstellungen.</noscript>
@@ -38,27 +38,41 @@
         <div id="view-start" v-if="currentView === 'start' || currentView === 'join' || currentView === 'noToken'">
             <p v-if="!invitation">
                 Spiele das beliebte Kartenspiel UNO online am PC oder Smartphone.<br>
-                Du kannst mit Freunden spielen oder aber auch alleine gegen computergesteuerte Gegner.
+                Du kannst mit Freunden spielen oder aber auch alleine gegen computergesteuerte Gegner.<br>
             </p>
             <p v-if="invitation">
                 Mach' mit beim beliebten Kartenspiel UNO.<br>
                 Du wurdest eingeladen, mitzuspielen. Viel Spaß!
             </p>
-            <input v-if="currentView === 'join'" type="text" v-model="name" placeholder="Name (optional)">
-            <button v-if="currentView === 'start'" @click="createGame()" v-bind:disabled="btnCreateGameDisabled">Spielspaß beginnen</button>
-            <div v-if="currentView === 'noToken'">
-                <button disabled="disabled">Spielspaß beginnen</button><br><br>
-                Um zu spielen musst du einen der beiden folgenden Links erhalten:
-                <ul>
-                    <li>Erstellungslink: Enthält einen Token zur Berechtigung ein Uno-Spiel zu erstellen</li>
-                    <li>Einladungslink: Enthält Daten zu einem bestehenden Spiel, um diesem beizutreten</li>
-                </ul>
+            <div v-if="currentView === 'start'">
+                <p>
+                    <span v-if="enableTokenizedGameCreate">Um zu spielen brauchst du eine Einladung zum Mitspielen oder
+                        einen Token zur Berechtigung, ein neues Uno-Spiels zu erstellen.</span>
+                    <span v-if="!enableTokenizedGameCreate">Erstelle ein neues Uno-Spiel oder erhalte eine Einladung zum Mitspielen.</span>
+                </p>
+                <p>
+                    <button v-if="currentView === 'start' && !tokenLockedGameCreate" @click="createGame()"
+                            v-bind:disabled="tokenLockedGameCreate || btnCreateGameDisabled">Uno-Spiel erstellen</button><br>
+                    <span v-if="tokenLockedGameCreate" class="smallButtonDescription">(Berechtigungstoken erforderlich)</span>
+                </p>
+                <p v-if="hasCamera">
+                    <button @click="scanQr()" class="small">QR-Code scannen</button><br>
+                    <span v-if="tokenLockedGameCreate" class="smallButtonDescription">(Für Tokens, und Einladungen)</span>
+                    <span v-if="!tokenLockedGameCreate" class="smallButtonDescription">(Für Einladungen)</span>
+                </p>
+                <p>
+                    <button @click="prepareSwitchDevice()" class="small">Gerät wechseln</button><br>
+                    <span  class="smallButtonDescription">(Bestehendes Spiel hierhin wechseln)</span>
+                </p>
             </div>
-            <button v-if="currentView === 'join'" @click="joinGame()"
-                    v-bind:disabled="gameState.players.length >= 8 || gameState.game.gameLifecycle === 'RUNNING' || btnJoinGameDisabled">
-                <span v-if="invitation">Jetzt mitspielen</span>
-                <span v-if="!invitation">Jetzt loslegen</span>
-            </button>
+            <div v-if="currentView === 'join'">
+                <input type="text" v-model="name" placeholder="Name (optional)">
+                <button @click="joinGame()"
+                        v-bind:disabled="gameState.players.length >= 8 || gameState.game.gameLifecycle === 'RUNNING' || btnJoinGameDisabled">
+                    <span v-if="invitation">Jetzt mitspielen</span>
+                    <span v-if="!invitation">Jetzt loslegen</span>
+                </button>
+            </div>
             <div  class="errMsg" v-if="currentView === 'join' && gameState.players.length >= 8">
                 Die maximale Spieleranzahl (8) wurde erreicht.
             </div>
@@ -86,21 +100,19 @@
             <h3>Spieler hinzufügen</h3>
             <div id="add-players" v-if="gameState.players.length < 8">
                 Freunde einladen:<br>
-                Schicke deinen Freunden folgenden Link:<br>
-                <button class="small" @click="copyLink()">Kopieren</button>
-                <textarea id="invitation-link-toCopy">https://{{hostname}}/invitation.html#game:{{gameUuid}}</textarea>
-                <span id="invitation-link">https://{{hostname}}/invitation.html#game:{{gameUuid}}</span>
-                <br><br>
-                Oder, wenn sie eh bei dir sind, lasse einfach den
-                <button class="small" @click="showQrCode()">QR-Code scannen</button>
-                <div id="invitation-qr" v-show="showQr">
-                    <div id="invitation-qr-code">
+                Schicke deinen Freunden folgenden Link oder lasse sie den QR-Code scannen:<br>
+                <textarea id="invitation-link-toCopy">{{protocol}}://{{hostname}}/invitation.html#game:{{gameUuid}}</textarea>
+                <span id="invitation-link">{{protocol}}://{{hostname}}/invitation.html#game:{{gameUuid}}</span><br><br>
+                <button class="small" @click="copyLink()">Link Kopieren</button>&emsp;
+                <button class="small" @click="showQrCode()">QR-Code anzeigen</button>
+                <div v-show="showInvitationQr">
+                    <div >
                         <img v-bind:src="qr" alt="">
                     </div>
-                    <button class="small" @click="showQr = false">ausblenden</button>
+                    <button class="small" @click="showInvitationQr = false">ausblenden</button>
                 </div>
                 <br><br>
-                Alternativ kannst du einen computergesteuerten Gegner hinzufügen.<br>
+                Alternativ kannst du einen computergesteuerten Gegner hinzufügen:<br>
                 <input class="small" type="text" v-model="botName" placeholder="Name (optional)">
                 <button class="small" @click="addBot()">Hinzufügen</button>
             </div>
@@ -115,6 +127,9 @@
                     Es werden mindestens 2 Spieler benötigt.
                 </div>
             </div>
+            <p>
+                <button @click="prepareSwitchDevice()" class="small">Gerät wechseln</button>
+            </p>
         </div>
 
         <!-- running game view - shows the running game -->
@@ -195,7 +210,40 @@
                             @click="keep()">&larr; Behalten</button>
                 </div>
             </div>
+            <button @click="prepareSwitchDevice()" class="small" id="in-game-switch-device">Gerät wechseln</button>
         </div>
+
+        <!-- switch device view -->
+        <div id="view-switch-device" v-if="currentView === 'switch-device'">
+            <button v-if="!showSwitchInQr && !showSwitchOutQr" class="small" @click="abortSwitchDevice()">Abbrechen</button><br><br>
+            Der Wechsel ist kinderleicht. Voraussetzung: Mindestens eines der beiden Geräte braucht eine Kamera.<br><br>
+            <div v-if="gameUuid !== null && gameUuid !== ''">
+                <button class="small" @click="prepareSwitchOut()">QR-Code anzeigen</button><br>
+                <div v-show="showSwitchOutQr">
+                    Scanne den QR-Code, um den Wechsel durchzuführen.
+                    <div>
+                        <img v-bind:src="qr" alt="">
+                    </div>
+                    <button class="small" @click="abortSwitchOut()">Abbrechen</button>
+                </div>
+            </div>
+            <div v-if="gameUuid === null || gameUuid === ''">
+                <p>
+                    <button class="small" @click="prepareSwitchIn()">QR-Code anzeigen</button>
+                </p>
+                <div v-show="showSwitchInQr">
+                    Scanne den QR-Code, um den Wechsel durchzuführen.
+                    <div>
+                        <img v-bind:src="qr" alt="">
+                    </div>
+                    <button class="small" @click="abortSwitchIn()">Abbrechen</button>
+                </div>
+            </div>
+            <p>
+                <button v-if="hasCamera" class="small" @click="scanQr()">QR-Code scannen</button>
+            </p>
+        </div>
+
 
         <!-- lightbox to show winner -->
         <div id="finished" class="lightbox" v-if="winner >= 0">
@@ -226,16 +274,38 @@
         <div id="processingBg" v-if="processing"></div>
         <div id="processingAnimation" v-if="processing"></div>
         <div id="processingEndAnimation" v-if="processingEnd"></div>
+
+        <!-- dialogs -->
+        <div v-if="dialog!==null">
+            <div id="dialogBackground" @click="dialog=null"></div>
+            <div id="dialogElement">
+                <div v-bind:class="dialog.error ? 'errMsg' : ''">{{dialog.text}}</div>
+                <button type="button" class="small" @click="dialog=null">OK</button>
+            </div>
+        </div>
     </div>
 
     <div id="toasts"></div>
 
     <script src="/res/js/app.js"></script>
+    <script src="/res/js/qr/qr.js"></script>
+    <script type="module" src="/res/js/qr/qr-scan.js"></script>
     <script src="/res/js/app-processing.js"></script>
     <script src="/res/js/app-requests.js"></script>
     <script src="/res/js/app-game.js"></script>
     <script src="/res/js/app-player.js"></script>
     <script src="/res/js/app-turn.js"></script>
     <script src="/res/js/push.js"></script>
+
+    <div id="legalHint">
+        Private fun project by Tomatenmark - Not related to Mattel or their original game.
+    </div>
+
+    <div id="qrScanBg"></div>
+    <video id="qrScanVideo"></video>
+    <button id="qrScanBtn"></button>
+    <button class="small" id="qrScanStopBtn">Abbrechen</button>
+
+
 </body>
 </html>

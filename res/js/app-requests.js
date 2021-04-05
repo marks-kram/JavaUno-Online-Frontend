@@ -37,12 +37,12 @@ function handleRequestError(response) {
             self.location.reload();
         }
         if(response.data.message === invalidTokenMessage){
-            alert('Fehler: Ungültiger Token. Veralteter/Fehlerhafter Link?');
+            showErrorDialog('Fehler: Ungültiger Token. Veralteter/Fehlerhafter Link?');
             self.location.replace('/');
         }
         if(response.data.message === fileReadErrorMessage){
-            alert('Fehler: Token konnte nicht validiert werden, wegen eines Datei-Lesefehlers im Backend.\n' +
-                'Versuche es später erneut und teile mir diesen Fehler mit.');
+            showErrorDialog('Fehler: Token konnte nicht validiert werden, wegen eines Datei-Lesefehlers im Backend. ' +
+                'Versuche es später erneut und/oder teile mir diesen Fehler mit.');
         }
     } else {
         console.error("Request-Error: responseObject: " + JSON.stringify(response));

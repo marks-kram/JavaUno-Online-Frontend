@@ -1,8 +1,8 @@
 # JavaUno-Online-Frontend
-Cardgame - Multiplayer browser game - The Frontend
+Card game - Multiplayer browser game - The Frontend
 
 ## Version
-1.2 (2020, March 1st)
+2.0 (2021, April, 5th)
 
 ## Description
 The Frontend offers the view to the card game.\
@@ -13,13 +13,21 @@ You can use your own backend or use my backend under: https://github.com/tomaten
 If you want to use your own backend, it has to offer the same api endpoints like my backend
 (see README.md of my backend to get further information)
 
-## Configuration
-Following settings have to be made in config.js
-* apiBase: the base url for the backend api ()
-* vueDevToolsEnabled: set the value to true, to use vue devtools in browser, not recommended is production
-* error messages from backend for no such game and no such player (used to handle out dated cookies)
-    * noSuchGameMessage: error message for no such game
-    * noSuchPlayerMessage: error message for no such player
+## Config
+There are two files for config:
+* /res/js/config-default.js: This file holds all the settings and its default values. It is part of the git repository
+* /config.js: This file is used to override the settings of config-default.js. It is NOT part of the git repository
+  * Example to override the siteHostname: config.siteHostname='javauno.example.com';
+
+## tokenized-game-create
+* Optional feature
+  * Disable: put features.enableTokenizedGameCreate=false; in /config.js
+  * Enable: put features.enableTokenizedGameCreate=true; in /config.js
+  * Default: disabled
+* visitors have to provide a valid token to create a game
+* token is given by url (/?token=...)
+* token validation happens in backend (see: https://github.com/tomatenmark/JavaUno-Online-Backend/blob/master/readme.md#tokenized-game-create)
+* frontend with this feature (enabled or disable) is not compatible with backend without the feature
 
 ### Spielanleitung
 ./manual.pdf
@@ -35,16 +43,13 @@ Following settings have to be made in config.js
 Notice: Mattel also offers an own free app to play UNO.
 See my version as fun project
 
-## tokenized-game-create
-* Optional feature
-  * Disable: put features.enableTokenizedGameCreate=false; in /features.js
-  * Enable: put features.enableTokenizedGameCreate=true; in /features.js
-  * Default: disabled
-* visitors have to provide a valid token to create a game
-* token is given by url (/?token=...)
-* token validation happens in backend (see: https://github.com/tomatenmark/JavaUno-Online-Backend/blob/master/readme.md#tokenized-game-create)
-
 ## changeLog
+
+### Version 2.0
+* New feature: built-in qr-scanner
+* New optional feature: tokenized-game-create (see #tokenized-game-create) (limited downwards compatibility)
+* New feature: You can switch the game to another device
+* Security: use trusted base for urls in generated qr-codes
 
 ### Version 1.2
 * improved ux: beautified processing animation
@@ -54,3 +59,4 @@ See my version as fun project
 * improved ux
    * show myself in players list instead of only showing the others
    * reverse display order of players if playing direction is reversed
+  

@@ -1,5 +1,4 @@
 Vue.config.devtools = config.vueDevToolsEnabled;
-const hostname = location.hostname;
 
 const gameState = {
     success: true,
@@ -12,12 +11,15 @@ const gameState = {
 
 const data = {
     winner: -1,
-    showQr: false,
+    showInvitationQr: false,
+    showSwitchOutQr: false,
+    showSwitchInQr: false,
     qr: '',
     gameUuid: '',
     playerUuid: '',
     invitation: false,
     currentView: '',
+    previousView: '',
     name: '',
     botName: '',
     gameState: gameState,
@@ -26,7 +28,16 @@ const data = {
     btnJoinGameDisabled: false,
     processing: false,
     processingEnd: false,
-    token: 'empty'
+    enableTokenizedGameCreate: features.enableTokenizedGameCreate,
+    token: 'empty',
+    tokenLockedGameCreate: false,
+    hostname: config.siteHostname,
+    protocol: config.siteProtocol,
+    hasCamera: false,
+    pendingRemoveAfterSwitch: false,
+    pendingSwitch: false,
+    pushUuid: '',
+    dialog: null
 };
 
 const methods = {
@@ -41,7 +52,7 @@ const methods = {
     startGame: function (){startGame()},
     getPlayerName: function(name, index){ return getPlayerName(name, index)},
     copyLink: function(){copyLink()},
-    showQrCode: function () {showQrCode()},
+    showInvitationQrCode: function () {showInvitationQrCode()},
     getCardImage: function(card, size) { return getCardImage(card, size) },
     put: function(card, index) { put(card, index) },
     draw: function() { draw() },
@@ -52,7 +63,14 @@ const methods = {
     isDrawAllowed: function() { return isDrawAllowed() },
     isSayUnoAllowed: function() { return isSayUnoAllowed() },
     isMyTurn: function() { return isMyTurn() },
-    isPlayersTurn: function(index) { return isPlayersTurn(index) }
+    isPlayersTurn: function(index) { return isPlayersTurn(index) },
+    scanQr: function() { scanQr() },
+    prepareSwitchDevice: function (){ prepareSwitchDevice() },
+    abortSwitchDevice: function (){ abortSwitchDevice() },
+    prepareSwitchOut: function (){ prepareSwitchOut() },
+    abortSwitchOut: function (){ abortSwitchOut() },
+    prepareSwitchIn: function (){ prepareSwitchIn() },
+    abortSwitchIn: function (){ abortSwitchIn() }
 };
 
 const app = new Vue({
@@ -69,4 +87,11 @@ function hasTouch() {
 
 if(!hasTouch()){
     document.body.setAttribute('class', 'hover');
+}
+
+function showErrorDialog(text){
+    app.dialog = {
+        error: true,
+        text: text
+    }
 }
