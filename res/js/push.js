@@ -16,15 +16,28 @@ function checkConnected(){
 
 cC = setInterval('checkConnected()', 1000);
 
-function connectPush(gameUuid) {
+function connectPush(pushUuid, callback, callBackArgument) {
+    if(stompClient != null){
+        console.log('refuse to connect push. already connected.');
+        return;
+    }
     const socket = new SockJS('/ws');
     stompClient = Stomp.over(socket);
     stompClient.connect({}, function (frame) {
         console.log('Connected: ' + frame);
-        stompClient.subscribe('/api/push/'+gameUuid, function (message) {
+        stompClient.subscribe('/api/push/'+pushUuid, function (message) {
             handleMessage(message);
         });
+        if(callback != null){
+            callback(callBackArgument);
+        }
     });
+}
+
+function disconnectPush(){
+    clearInterval(cC);
+    stompClient.disconnect();
+    stompClient = null;
 }
 
 async function handleMessage(message){
@@ -153,6 +166,24 @@ const  doPushActionEnd = function() {
     reset();
 };
 
+const  doPushActionSwitchIn = function(message) {
+    const gameUuid = message.body.replace(/switch-in:([^:]+):([^:]+)$/, '$1');
+    const playerUuid = message.body.replace(/switch-in:([^:]+):([^:]+)$/, '$2');
+    if(app.pendingSwitch){
+        app.$cookies.set('gameUuid', gameUuid);
+        app.$cookies.set('playerUuid', playerUuid);
+        doPostRequest(`/switch/switch-finished/${gameUuid}/${playerUuid}`, {}, function(){self.location.reload()});
+    }
+};
+
+const  doPushActionSwitchFinished = function(message) {
+    const playerUuid = message.body.replace(/switch-finished:/, '');
+    if(playerUuid === app.$cookies.get('playerUuid') && app.pendingRemoveAfterSwitch){
+        app.pendingRemoveAfterSwitch = false;
+        reset();
+    }
+};
+
 function showTurnToast(index){
     let name = app.gameState.players[index].name;
     name = getPlayerName(name, index);
@@ -190,5 +221,7 @@ const pushActions = {
     'said-uno': doPushActionSaidUno,
     'next-turn': doPushActionNextTurn,
     'finished-game': doPushActionFinishedGame,
-    'end': doPushActionEnd
+    'end': doPushActionEnd,
+    'switch-in': doPushActionSwitchIn,
+    'switch-finished': doPushActionSwitchFinished
 };
