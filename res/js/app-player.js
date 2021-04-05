@@ -60,5 +60,5 @@ function copyLink(){
 
 function showInvitationQrCode(){
     app.qr = genQr(app.protocol+'://' + app.hostname + '/invitation.html#game:' + app.gameUuid);
-    app.showQr = true;
+    app.showInvitationQr = true;
 }
