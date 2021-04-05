@@ -38,37 +38,41 @@
         <div id="view-start" v-if="currentView === 'start' || currentView === 'join' || currentView === 'noToken'">
             <p v-if="!invitation">
                 Spiele das beliebte Kartenspiel UNO online am PC oder Smartphone.<br>
-                Du kannst mit Freunden spielen oder aber auch alleine gegen computergesteuerte Gegner.
+                Du kannst mit Freunden spielen oder aber auch alleine gegen computergesteuerte Gegner.<br>
             </p>
             <p v-if="invitation">
                 Mach' mit beim beliebten Kartenspiel UNO.<br>
                 Du wurdest eingeladen, mitzuspielen. Viel Spaß!
             </p>
             <div v-if="currentView === 'start'">
-                Wege zum Spielspaß:
-                <ul>
-                    <li>Neues Uno-Spiel erstellen
-                        <ul v-if="tokenLockedGameCreate">
-                            <li>Erhalte einen Erstellungslink. Er enthält einen Token zur Berechtigung ein Uno-Spiel zu erstellen</li>
-                            <li v-if="hasCamera">Scanne den Token-QR-Code den du erhalten hast</li>
-                        </ul>
-                    </li>
-                    <li>Bestehendem Spiel beitreten
-                        <ul>
-                            <li>Erhalte einen Einladungslink</li>
-                            <li v-if="hasCamera">Scanne den QR-Code eines Freundes, der ein Spiel erstellt hat</li>
-                        </ul>
-                    </li>
-                </ul>
-                <button v-if="hasCamera" @click="scanQr()" class="small">QR-Code scannen</button>
+                <p>
+                    <span v-if="enableTokenizedGameCreate">Um zu spielen brauchst du eine Einladung zum Mitspielen oder
+                        einen Token zur Berechtigung, ein neues Uno-Spiels zu erstellen.</span>
+                    <span v-if="!enableTokenizedGameCreate">Erstelle ein neues Uno-Spiel oder erhalte eine Einladung zum Mitspielen.</span>
+                </p>
+                <p>
+                    <button v-if="currentView === 'start' && !tokenLockedGameCreate" @click="createGame()"
+                            v-bind:disabled="tokenLockedGameCreate || btnCreateGameDisabled">Uno-Spiel erstellen</button><br>
+                    <span v-if="tokenLockedGameCreate" class="smallButtonDescription">(Berechtigungstoken erforderlich)</span>
+                </p>
+                <p v-if="hasCamera">
+                    <button @click="scanQr()" class="small">QR-Code scannen</button><br>
+                    <span v-if="tokenLockedGameCreate" class="smallButtonDescription">(Für Tokens, und Einladungen)</span>
+                    <span v-if="!tokenLockedGameCreate" class="smallButtonDescription">(Für Einladungen)</span>
+                </p>
+                <p>
+                    <button @click="prepareSwitchDevice()" class="small">Gerät wechseln</button><br>
+                    <span  class="smallButtonDescription">(Bestehendes Spiel hierhin wechseln)</span>
+                </p>
             </div>
-            <input v-if="currentView === 'join'" type="text" v-model="name" placeholder="Name (optional)">
-            <button v-if="currentView === 'start' && !tokenLockedGameCreate" @click="createGame()" v-bind:disabled="btnCreateGameDisabled">Uno-Spiel erstellen</button>
-            <button v-if="currentView === 'join'" @click="joinGame()"
-                    v-bind:disabled="gameState.players.length >= 8 || gameState.game.gameLifecycle === 'RUNNING' || btnJoinGameDisabled">
-                <span v-if="invitation">Jetzt mitspielen</span>
-                <span v-if="!invitation">Jetzt loslegen</span>
-            </button>
+            <div v-if="currentView === 'join'">
+                <input type="text" v-model="name" placeholder="Name (optional)">
+                <button @click="joinGame()"
+                        v-bind:disabled="gameState.players.length >= 8 || gameState.game.gameLifecycle === 'RUNNING' || btnJoinGameDisabled">
+                    <span v-if="invitation">Jetzt mitspielen</span>
+                    <span v-if="!invitation">Jetzt loslegen</span>
+                </button>
+            </div>
             <div  class="errMsg" v-if="currentView === 'join' && gameState.players.length >= 8">
                 Die maximale Spieleranzahl (8) wurde erreicht.
             </div>
@@ -96,21 +100,19 @@
             <h3>Spieler hinzufügen</h3>
             <div id="add-players" v-if="gameState.players.length < 8">
                 Freunde einladen:<br>
-                Schicke deinen Freunden folgenden Link:<br>
-                <button class="small" @click="copyLink()">Kopieren</button>
+                Schicke deinen Freunden folgenden Link oder lasse sie den QR-Code scannen:<br>
                 <textarea id="invitation-link-toCopy">{{protocol}}://{{hostname}}/invitation.html#game:{{gameUuid}}</textarea>
-                <span id="invitation-link">{{protocol}}://{{hostname}}/invitation.html#game:{{gameUuid}}</span>
-                <br><br>
-                Oder, wenn sie eh bei dir sind, lasse einfach den QR-Code scannen.<br>
+                <span id="invitation-link">{{protocol}}://{{hostname}}/invitation.html#game:{{gameUuid}}</span><br><br>
+                <button class="small" @click="copyLink()">Link Kopieren</button>&emsp;
                 <button class="small" @click="showQrCode()">QR-Code anzeigen</button>
-                <div id="invitation-qr" v-show="showQr">
-                    <div id="invitation-qr-code">
+                <div v-show="showInvitationQr">
+                    <div >
                         <img v-bind:src="qr" alt="">
                     </div>
-                    <button class="small" @click="showQr = false">ausblenden</button>
+                    <button class="small" @click="showInvitationQr = false">ausblenden</button>
                 </div>
                 <br><br>
-                Alternativ kannst du einen computergesteuerten Gegner hinzufügen.<br>
+                Alternativ kannst du einen computergesteuerten Gegner hinzufügen:<br>
                 <input class="small" type="text" v-model="botName" placeholder="Name (optional)">
                 <button class="small" @click="addBot()">Hinzufügen</button>
             </div>
@@ -125,6 +127,9 @@
                     Es werden mindestens 2 Spieler benötigt.
                 </div>
             </div>
+            <p>
+                <button @click="prepareSwitchDevice()" class="small">Gerät wechseln</button>
+            </p>
         </div>
 
         <!-- running game view - shows the running game -->
@@ -205,7 +210,40 @@
                             @click="keep()">&larr; Behalten</button>
                 </div>
             </div>
+            <button @click="prepareSwitchDevice()" class="small" id="in-game-switch-device">Gerät wechseln</button>
         </div>
+
+        <!-- switch device view -->
+        <div id="view-switch-device" v-if="currentView === 'switch-device'">
+            <button v-if="!showSwitchInQr && !showSwitchOutQr" class="small" @click="abortSwitchDevice()">Abbrechen</button><br><br>
+            Der Wechsel ist kinderleicht. Voraussetzung: Mindestens eines der beiden Geräte braucht eine Kamera.<br><br>
+            <div v-if="gameUuid !== null && gameUuid !== ''">
+                <button class="small" @click="prepareSwitchOut()">QR-Code anzeigen</button><br>
+                <div v-show="showSwitchOutQr">
+                    Scanne den QR-Code, um den Wechsel durchzuführen.
+                    <div>
+                        <img v-bind:src="qr" alt="">
+                    </div>
+                    <button class="small" @click="abortSwitchOut()">Abbrechen</button>
+                </div>
+            </div>
+            <div v-if="gameUuid === null || gameUuid === ''">
+                <p>
+                    <button class="small" @click="prepareSwitchIn()">QR-Code anzeigen</button>
+                </p>
+                <div v-show="showSwitchInQr">
+                    Scanne den QR-Code, um den Wechsel durchzuführen.
+                    <div>
+                        <img v-bind:src="qr" alt="">
+                    </div>
+                    <button class="small" @click="abortSwitchIn()">Abbrechen</button>
+                </div>
+            </div>
+            <p>
+                <button v-if="hasCamera" class="small" @click="scanQr()">QR-Code scannen</button>
+            </p>
+        </div>
+
 
         <!-- lightbox to show winner -->
         <div id="finished" class="lightbox" v-if="winner >= 0">
@@ -236,6 +274,15 @@
         <div id="processingBg" v-if="processing"></div>
         <div id="processingAnimation" v-if="processing"></div>
         <div id="processingEndAnimation" v-if="processingEnd"></div>
+
+        <!-- dialogs -->
+        <div v-if="dialog!==null">
+            <div id="dialogBackground" @click="dialog=null"></div>
+            <div id="dialogElement">
+                <div v-bind:class="dialog.error ? 'errMsg' : ''">{{dialog.text}}</div>
+                <button type="button" class="small" @click="dialog=null">OK</button>
+            </div>
+        </div>
     </div>
 
     <div id="toasts"></div>
@@ -258,6 +305,7 @@
     <video id="qrScanVideo"></video>
     <button id="qrScanBtn"></button>
     <button class="small" id="qrScanStopBtn">Abbrechen</button>
+
 
 </body>
 </html>
