@@ -2,7 +2,7 @@
 Card game - Multiplayer browser game - The Frontend
 
 ## Version
-1.1 (2020, Feb. 28th)
+2.0 (2021, April, 5th)
 
 ## Description
 The Frontend offers the view to the card game.\
@@ -47,7 +47,8 @@ See my version as fun project
 
 ### Version 2.0
 * New feature: built-in qr-scanner
-* New optional feature: tokenized-game-create (see #tokenized-game-create)
+* New optional feature: tokenized-game-create (see #tokenized-game-create) (limited downwards compatibility)
+* New feature: You can switch the game to another device
 * Security: use trusted base for urls in generated qr-codes
 
 ### Version 1.2
