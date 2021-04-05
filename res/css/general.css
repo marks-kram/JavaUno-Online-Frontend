@@ -9,6 +9,10 @@ html, body {
     box-sizing: border-box;
 }
 
+p {
+    margin: 16px 0;
+}
+
 header {
     width: 100%;
     height: 30px;
@@ -188,18 +192,6 @@ header a:active {
     background: #6cbaff;
 }
 
-@media (max-width: 859px) {
-    header img {
-        width: 120px;
-        margin-top: 5px;
-    }
-
-    header a:link, header a:visited, header a:focus, body.hover header a:hover, header a:hover {
-        left: 135px;
-        font-size: 0.8rem;
-    }
-}
-
 #legalHint {
     position: fixed;
     bottom: 4px;
@@ -276,4 +268,28 @@ header a:active {
 
 #dialogElement > button {
     margin: 10px;
+}
+
+.qr-image {
+    width: 360px;
+}
+
+@media (max-width: 859px) {
+    header img {
+        width: 120px;
+        margin-top: 5px;
+    }
+
+    header a:link, header a:visited, header a:focus, body.hover header a:hover, header a:hover {
+        left: 135px;
+        font-size: 0.8rem;
+    }
+
+    .qr-image {
+        width: 300px;
+    }
+
+    p.largeMarginBottom {
+        margin-bottom: 32px;
+    }
 }

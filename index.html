@@ -104,10 +104,10 @@
                 <textarea id="invitation-link-toCopy">{{protocol}}://{{hostname}}/invitation.html#game:{{gameUuid}}</textarea>
                 <span id="invitation-link">{{protocol}}://{{hostname}}/invitation.html#game:{{gameUuid}}</span><br><br>
                 <button class="small" @click="copyLink()">Link Kopieren</button>&emsp;
-                <button class="small" @click="showQrCode()">QR-Code anzeigen</button>
+                <button class="small" @click="showInvitationQrCode()">QR-Code anzeigen</button>
                 <div v-show="showInvitationQr">
                     <div >
-                        <img v-bind:src="qr" alt="">
+                        <img v-bind:src="qr" alt="" class="qr-image">
                     </div>
                     <button class="small" @click="showInvitationQr = false">ausblenden</button>
                 </div>
@@ -127,7 +127,7 @@
                     Es werden mindestens 2 Spieler benötigt.
                 </div>
             </div>
-            <p>
+            <p class="largeMarginBottom">
                 <button @click="prepareSwitchDevice()" class="small">Gerät wechseln</button>
             </p>
         </div>
@@ -216,31 +216,29 @@
         <!-- switch device view -->
         <div id="view-switch-device" v-if="currentView === 'switch-device'">
             <button v-if="!showSwitchInQr && !showSwitchOutQr" class="small" @click="abortSwitchDevice()">Abbrechen</button><br><br>
-            Der Wechsel ist kinderleicht. Voraussetzung: Mindestens eines der beiden Geräte braucht eine Kamera.<br><br>
-            <div v-if="gameUuid !== null && gameUuid !== ''">
-                <button class="small" @click="prepareSwitchOut()">QR-Code anzeigen</button><br>
+            <span v-if="!showSwitchOutQr && !showSwitchInQr">Der Wechsel ist kinderleicht. Voraussetzung: Mindestens eines der beiden Geräte braucht eine Kamera.<br><br></span>
+            <div v-if="gameUuid !== null && gameUuid !== '' && !showSwitchInQr">
+                <button class="small" @click="prepareSwitchOut()" v-if="!showSwitchOutQr">QR-Code anzeigen</button><br>
                 <div v-show="showSwitchOutQr">
                     Scanne den QR-Code, um den Wechsel durchzuführen.
                     <div>
-                        <img v-bind:src="qr" alt="">
+                        <img v-bind:src="qr" alt="" class="qr-image">
                     </div>
                     <button class="small" @click="abortSwitchOut()">Abbrechen</button>
                 </div>
             </div>
-            <div v-if="gameUuid === null || gameUuid === ''">
-                <p>
-                    <button class="small" @click="prepareSwitchIn()">QR-Code anzeigen</button>
-                </p>
+            <div v-if="gameUuid === null || gameUuid === '' && !showSwitchOutQr">
+                <button class="small" @click="prepareSwitchIn()" v-if="!showSwitchInQr">QR-Code anzeigen</button><br>
                 <div v-show="showSwitchInQr">
                     Scanne den QR-Code, um den Wechsel durchzuführen.
                     <div>
-                        <img v-bind:src="qr" alt="">
+                        <img v-bind:src="qr" alt="" class="qr-image">
                     </div>
                     <button class="small" @click="abortSwitchIn()">Abbrechen</button>
                 </div>
             </div>
             <p>
-                <button v-if="hasCamera" class="small" @click="scanQr()">QR-Code scannen</button>
+                <button v-if="hasCamera && !showSwitchOutQr && !showSwitchInQr" class="small" @click="scanQr()">QR-Code scannen</button>
             </p>
         </div>
 
