@@ -170,15 +170,15 @@ const  doPushActionSwitchIn = function(message) {
     const gameUuid = message.body.replace(/switch-in:([^:]+):([^:]+)$/, '$1');
     const playerUuid = message.body.replace(/switch-in:([^:]+):([^:]+)$/, '$2');
     if(app.pendingSwitch){
-        app.$cookies.set('gameUuid', gameUuid);
-        app.$cookies.set('playerUuid', playerUuid);
+        localStorage.setItem('gameUuid', gameUuid);
+        localStorage.setItem('playerUuid', playerUuid);
         doPostRequest(`/switch/switch-finished/${gameUuid}/${playerUuid}`, {}, function(){self.location.reload()});
     }
 };
 
 const  doPushActionSwitchFinished = function(message) {
     const playerUuid = message.body.replace(/switch-finished:/, '');
-    if(playerUuid === app.$cookies.get('playerUuid') && app.pendingRemoveAfterSwitch){
+    if(playerUuid === localStorage.getItem('playerUuid') && app.pendingRemoveAfterSwitch){
         app.pendingRemoveAfterSwitch = false;
         reset();
     }

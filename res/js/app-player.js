@@ -13,8 +13,8 @@ function joinGame(){
 
 function setPlayer(data){
     app.playerUuid = data.playerUuid;
-    app.$cookies.set('playerUuid', app.playerUuid);
-    app.$cookies.remove('invitation');
+    localStorage.setItem('playerUuid', app.playerUuid);
+    localStorage.removeItem('invitation');
     app.loadGame();
 }
 
@@ -25,15 +25,15 @@ function addBot(){
         name: app.botName
     };
     app.botName = '';
-    app.$cookies.set('gameUuid', app.gameUuid);
-    app.$cookies.set('playerUuid', app.playerUuid);
+    localStorage.setItem('gameUuid', app.gameUuid);
+    localStorage.setItem('playerUuid', app.playerUuid);
     doPostRequest('/player/add', data, loadGame);
 }
 
 function removeBot(player){
     let path = '/player/removeBot/' + app.gameUuid + '/' + player.botUuid;
-    app.$cookies.set('gameUuid', app.gameUuid);
-    app.$cookies.set('playerUuid', app.playerUuid);
+    localStorage.setItem('gameUuid', app.gameUuid);
+    localStorage.setItem('playerUuid', app.playerUuid);
     doDeleteRequest(path, loadGame);
 }
 

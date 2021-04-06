@@ -1,6 +1,6 @@
 function setGame(data){
     app.gameUuid = data.gameUuid;
-    app.$cookies.set('gameUuid', app.gameUuid);
+    localStorage.setItem('gameUuid', app.gameUuid);
     self.location.replace('/');
 }
 
@@ -24,7 +24,7 @@ function setGameState(data){
     setGameStateRunning = false;
     if(app.gameState.game.turnState === 'FINAL_COUNTDOWN' && app.gameState.game.gameLifecycle === 'RUNNING' && aC === null){
         aC = 0;
-        if(app.$cookies.get('sayUno') !== null && app.$cookies.get('sayUno') === '1'){
+        if(localStorage.getItem('sayUno') !== null && localStorage.getItem('sayUno') === '1'){
             sayUno();
         }
         startCountdownAnimation();
@@ -58,23 +58,21 @@ function createGame() {
 
 function startGame(){
     app.timeLeftPercent = 100;
-    app.$cookies.set('gameUuid', app.gameUuid);
-    app.$cookies.set('playerUuid', app.playerUuid);
+    localStorage.setItem('gameUuid', app.gameUuid);
+    localStorage.setItem('playerUuid', app.playerUuid);
     doPostRequest('/game/start/' + app.gameUuid, {}, loadGame);
 }
 
 function reset(){
-    app.$cookies.remove('gameUuid');
-    app.$cookies.remove('playerUuid');
-    app.$cookies.remove('invitation');
+    localStorage.clear();
     self.location.replace('/');
 }
 
 function handleInvitation(){
     if(location.hash.startsWith("#game:")){
         const gameUuid = location.hash.replace(/^#game:/, '');
-        app.$cookies.set('gameUuid', gameUuid);
-        app.$cookies.set('invitation', '1');
+        localStorage.setItem('gameUuid', gameUuid);
+        localStorage.setItem('invitation', '1');
         location.replace('/');
     }
 }
@@ -162,8 +160,8 @@ function setSwitchFinished(){
 }
 
 function switchOut(urlParams){
-    let gameUuid = app.$cookies.get('gameUuid');
-    let playerUuid = app.$cookies.get('playerUuid');
+    let gameUuid = localStorage.getItem('gameUuid');
+    let playerUuid = localStorage.getItem('playerUuid');
     if((gameUuid != null && gameUuid !== '') || (playerUuid != null && playerUuid !== '')){
         showErrorDialog('Hier ist bereits ein Spiel. Wechsel kann nicht erfolgen.');
         self.location.replace('/');
@@ -172,8 +170,8 @@ function switchOut(urlParams){
     gameUuid = urlParams.get('gameUuid');
     playerUuid = urlParams.get('playerUuid');
     if(gameUuid != null && gameUuid !== '' && playerUuid != null && playerUuid !== ''){
-        app.$cookies.set('gameUuid', gameUuid);
-        app.$cookies.set('playerUuid', playerUuid);
+        localStorage.setItem('gameUuid', gameUuid);
+        localStorage.setItem('playerUuid', playerUuid);
         doPostRequest(`/switch/switch-finished/${gameUuid}/${playerUuid}`, {}, setSwitchFinished);
         return true;
     }
@@ -185,8 +183,8 @@ function setSwitchIn(pushUuid){
 
 function switchIn(urlParams){
     const pushUuid = urlParams.get('pushUuid');
-    const gameUuid = app.$cookies.get('gameUuid');
-    const playerUuid = app.$cookies.get('playerUuid');
+    const gameUuid = localStorage.getItem('gameUuid');
+    const playerUuid = localStorage.getItem('playerUuid');
     app.pendingRemoveAfterSwitch = true;
     app.gameUuid = gameUuid;
     app.playerUuid = playerUuid;
@@ -201,11 +199,11 @@ function switchIn(urlParams){
 }
 
 function init(){
-    const invitation = app.$cookies.get('invitation');
+    const invitation = localStorage.getItem('invitation');
     if(invitation != null && invitation === '1'){
         app.invitation = true;
     }
-    const gameUuid = app.$cookies.get('gameUuid');
+    const gameUuid = localStorage.getItem('gameUuid');
     if(gameUuid == null){
         app.currentView = 'start';
         app.tokenValidPattern = isTokenPatternValid();
@@ -214,7 +212,7 @@ function init(){
     }
     app.gameUuid = gameUuid;
     connectPush(gameUuid, null, null);
-    const playerUuid = app.$cookies.get('playerUuid');
+    const playerUuid = localStorage.getItem('playerUuid');
     if(playerUuid != null){
         app.playerUuid = playerUuid;
         app.loadGame();

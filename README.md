@@ -53,7 +53,7 @@ See my version as fun project
 
 ### Version 1.2
 * improved ux: beautified processing animation
-* bugfix: restore cookies. could be removed while leaving another game
+* bugfix: restore localStorage Items. could be removed while leaving another game
 
 ### Version 1.1
 * improved ux
