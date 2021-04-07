@@ -206,10 +206,31 @@ body.hover #drawPile.enabled:hover, body.hover #ownCards picture.enabled:hover, 
     text-align: center;
 }
 
-#in-game-switch-device {
+.gameBottomButton {
     position: fixed;
-    bottom: 15px;
+    bottom: 25px;
+}
+
+#in-game-switch-device {
+    left: 15px;
+}
+
+#leave-running-game {
     right: 15px;
+}
+
+.stopParty {
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.stopParty.red {
+    background:#a92424;
+    color: white;
+}
+
+.stopPartyRequested {
+    background: #9a9aff;
 }
 
 @media (max-width: 859px), (max-height: 907px) {
@@ -269,8 +290,10 @@ body.hover #drawPile.enabled:hover, body.hover #ownCards picture.enabled:hover, 
         left: 45px;
         font-size: 0.8rem;
     }
+}
 
-    #in-game-switch-device {
+@media (max-width: 859px) {
+    .gameBottomButton {
         bottom: 45px;
     }
 }

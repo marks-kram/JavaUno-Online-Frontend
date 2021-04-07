@@ -62,3 +62,13 @@ function showInvitationQrCode(){
     app.qr = genQr(app.protocol+'://' + app.hostname + '/invitation.html#game:' + app.gameUuid);
     app.showInvitationQr = true;
 }
+
+function confirmLeaveRunningGame(){
+    showConfirmationDialog('Bist du sicher, dass du während des laufenden Spiels den Spielspaß beenden möchtest. ' +
+        'Dein Spieler wird dadurch in einen Bot umgewandelt.', leaveRunningGame)
+}
+
+function leaveRunningGame(){
+    let path = '/player/botify/' + app.gameUuid + '/' + app.playerUuid;
+    doPostRequest(path, {}, reset);
+}

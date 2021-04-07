@@ -92,6 +92,18 @@ const  doPushActionRemovedPlayer = function(message){
     }
 };
 
+const doPushActionBotifiedPlayer = function(message){
+    const index = parseInt(message.body.replace(/^botified-player:(.*?):(.*?)$/, '$1'));
+    const botUuid = message.body.replace(/^botified-player:(.*?):(.*?)$/, '$2');
+    if(isNotMe(index) && app.currentView === 'running'){
+        let name = app.gameState.players[index].name;
+        name = name !== '' ? name : `Spieler ${index+1}`;
+        app.gameState.players[index].botUuid = botUuid;
+        app.gameState.players[index].bot = true;
+        showInformationDialog(`${name} hat das Spiel verlassen und wurde zu einem Bot.`);
+    }
+};
+
 const doPushActionPutCard = function(message){
     if(app.gameState.game.gameLifecycle === 'RUNNING') {
         const cardCount = app.gameState.players[app.gameState.game.currentPlayerIndex].cardCount - 1;
@@ -214,6 +226,7 @@ const pushActions = {
     'started-game': doPushActionStartedGame,
     'added-player': doPushActionAddedPlayer,
     'removed-player': doPushActionRemovedPlayer,
+    'botified-player': doPushActionBotifiedPlayer,
     'put-card': doPushActionPutCard,
     'drawn-card': doPushActionDrawnCard,
     'kept-card': doPushActionKeptCard,

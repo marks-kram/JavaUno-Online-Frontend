@@ -209,7 +209,8 @@
                             @click="keep()">&larr; Behalten</button>
                 </div>
             </div>
-            <button @click="prepareSwitchDevice()" class="small" id="in-game-switch-device">Gerät wechseln</button>
+            <button class="small gameBottomButton" @click="prepareSwitchDevice()" class="small" id="in-game-switch-device">Gerät wechseln</button>
+            <button class="small gameBottomButton" type="button" class="small" @click="confirmLeaveRunningGame()" id="leave-running-game">Spiel verlassen</button>
         </div>
 
         <!-- switch device view -->
@@ -276,8 +277,14 @@
         <div v-if="dialog!==null">
             <div id="dialogBackground" @click="dialog=null"></div>
             <div id="dialogElement">
-                <div v-bind:class="dialog.error ? 'errMsg' : ''">{{dialog.text}}</div>
-                <button type="button" class="small" @click="dialog=null">OK</button>
+                <div v-bind:class="dialog.classes">{{dialog.text}}</div>
+                <button v-if="!dialog.confirm" type="button" class="small" @click="dialog=null">OK</button>
+                <div v-if="dialog.confirm">
+                    <button type="button" class="small" @click="dialog.confirmCallback">OK</button>
+                    &emsp;
+                    <button type="button" class="small" @click="dialog=null">Abbrechen</button>
+                </div>
+
             </div>
         </div>
     </div>

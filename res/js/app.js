@@ -70,7 +70,9 @@ const methods = {
     prepareSwitchOut: function (){ prepareSwitchOut() },
     abortSwitchOut: function (){ abortSwitchOut() },
     prepareSwitchIn: function (){ prepareSwitchIn() },
-    abortSwitchIn: function (){ abortSwitchIn() }
+    abortSwitchIn: function (){ abortSwitchIn() },
+    confirmLeaveRunningGame: function(){confirmLeaveRunningGame();},
+    getPlayerClasses: function (player){ return getPlayerClasses(player)}
 };
 
 const app = new Vue({
@@ -91,7 +93,27 @@ if(!hasTouch()){
 
 function showErrorDialog(text){
     app.dialog = {
-        error: true,
+        classes: 'error',
+        confirm: false,
+        confirmCallback: null,
+        text: text
+    }
+}
+
+function showInformationDialog(text){
+    app.dialog = {
+        classes: '',
+        confirm: false,
+        confirmCallback: null,
+        text: text
+    }
+}
+
+function showConfirmationDialog(text, confirmCallback){
+    app.dialog = {
+        classes: '',
+        confirm: true,
+        confirmCallback: confirmCallback,
         text: text
     }
 }
