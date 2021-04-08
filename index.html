@@ -134,7 +134,7 @@
         <!-- running game view - shows the running game -->
         <div id="view-running" v-if="currentView === 'running'">
             <div id="players">
-                <div class="player" v-for="(player, index) in gameState.players" v-if="!gameState.game.reversed">
+                <div v-for="(player, index) in gameState.players" v-if="!gameState.game.reversed" v-bind:class="getPlayerClasses(player)">
                     <div class="current">
                         <div v-bind:style="'width: ' + (isPlayersTurn(index) ? timeLeftPercent : 0) + '%'"></div>
                     </div>
@@ -145,7 +145,7 @@
                         {{ player.cardCount }}
                     </div>
                 </div>
-                <div class="player" v-for="(player, index) in gameState.players.slice().reverse()" v-if="gameState.game.reversed">
+                <div v-for="(player, index) in gameState.players.slice().reverse()" v-if="gameState.game.reversed" v-bind:class="getPlayerClasses(player)">
                     <div class="current">
                         <div v-bind:style="'width: ' + (isPlayersTurn(gameState.players.length-index-1) ? timeLeftPercent : 0) + '%'"></div>
                     </div>
@@ -211,6 +211,8 @@
             </div>
             <button class="small gameBottomButton" @click="prepareSwitchDevice()" class="small" id="in-game-switch-device">Gerät wechseln</button>
             <button class="small gameBottomButton" type="button" class="small" @click="confirmLeaveRunningGame()" id="leave-running-game">Spiel verlassen</button>
+            <button v-if="!stopPartyRequested" class="small gameBottomButton stopParty" type="button" class="small" @click="confirmRequestStopParty()" id="stop-party">Runde beenden</button>
+            <button v-if="stopPartyRequested" class="small gameBottomButton stopParty red" type="button" class="small" @click="revokeRequestStopParty()" id="revoke-stop-party">Abbrechen</button>
         </div>
 
         <!-- switch device view -->

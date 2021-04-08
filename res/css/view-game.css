@@ -224,13 +224,28 @@ body.hover #drawPile.enabled:hover, body.hover #ownCards picture.enabled:hover, 
     transform: translateX(-50%);
 }
 
-.stopParty.red {
+button.stopParty.red {
     background:#a92424;
     color: white;
 }
 
+body.hover button.stopParty.red:hover, button.stopParty.red:focus {
+    background: #682222;
+    color: white;
+}
+
+button.stopParty.red:active {
+    background: #421616;
+    color: white;
+}
+
 .stopPartyRequested {
-    background: #9a9aff;
+    background: #900000;
+    color: white;
+}
+
+.player.stopPartyRequested .current div {
+    background: #86ab7f;
 }
 
 @media (max-width: 859px), (max-height: 907px) {

@@ -64,11 +64,20 @@ function showInvitationQrCode(){
 }
 
 function confirmLeaveRunningGame(){
-    showConfirmationDialog('Bist du sicher, dass du während des laufenden Spiels den Spielspaß beenden möchtest. ' +
-        'Dein Spieler wird dadurch in einen Bot umgewandelt.', leaveRunningGame)
+    showConfirmationDialog('Bist du sicher, dass du während des laufenden Spiels den Spielspaß beenden möchtest? ' +
+        'Du wirst dadurch in einen Bot umgewandelt.', leaveRunningGame)
 }
 
 function leaveRunningGame(){
+    app.dialog = null;
     let path = '/player/botify/' + app.gameUuid + '/' + app.playerUuid;
     doPostRequest(path, {}, reset);
+}
+
+function getPlayerClasses(player){
+    let classes = 'player';
+    if(player.stopPartyRequested){
+        classes = `${classes} stopPartyRequested`;
+    }
+    return classes;
 }

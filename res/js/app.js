@@ -37,7 +37,8 @@ const data = {
     pendingRemoveAfterSwitch: false,
     pendingSwitch: false,
     pushUuid: '',
-    dialog: null
+    dialog: null,
+    stopPartyRequested: false
 };
 
 const methods = {
@@ -72,6 +73,8 @@ const methods = {
     prepareSwitchIn: function (){ prepareSwitchIn() },
     abortSwitchIn: function (){ abortSwitchIn() },
     confirmLeaveRunningGame: function(){confirmLeaveRunningGame();},
+    confirmRequestStopParty: function(){confirmRequestStopParty()},
+    revokeRequestStopParty: function(){revokeRequestStopParty()},
     getPlayerClasses: function (player){ return getPlayerClasses(player)}
 };
 

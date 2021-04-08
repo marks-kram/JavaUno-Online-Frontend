@@ -19,6 +19,7 @@ async function waitForGameStateToBeSet(){
 function setGameState(data){
     waitForGameStateToBeSet();
     app.gameState = data;
+    app.stopPartyRequested = app.gameState.players[app.gameState.myIndex].stopPartyRequested;
     app.currentView = data.game.gameLifecycle.toLowerCase();
     joinGameRunning = false;
     setGameStateRunning = false;
@@ -196,6 +197,34 @@ function switchIn(urlParams){
         self.location.replace('/');
         return false;
     }
+}
+
+function setRequestStopParty(){
+    stopProcessingAnimation();
+    if(app.currentView === 'running'){
+        app.stopPartyRequested = true;
+    }
+}
+
+function confirmRequestStopParty(){
+    showConfirmationDialog('Bist du sicher, dass das laufende Spiel beendet werden soll? ' +
+        'Die anderen müssen diesen Wunsch ebenfalls äußern.', requestStopParty);
+}
+
+function requestStopParty(){
+    app.dialog = null;
+    let path = '/player/request-stop-party/' + app.gameUuid + '/' + app.playerUuid;
+    doPostRequest(path, {}, setRequestStopParty);
+}
+
+function setRevokeRequestStopParty(){
+    stopProcessingAnimation();
+    app.stopPartyRequested = false;
+}
+
+function revokeRequestStopParty(){
+    let path = '/player/revoke-request-stop-party/' + app.gameUuid + '/' + app.playerUuid;
+    doPostRequest(path, {}, setRevokeRequestStopParty);
 }
 
 function init(){

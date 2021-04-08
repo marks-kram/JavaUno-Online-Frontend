@@ -170,6 +170,7 @@ const  doPushActionFinishedGame = function(message) {
     if(app.currentView === 'running' && party === app.gameState.game.party){
         app.winner = app.gameState.game.currentPlayerIndex;
     }
+    app.stopPartyRequested = false;
     updateView();
 };
 
@@ -193,6 +194,35 @@ const  doPushActionSwitchFinished = function(message) {
     if(playerUuid === localStorage.getItem('playerUuid') && app.pendingRemoveAfterSwitch){
         app.pendingRemoveAfterSwitch = false;
         reset();
+    }
+};
+
+const doPushActionRequestStopParty = function(message){
+    const index = parseInt(message.body.replace(/^request-stop-party:(.*?)$/, '$1'));
+    app.gameState.players[index].stopPartyRequested = true;
+    let name = app.gameState.players[index].name;
+    name = getPlayerName(name, index);
+    if(isNotMe(index)){
+        showToast(`${name} hat angefragt, diese Runde zu beenden.`);
+    }
+};
+
+const doPushActionRevokeRequestStopParty = function(message){
+    const index = parseInt(message.body.replace(/^revoke-request-stop-party:(.*?)$/, '$1'));
+    app.gameState.players[index].stopPartyRequested = false;
+    let name = app.gameState.players[index].name;
+    name = getPlayerName(name, index);
+    if(isNotMe(index)) {
+        showToast(`${name} hat die Anfrage zurück genommen, diese Runde zu beenden.`);
+    }
+};
+
+const doPushActionStopParty = function(message){
+    const party = parseInt(message.body.replace(/stop-party:/, ''));
+    if(app.currentView === 'running' && party === app.gameState.game.party){
+        app.stopPartyRequested = false;
+        app.currentView = 'set-players';
+        updateView();
     }
 };
 
@@ -236,5 +266,8 @@ const pushActions = {
     'finished-game': doPushActionFinishedGame,
     'end': doPushActionEnd,
     'switch-in': doPushActionSwitchIn,
-    'switch-finished': doPushActionSwitchFinished
+    'switch-finished': doPushActionSwitchFinished,
+    'request-stop-party': doPushActionRequestStopParty,
+    'revoke-request-stop-party': doPushActionRevokeRequestStopParty,
+    'stop-party': doPushActionStopParty
 };
