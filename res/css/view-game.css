@@ -308,7 +308,8 @@ button.stopParty.red:active {
 }
 
 @media (max-width: 859px) {
-    .gameBottomButton {
+    button.small.gameBottomButton {
         bottom: 45px;
+        font-size: 0.8rem;
     }
 }
