@@ -190,11 +190,9 @@ const  doPushActionSwitchIn = function(message) {
 };
 
 const  doPushActionSwitchFinished = function(message) {
-    const playerUuid = message.body.replace(/switch-finished:/, '');
-    if(playerUuid === localStorage.getItem('playerUuid') && app.pendingRemoveAfterSwitch){
-        app.pendingRemoveAfterSwitch = false;
-        reset();
-    }
+    app.pendingPlayerIndex = parseInt(message.body.replace(/switch-finished:/, ''));
+    const path = `/gameState/get/${app.gameUuid}/${app.playerUuid}`;
+    doGetRequest(path, removeSwitchedGameFromHere);
 };
 
 const doPushActionRequestStopParty = function(message){

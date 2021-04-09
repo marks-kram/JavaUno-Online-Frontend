@@ -199,6 +199,14 @@ function switchIn(urlParams){
     }
 }
 
+function removeSwitchedGameFromHere(data){
+    const myIndex = data.myIndex;
+    const pendingPlayerIndex = app.pendingPlayerIndex;
+    if(myIndex === pendingPlayerIndex && app.pendingRemoveAfterSwitch){
+        reset();
+    }
+}
+
 function setRequestStopParty(){
     stopProcessingAnimation();
     if(app.currentView === 'running'){

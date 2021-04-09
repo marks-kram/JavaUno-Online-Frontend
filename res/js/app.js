@@ -36,6 +36,7 @@ const data = {
     hasCamera: false,
     pendingRemoveAfterSwitch: false,
     pendingSwitch: false,
+    pendingPlayerIndex: -1,
     pushUuid: '',
     dialog: null,
     stopPartyRequested: false
