@@ -253,6 +253,11 @@
         <!-- lightbox to show winner -->
         <div id="finished" class="lightbox" v-if="winner >= 0">
             <div>
+                <picture>
+                    <source v-bind:srcset="getCardImage(gameState.game.topCard, 'large')" media="(min-width: 860px) and (min-height: 908px)">
+                    <source v-bind:srcset="getCardImage(gameState.game.topCard, 'small')" media="(max-width: 859px), (max-height: 907px)">
+                    <img v-bind:src="getCardImage(gameState.game.topCard, 'small')" alt="">
+                </picture>
                 <div v-if="winner === gameState.myIndex">
                     Herzlichen Glückwunsch, <nobr>{{getPlayerName(gameState.players[winner].name, winner)}}!</nobr><br>
                     Du hast gewonnen!
