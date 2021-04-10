@@ -30,7 +30,8 @@ There are two files for config:
 * frontend with this feature (enabled or disable) is not compatible with backend without the feature
 
 ### Spielanleitung
-./manual.pdf
+./manual.pdf\
+(For the combination of my backend and my frontend)
 
 ## License
 * The Frontend source code is licensed under a CC-BY-SA-NC 4.0 Licence\
