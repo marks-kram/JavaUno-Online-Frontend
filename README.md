@@ -53,6 +53,7 @@ See my version as fun project
 * New feature: You can kick players (humans and bots, humans will become bots)
 * New feature: You and the other players can commit to stop running game
 * Security: use trusted base for urls in generated qr-codes
+* Improvement: Beginning Player is selected randomly (or the last winner)
 
 ### Version 1.2
 * improved ux: beautified processing animation
