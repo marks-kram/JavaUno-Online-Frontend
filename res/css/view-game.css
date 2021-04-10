@@ -244,6 +244,18 @@ button.stopParty.red:active {
     color: white;
 }
 
+#current-players .player.botifyPending {
+    background: #a1a1bf;
+}
+
+.bot {
+    font-style: italic;
+}
+
+#current-players .player.botifyPending span {
+    color: #dcdcdc;
+}
+
 .player.stopPartyRequested .current div {
     background: #86ab7f;
 }
@@ -252,7 +264,7 @@ button.stopParty.red:active {
     position: relative;
 }
 
-button.small.kickBot {
+button.small.kick {
     position: absolute;
     top: -10px;
     right: -7px;
@@ -316,7 +328,7 @@ button.small.kickBot {
         font-size: 0.8rem;
     }
 
-    button.small.kickBot {
+    button.small.kick {
         top: -8px;
         right: -7px;
         font-size: 0.6rem;

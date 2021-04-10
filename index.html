@@ -89,11 +89,12 @@
         <div id="view-set-players" v-if="currentView === 'set_players'">
             <h3>Aktuelle Spieler ({{gameState.players.length}})</h3>
             <div id="current-players">
-                <div class="player" v-for="(player, index) in gameState.players">
+                <div v-for="(player, index) in gameState.players" v-bind:class="getPlayerClasses(player)">
                     {{ getPlayerName(player.name, index) }}
                     <span v-if="index === gameState.myIndex">(Du)</span>
                     <button v-if="index === gameState.myIndex" class="small" @click="leaveGame()">Spiel verlassen</button>
                     <button v-if="player.bot" class="small" @click="removeBot(player)">Bot entfernen</button>
+                    <button v-if="!player.bot && index !== gameState.myIndex" v-bind:disabled="player.botifyPending || botifyPlayerPending" class="small" @click="confirmRequestBotifyPlayer(player)">Spieler entfernen</button>
                 </div>
             </div>
             <h3>Spieler hinzufügen</h3>
@@ -143,7 +144,8 @@
                     </div>
                     <div v-bind:class="'cards ' + (player.cardCount > 9 ? ' more' : '') + (player.cardCount === 1 && player.unoSaid ? ' red' : '')">
                         {{ player.cardCount }}
-                        <button v-if="player.bot && !isPlayersTurn(index)" class="small kickBot" @click="removeBotInGame(player)">X</button>
+                        <button v-if="player.bot && !isPlayersTurn(index)" class="small kick" @click="removeBotInGame(player)">X</button>
+                        <button v-if="!player.bot && isNotMe(index)" v-bind:disabled="player.botifyPending || botifyPlayerPending" class="small kick" @click="confirmRequestBotifyPlayer(player)">X</button>
                     </div>
                 </div>
                 <div v-for="(player, index) in gameState.players.slice().reverse()" v-if="gameState.game.reversed" v-bind:class="getPlayerClasses(player)">
@@ -155,7 +157,8 @@
                     </div>
                     <div v-bind:class="'cards ' + (player.cardCount > 9 ? ' more' : '') + (player.cardCount === 1 && player.unoSaid ? ' red' : '')">
                         {{ player.cardCount }}
-                        <button v-if="player.bot && !isPlayersTurn(gameState.players.length-index-1)" class="small kickBot" @click="removeBotInGame(player)">X</button>
+                        <button v-if="player.bot && !isPlayersTurn(gameState.players.length-index-1)" class="small kick" @click="removeBotInGame(player)">X</button>
+                        <button v-if="!player.bot && isNotMe(gameState.players.length-index-1)" v-bind:disabled="player.botifyPending || botifyPlayerPending" class="small kick" @click="confirmRequestBotifyPlayer(player)">X</button>
                     </div>
                 </div>
             </div>
@@ -282,11 +285,14 @@
             <div id="dialogBackground" @click="dialog=null"></div>
             <div id="dialogElement">
                 <div v-bind:class="dialog.classes">{{dialog.text}}</div>
-                <button v-if="!dialog.confirm" type="button" class="small" @click="dialog=null">OK</button>
+                <button v-if="!dialog.confirm && !dialog.timedCancel" type="button" class="small" @click="dialog=null">OK</button>
                 <div v-if="dialog.confirm">
                     <button type="button" class="small" @click="dialog.confirmCallback">OK</button>
                     &emsp;
                     <button type="button" class="small" @click="dialog=null">Abbrechen</button>
+                </div>
+                <div v-if="dialog.timedCancel">
+                    <button type="button" class="small" @click="dialog.cancelCallback">({{dialog.secondsLeft}}) Abbrechen</button>
                 </div>
 
             </div>

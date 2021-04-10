@@ -39,7 +39,9 @@ const data = {
     pendingPlayerIndex: -1,
     pushUuid: '',
     dialog: null,
-    stopPartyRequested: false
+    stopPartyRequested: false,
+    botifyPlayerPending: false,
+    playerToBotify: null,
 };
 
 const methods = {
@@ -77,7 +79,8 @@ const methods = {
     confirmLeaveRunningGame: function(){confirmLeaveRunningGame();},
     confirmRequestStopParty: function(){confirmRequestStopParty()},
     revokeRequestStopParty: function(){revokeRequestStopParty()},
-    getPlayerClasses: function (player){ return getPlayerClasses(player)}
+    getPlayerClasses: function (player){ return getPlayerClasses(player)},
+    confirmRequestBotifyPlayer: function(player){confirmRequestBotifyPlayer(player)}
 };
 
 const app = new Vue({
@@ -100,7 +103,10 @@ function showErrorDialog(text){
     app.dialog = {
         classes: 'error',
         confirm: false,
+        timedCancel: false,
+        secondsLeft: 0,
         confirmCallback: null,
+        cancelCallback: null,
         text: text
     }
 }
@@ -109,7 +115,10 @@ function showInformationDialog(text){
     app.dialog = {
         classes: '',
         confirm: false,
+        timedCancel: false,
+        secondsLeft: 0,
         confirmCallback: null,
+        cancelCallback: null,
         text: text
     }
 }
@@ -118,7 +127,32 @@ function showConfirmationDialog(text, confirmCallback){
     app.dialog = {
         classes: '',
         confirm: true,
+        timedCancel: false,
+        secondsLeft: 0,
         confirmCallback: confirmCallback,
+        cancelCallback: null,
         text: text
+    }
+}
+let rTCDSL;
+
+function showTimedCancelDialog(text, cancelCallback, time){
+    app.dialog = {
+        classes: '',
+        confirm: false,
+        timedCancel: true,
+        secondsLeft: time,
+        confirmCallback: null,
+        cancelCallback: cancelCallback,
+        text: text
+    }
+    rTCDSL = setInterval('reduceTimedConfirmationDialogSecondsLeft()', 1000);
+}
+
+
+
+function reduceTimedConfirmationDialogSecondsLeft(){
+    if(--app.dialog.secondsLeft <= 0){
+        clearInterval(rTCDSL);
     }
 }

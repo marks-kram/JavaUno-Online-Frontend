@@ -94,14 +94,15 @@ const  doPushActionRemovedPlayer = function(message){
 };
 
 const doPushActionBotifiedPlayer = function(message){
-    const index = parseInt(message.body.replace(/^botified-player:(.*?):(.*?)$/, '$1'));
-    const botUuid = message.body.replace(/^botified-player:(.*?):(.*?)$/, '$2');
-    if(isNotMe(index) && app.currentView === 'running'){
+    const index = parseInt(message.body.replace(/^botified-player:(.*?)$/, '$1'));
+    if(isMe(index)){
+        reset();
+    } else {
         let name = app.gameState.players[index].name;
         name = name !== '' ? name : `Spieler ${index+1}`;
-        app.gameState.players[index].botUuid = botUuid;
         app.gameState.players[index].bot = true;
         showInformationDialog(`${name} hat das Spiel verlassen und wurde zu einem Bot.`);
+        updateView();
     }
 };
 
@@ -225,6 +226,26 @@ const doPushActionStopParty = function(message){
     }
 };
 
+const doPushActionRequestBotifyPlayer = function (message){
+    const uuid = message.body.replace(/request-botify-player:/, '');
+    if(app.playerUuid === uuid){
+        showTimedCancelDialog(`Jemand möchte dich aus dem Spiel entfernen. 
+        Ist das für dich ok? Du hast 10 Sekunden Zeit, diesen Vorgang abzubrechen.`, cancelBotify, 10);
+    }
+    updateView();
+};
+
+const doPushActionCancelBotifyPlayer = function (message){
+    const uuid = message.body.replace(/cancel-botify-player:/, '');
+    const pendingUuid = app.playerToBotify != null ? app.playerToBotify.kickUuid : '';
+    if(pendingUuid === uuid){
+        app.botifyPlayerPending = false;
+        app.playerToBotify = null;
+        showInformationDialog('Der Spieler hat den Prozess abgebrochen.');
+    }
+    updateView();
+};
+
 function showTurnToast(index){
     let name = app.gameState.players[index].name;
     name = getPlayerName(name, index);
@@ -268,5 +289,7 @@ const pushActions = {
     'switch-finished': doPushActionSwitchFinished,
     'request-stop-party': doPushActionRequestStopParty,
     'revoke-request-stop-party': doPushActionRevokeRequestStopParty,
-    'stop-party': doPushActionStopParty
+    'stop-party': doPushActionStopParty,
+    'request-botify-player': doPushActionRequestBotifyPlayer,
+    'cancel-botify-player': doPushActionCancelBotifyPlayer
 };

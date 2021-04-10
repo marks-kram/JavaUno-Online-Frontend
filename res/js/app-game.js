@@ -216,7 +216,7 @@ function setRequestStopParty(){
 
 function confirmRequestStopParty(){
     showConfirmationDialog('Bist du sicher, dass das laufende Spiel beendet werden soll? ' +
-        'Die anderen müssen diesen Wunsch ebenfalls äußern.', requestStopParty);
+        'Die anderen müssen diesen Wunsch ebenfalls äußern.', requestStopParty, null);
 }
 
 function requestStopParty(){
