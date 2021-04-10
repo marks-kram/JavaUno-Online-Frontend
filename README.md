@@ -64,3 +64,8 @@ See my version as fun project
    * show myself in players list instead of only showing the others
    * reverse display order of players if playing direction is reversed
   
+### Future Updates
+
+#### Version 3.0 (maybe Winter 2021)
+* ability to join to a running game
+* end game when loser is known (not when winner is known)
