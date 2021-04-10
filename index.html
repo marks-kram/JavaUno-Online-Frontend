@@ -50,7 +50,7 @@
                     <span v-if="!enableTokenizedGameCreate">Erstelle ein neues Uno-Spiel oder erhalte eine Einladung zum Mitspielen.</span>
                 </p>
                 <p>
-                    <button v-if="currentView === 'start' && !tokenLockedGameCreate" @click="createGame()"
+                    <button v-if="currentView === 'start'" @click="createGame()"
                             v-bind:disabled="tokenLockedGameCreate || btnCreateGameDisabled">Uno-Spiel erstellen</button><br>
                     <span v-if="tokenLockedGameCreate" class="smallButtonDescription">(Berechtigungstoken erforderlich)</span>
                 </p>
