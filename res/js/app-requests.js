@@ -8,7 +8,7 @@ let rI;
 function handleRequestSuccess(response, callback) {
     if(response.url.indexOf('say-uno') >= 0){
         sayUnoRequestRunning = false;
-        app.$cookies.remove('sayUno');
+        localStorage.removeItem('sayUno');
     }
     callback(response.data);
     if(callback === setGameState || callback === setGameStateWithoutPlayer){
@@ -33,7 +33,7 @@ function handleRequestError(response) {
             reset();
         }
         if(response.data.message === noSuchPlayerMessage){
-            app.$cookies.remove('playerUuid');
+            localStorage.removeItem('playerUuid');
             self.location.reload();
         }
         if(response.data.message === invalidTokenMessage){

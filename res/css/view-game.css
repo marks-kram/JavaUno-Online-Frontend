@@ -206,10 +206,68 @@ body.hover #drawPile.enabled:hover, body.hover #ownCards picture.enabled:hover, 
     text-align: center;
 }
 
-#in-game-switch-device {
+.gameBottomButton {
     position: fixed;
-    bottom: 15px;
+    bottom: 25px;
+}
+
+#in-game-switch-device {
+    left: 15px;
+}
+
+#leave-running-game {
     right: 15px;
+}
+
+.stopParty {
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+button.stopParty.red {
+    background:#a92424;
+    color: white;
+}
+
+body.hover button.stopParty.red:hover, button.stopParty.red:focus {
+    background: #682222;
+    color: white;
+}
+
+button.stopParty.red:active {
+    background: #421616;
+    color: white;
+}
+
+.stopPartyRequested {
+    background: #900000;
+    color: white;
+}
+
+#current-players .player.botifyPending {
+    background: #a1a1bf;
+}
+
+.bot {
+    font-style: italic;
+}
+
+#current-players .player.botifyPending span {
+    color: #dcdcdc;
+}
+
+.player.stopPartyRequested .current div {
+    background: #86ab7f;
+}
+
+#players .player .cards {
+    position: relative;
+}
+
+button.small.kick {
+    position: absolute;
+    top: -10px;
+    right: -7px;
 }
 
 @media (max-width: 859px), (max-height: 907px) {
@@ -270,7 +328,16 @@ body.hover #drawPile.enabled:hover, body.hover #ownCards picture.enabled:hover, 
         font-size: 0.8rem;
     }
 
-    #in-game-switch-device {
+    button.small.kick {
+        top: -8px;
+        right: -7px;
+        font-size: 0.6rem;
+    }
+}
+
+@media (max-width: 859px) {
+    button.small.gameBottomButton {
         bottom: 45px;
+        font-size: 0.8rem;
     }
 }

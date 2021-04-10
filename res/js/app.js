@@ -36,8 +36,12 @@ const data = {
     hasCamera: false,
     pendingRemoveAfterSwitch: false,
     pendingSwitch: false,
+    pendingPlayerIndex: -1,
     pushUuid: '',
-    dialog: null
+    dialog: null,
+    stopPartyRequested: false,
+    botifyPlayerPending: false,
+    playerToBotify: null,
 };
 
 const methods = {
@@ -46,6 +50,7 @@ const methods = {
     leaveGame: function () {leaveGame()},
     addBot: function () {addBot()},
     removeBot: function (player) {removeBot(player)},
+    removeBotInGame: function (player){removeBotInGame(player)},
     reset: function (){reset()},
     loadGame: function (){loadGame()},
     loadGameWithoutPlayer: function (){loadGameWithoutPlayer()},
@@ -70,7 +75,12 @@ const methods = {
     prepareSwitchOut: function (){ prepareSwitchOut() },
     abortSwitchOut: function (){ abortSwitchOut() },
     prepareSwitchIn: function (){ prepareSwitchIn() },
-    abortSwitchIn: function (){ abortSwitchIn() }
+    abortSwitchIn: function (){ abortSwitchIn() },
+    confirmLeaveRunningGame: function(){confirmLeaveRunningGame();},
+    confirmRequestStopParty: function(){confirmRequestStopParty()},
+    revokeRequestStopParty: function(){revokeRequestStopParty()},
+    getPlayerClasses: function (player){ return getPlayerClasses(player)},
+    confirmRequestBotifyPlayer: function(player){confirmRequestBotifyPlayer(player)}
 };
 
 const app = new Vue({
@@ -91,7 +101,58 @@ if(!hasTouch()){
 
 function showErrorDialog(text){
     app.dialog = {
-        error: true,
+        classes: 'error',
+        confirm: false,
+        timedCancel: false,
+        secondsLeft: 0,
+        confirmCallback: null,
+        cancelCallback: null,
         text: text
+    }
+}
+
+function showInformationDialog(text){
+    app.dialog = {
+        classes: '',
+        confirm: false,
+        timedCancel: false,
+        secondsLeft: 0,
+        confirmCallback: null,
+        cancelCallback: null,
+        text: text
+    }
+}
+
+function showConfirmationDialog(text, confirmCallback){
+    app.dialog = {
+        classes: '',
+        confirm: true,
+        timedCancel: false,
+        secondsLeft: 0,
+        confirmCallback: confirmCallback,
+        cancelCallback: null,
+        text: text
+    }
+}
+let rTCDSL;
+
+function showTimedCancelDialog(text, cancelCallback, time){
+    app.dialog = {
+        classes: '',
+        confirm: false,
+        timedCancel: true,
+        secondsLeft: time,
+        confirmCallback: null,
+        cancelCallback: cancelCallback,
+        text: text
+    }
+    rTCDSL = setInterval('reduceTimedConfirmationDialogSecondsLeft()', 1000);
+}
+
+
+
+function reduceTimedConfirmationDialogSecondsLeft(){
+    if(--app.dialog.secondsLeft <= 0){
+        clearInterval(rTCDSL);
     }
 }
