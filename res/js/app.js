@@ -48,6 +48,7 @@ const methods = {
     leaveGame: function () {leaveGame()},
     addBot: function () {addBot()},
     removeBot: function (player) {removeBot(player)},
+    removeBotInGame: function (player){removeBotInGame(player)},
     reset: function (){reset()},
     loadGame: function (){loadGame()},
     loadGameWithoutPlayer: function (){loadGameWithoutPlayer()},

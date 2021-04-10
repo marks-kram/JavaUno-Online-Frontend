@@ -37,6 +37,13 @@ function removeBot(player){
     doDeleteRequest(path, loadGame);
 }
 
+function removeBotInGame(player){
+    let path = '/player/removeBotInGame/' + app.gameUuid + '/' + player.botUuid;
+    localStorage.setItem('gameUuid', app.gameUuid);
+    localStorage.setItem('playerUuid', app.playerUuid);
+    doDeleteRequest(path, loadGame);
+}
+
 function leaveGame(){
     let path = '/player/remove/' + app.gameUuid + '/' + app.playerUuid;
     doDeleteRequest(path, reset);

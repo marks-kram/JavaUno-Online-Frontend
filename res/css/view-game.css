@@ -248,6 +248,16 @@ button.stopParty.red:active {
     background: #86ab7f;
 }
 
+#players .player .cards {
+    position: relative;
+}
+
+button.small.kickBot {
+    position: absolute;
+    top: -10px;
+    right: -7px;
+}
+
 @media (max-width: 859px), (max-height: 907px) {
     #players .player .name {
         font-size: 0.5rem;
@@ -304,6 +314,12 @@ button.stopParty.red:active {
     #ownCards button {
         left: 45px;
         font-size: 0.8rem;
+    }
+
+    button.small.kickBot {
+        top: -8px;
+        right: -7px;
+        font-size: 0.6rem;
     }
 }
 

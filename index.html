@@ -143,6 +143,7 @@
                     </div>
                     <div v-bind:class="'cards ' + (player.cardCount > 9 ? ' more' : '') + (player.cardCount === 1 && player.unoSaid ? ' red' : '')">
                         {{ player.cardCount }}
+                        <button v-if="player.bot && !isPlayersTurn(index)" class="small kickBot" @click="removeBotInGame(player)">X</button>
                     </div>
                 </div>
                 <div v-for="(player, index) in gameState.players.slice().reverse()" v-if="gameState.game.reversed" v-bind:class="getPlayerClasses(player)">
@@ -154,6 +155,7 @@
                     </div>
                     <div v-bind:class="'cards ' + (player.cardCount > 9 ? ' more' : '') + (player.cardCount === 1 && player.unoSaid ? ' red' : '')">
                         {{ player.cardCount }}
+                        <button v-if="player.bot && !isPlayersTurn(gameState.players.length-index-1)" class="small kickBot" @click="removeBotInGame(player)">X</button>
                     </div>
                 </div>
             </div>

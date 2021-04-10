@@ -89,6 +89,7 @@ const  doPushActionRemovedPlayer = function(message){
         if(isNotMe(index) || app.currentView === 'join'){
             app.gameState.players.splice(index, 1);
         }
+        updateView();
     }
 };
 
