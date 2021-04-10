@@ -248,6 +248,10 @@ button.stopParty.red:active {
     background: #a1a1bf;
 }
 
+#players .player.botifyPending {
+    background: #b1b1c5;
+}
+
 .bot {
     font-style: italic;
 }
@@ -266,8 +270,8 @@ button.stopParty.red:active {
 
 button.small.kick {
     position: absolute;
-    top: -10px;
-    right: -7px;
+    top: -7px;
+    right: -3px;
 }
 
 @media (max-width: 859px), (max-height: 907px) {
