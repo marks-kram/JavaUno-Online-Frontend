@@ -71,3 +71,4 @@ See my version as fun project
 #### Version 3.0 (maybe Winter 2021)
 * ability to join to a running game
 * end game when loser is known (not when winner is known)
+* configurable ruleset
