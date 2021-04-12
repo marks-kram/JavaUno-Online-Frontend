@@ -1,8 +1,8 @@
 # JavaUno-Online-Frontend
-Card game - Multiplayer browser game - The Frontend
+Cardgame - Multiplayer browser game - The Frontend
 
 ## Version
-1.2 (2020, July, 11th)
+1.2 (2020, July 11th)
 
 ## Description
 The Frontend offers the view to the card game.\
@@ -13,15 +13,16 @@ You can use your own backend or use my backend under: https://github.com/tomaten
 If you want to use your own backend, it has to offer the same api endpoints like my backend
 (see README.md of my backend to get further information)
 
-## Config
-There are two files for config:
-* /res/js/config-default.js: This file holds all the settings and its default values. It is part of the git repository
-* /config.js: This file is used to override the settings of config-default.js. It is NOT part of the git repository
-  * Example to override the siteHostname: config.siteHostname='javauno.example.com';
+## Configuration
+Following settings have to be made in config.js
+* apiBase: the base url for the backend api ()
+* vueDevToolsEnabled: set the value to true, to use vue devtools in browser, not recommended is production
+* error messages from backend for no such game and no such player (used to handle out dated cookies)
+    * noSuchGameMessage: error message for no such game
+    * noSuchPlayerMessage: error message for no such player
 
 ### Spielanleitung
-./manual.pdf\
-(For the combination of my backend and my frontend)
+./manual.pdf
 
 ## License
 * The Frontend source code is licensed under a CC-BY-SA-NC 4.0 Licence\
@@ -38,7 +39,7 @@ See my version as fun project
 
 ### Version 1.2
 * improved ux: beautified processing animation
-* bugfix: restore localStorage Items. could be removed while leaving another game
+* bugfix: restore cookies. could be removed while leaving another game
 
 ### Version 1.1
 * improved ux

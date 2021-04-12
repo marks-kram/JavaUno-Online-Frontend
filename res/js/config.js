@@ -9,3 +9,7 @@ const config = {
     noSuchGameMessage: 'failure: de.markherrmann.javauno.exceptions.IllegalArgumentException: There is no such game.',
     noSuchPlayerMessage: 'failure: de.markherrmann.javauno.exceptions.IllegalArgumentException: There is no such player in this game.'
 };
+
+
+
+
