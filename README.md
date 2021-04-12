@@ -19,16 +19,6 @@ There are two files for config:
 * /config.js: This file is used to override the settings of config-default.js. It is NOT part of the git repository
   * Example to override the siteHostname: config.siteHostname='javauno.example.com';
 
-## tokenized-game-create
-* Optional feature
-  * Disable: put features.enableTokenizedGameCreate=false; in /config.js
-  * Enable: put features.enableTokenizedGameCreate=true; in /config.js
-  * Default: disabled
-* visitors have to provide a valid token to create a game
-* token is given by url (/?token=...)
-* token validation happens in backend (see: https://github.com/tomatenmark/JavaUno-Online-Backend/blob/master/readme.md#tokenized-game-create)
-* frontend with this feature (enabled or disable) is not compatible with backend without the feature
-
 ### Spielanleitung
 ./manual.pdf\
 (For the combination of my backend and my frontend)
