@@ -1,14 +1,12 @@
 const noSuchGameMessage = config.noSuchGameMessage;
 const noSuchPlayerMessage = config.noSuchPlayerMessage;
-const invalidTokenMessage = features.invalidTokenMessage;
-const fileReadErrorMessage = features.fileReadErrorMessage;
 
 let rI;
 
 function handleRequestSuccess(response, callback) {
     if(response.url.indexOf('say-uno') >= 0){
         sayUnoRequestRunning = false;
-        localStorage.removeItem('sayUno');
+        app.$cookies.remove('sayUno');
     }
     callback(response.data);
     if(callback === setGameState || callback === setGameStateWithoutPlayer){
@@ -33,16 +31,8 @@ function handleRequestError(response) {
             reset();
         }
         if(response.data.message === noSuchPlayerMessage){
-            localStorage.removeItem('playerUuid');
+            app.$cookies.remove('playerUuid');
             self.location.reload();
-        }
-        if(response.data.message === invalidTokenMessage){
-            showErrorDialog('Fehler: Ungültiger Token. Veralteter/Fehlerhafter Link?');
-            self.location.replace('/');
-        }
-        if(response.data.message === fileReadErrorMessage){
-            showErrorDialog('Fehler: Token konnte nicht validiert werden, wegen eines Datei-Lesefehlers im Backend. ' +
-                'Versuche es später erneut und/oder teile mir diesen Fehler mit.');
         }
     } else {
         console.error("Request-Error: responseObject: " + JSON.stringify(response));

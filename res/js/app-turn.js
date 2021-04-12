@@ -35,8 +35,8 @@ function put(card, index){
             gameUuid: app.gameUuid,
             playerUuid: app.playerUuid
         };
-        localStorage.setItem('gameUuid', app.gameUuid);
-        localStorage.setItem('playerUuid', app.playerUuid);
+        app.$cookies.set('gameUuid', app.gameUuid);
+        app.$cookies.set('playerUuid', app.playerUuid);
         doPostRequest('/turn/put', data, loadGame);
     }
 }
@@ -58,7 +58,7 @@ function selectColor(color){
 
 function sayUno(){
     sayUnoRequestRunning = true;
-    localStorage.setItem('sayUno', '1');
+    app.$cookies.set('sayUno', '1');
     doAction('say-uno');
 }
 
@@ -113,10 +113,6 @@ function isMyTurn(){
     return isPlayersTurn(app.gameState.myIndex);
 }
 
-function isMe(index){
-    return index === app.gameState.myIndex && app.gameState.myIndex >= 0;
-}
-
 function isNotMe(index){
     return index !== app.gameState.myIndex && app.gameState.myIndex >= 0;
 }
@@ -127,8 +123,8 @@ function isPlayersTurn(index){
 
 function doAction(action){
     const path = '/turn/' + action + '/' + app.gameUuid + '/' + app.playerUuid;
-    localStorage.setItem('gameUuid', app.gameUuid);
-    localStorage.setItem('playerUuid', app.playerUuid);
+    app.$cookies.set('gameUuid', app.gameUuid);
+    app.$cookies.set('playerUuid', app.playerUuid);
     doPostRequest(path, {}, loadGame);
 }
 

@@ -13,8 +13,8 @@ function joinGame(){
 
 function setPlayer(data){
     app.playerUuid = data.playerUuid;
-    localStorage.setItem('playerUuid', app.playerUuid);
-    localStorage.removeItem('invitation');
+    app.$cookies.set('playerUuid', app.playerUuid);
+    app.$cookies.remove('invitation');
     app.loadGame();
 }
 
@@ -25,22 +25,15 @@ function addBot(){
         name: app.botName
     };
     app.botName = '';
-    localStorage.setItem('gameUuid', app.gameUuid);
-    localStorage.setItem('playerUuid', app.playerUuid);
+    app.$cookies.set('gameUuid', app.gameUuid);
+    app.$cookies.set('playerUuid', app.playerUuid);
     doPostRequest('/player/add', data, loadGame);
 }
 
 function removeBot(player){
-    let path = '/player/removeBot/' + app.gameUuid + '/' + player.kickUuid;
-    localStorage.setItem('gameUuid', app.gameUuid);
-    localStorage.setItem('playerUuid', app.playerUuid);
-    doDeleteRequest(path, loadGame);
-}
-
-function removeBotInGame(player){
-    let path = '/player/removeBotInGame/' + app.gameUuid + '/' + player.kickUuid;
-    localStorage.setItem('gameUuid', app.gameUuid);
-    localStorage.setItem('playerUuid', app.playerUuid);
+    let path = '/player/removeBot/' + app.gameUuid + '/' + player.botUuid;
+    app.$cookies.set('gameUuid', app.gameUuid);
+    app.$cookies.set('playerUuid', app.playerUuid);
     doDeleteRequest(path, loadGame);
 }
 
@@ -65,59 +58,12 @@ function copyLink(){
     showToast('Erfolgreich kopiert!');
 }
 
-function showInvitationQrCode(){
-    app.qr = genQr(app.protocol+'://' + app.hostname + '/invitation.html#game:' + app.gameUuid);
-    app.showInvitationQr = true;
-}
-
-function confirmLeaveRunningGame(){
-    showConfirmationDialog('Bist du sicher, dass du während des laufenden Spiels den Spielspaß beenden möchtest? ' +
-        'Du wirst dadurch in einen Bot umgewandelt.', leaveRunningGame, null)
-}
-
-function leaveRunningGame(){
-    app.dialog = null;
-    let path = '/player/botify/' + app.gameUuid + '/' + app.playerUuid;
-    doPostRequest(path, {}, reset);
-}
-
-function confirmRequestBotifyPlayer(player){
-    app.playerToBotify = player;
-    showConfirmationDialog('Bist du sicher, dass du diesen Spieler entfernen möchtest?', requestBotifyPlayer, null);
-}
-
-function requestBotifyPlayer(){
-    app.dialog = null;
-    let path = '/player/request-botify/' + app.gameUuid + '/' + app.playerToBotify.kickUuid;
-    doPostRequest(path, {}, setRequestBotifyPlayer);
-}
-
-function setRequestBotifyPlayer(){
-    showInformationDialog('Der Spieler wird zum Bot, wenn er dies nicht innerhalb 10 Sekunden abbricht. Danach kannst du den Spieler (Bot) entfernen.');
-    app.botifyPlayerPending = true;
-}
-
-function cancelBotify(){
-    clearInterval(rTCDSL);
-    app.dialog = null;
-    let path = '/player/cancel-botify/' + app.gameUuid + '/' + app.playerUuid;
-    doPostRequest(path, {}, setCancelBotifyPlayer);
-}
-
-function setCancelBotifyPlayer(){
-    showInformationDialog(`Der Prozess wurde efolgreich abgebrochen.${isMyTurn()? ' Bitte mache nun deinen Spielzug.' : ''}`);
-}
-
-function getPlayerClasses(player){
-    let classes = 'player';
-    if(player.stopPartyRequested){
-        classes = `${classes} stopPartyRequested`;
-    }
-    if(player.botifyPending){
-        classes = `${classes} botifyPending`;
-    }
-    if(player.bot){
-        classes = `${classes} bot`;
-    }
-    return classes;
+function showQrCode(){
+    const typeNumber = 0;
+    const errorCorrectionLevel = 'L';
+    const qr = qrcode(typeNumber, errorCorrectionLevel);
+    qr.addData('https://' + hostname + '/invitation.html#game:' + app.gameUuid);
+    qr.make();
+    app.qr = qr.createDataURL(8, 32, '');
+    app.showQr = true;
 }
