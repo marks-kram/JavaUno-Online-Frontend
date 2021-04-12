@@ -2,7 +2,7 @@
 Card game - Multiplayer browser game - The Frontend
 
 ## Version
-2.0 (2021, April, 11th)
+1.2 (2020, July, 11th)
 
 ## Description
 The Frontend offers the view to the card game.\
@@ -46,17 +46,6 @@ See my version as fun project
 
 ## changeLog
 
-### Version 2.0
-* New feature: built-in qr-scanner
-* New optional feature: tokenized-game-create (see #tokenized-game-create) (limited downwards compatibility)
-* New feature: You can switch the game to another device
-* New feature: You can leave the running game (will become a bot)
-* New feature: You can kick players (humans and bots, humans will become bots)
-* New feature: You and the other players can commit to stop running game
-* Security: use trusted base for urls in generated qr-codes
-* Improvement: Beginning Player is selected randomly (or the last winner)
-* Improvement: Last put card is visible in winner dialog
-
 ### Version 1.2
 * improved ux: beautified processing animation
 * bugfix: restore localStorage Items. could be removed while leaving another game
@@ -65,10 +54,3 @@ See my version as fun project
 * improved ux
    * show myself in players list instead of only showing the others
    * reverse display order of players if playing direction is reversed
-  
-### Future Updates
-
-#### Version 3.0 (maybe Winter 2021)
-* ability to join to a running game
-* end game when loser is known (not when winner is known)
-* configurable ruleset
