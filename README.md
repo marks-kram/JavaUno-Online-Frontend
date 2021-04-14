@@ -6,7 +6,7 @@ Cardgame - Multiplayer browser game - The Frontend
 
 ## Description
 The Frontend offers the view to the card game.\
-It is an VUE.js-Application 
+It is an VUE.js-Application
 
 ## Backend
 You can use your own backend or use my backend under: https://github.com/tomatenmark/JavaUno-Online-Backend.\
