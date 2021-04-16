@@ -37,8 +37,10 @@ function handleRequestError(response) {
             self.location.reload();
         }
         if(response.data.message === invalidTokenMessage){
-            showErrorDialog('Fehler: Ungültiger Token. Veralteter/Fehlerhafter Link?');
-            self.location.replace('/');
+            localStorage.removeItem('token');
+            app.btnCreateGameDisabled = false;
+            app.tokenLockedGameCreate = true;
+            showErrorDialog('Fehler: Ungültiger Token');
         }
         if(response.data.message === fileReadErrorMessage){
             showErrorDialog('Fehler: Token konnte nicht validiert werden, wegen eines Datei-Lesefehlers im Backend. ' +

@@ -15,7 +15,6 @@ const config = {
 
 const features = {
     //tokenized-game-create: see README.md for feature-description.
-    enableTokenizedGameCreate: false,
     invalidTokenMessage: 'failure: de.markherrmann.javauno.exceptions.InvalidTokenException: Invalid Token provided.',
     fileReadErrorMessage: 'failure: de.markherrmann.javauno.exceptions.FileReadException: Could not read token file in backend. Please try again later or report this error to me.'
 }
