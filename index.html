@@ -1,5 +1,5 @@
 <!Doctype html>
-<html lang="de" xmlns:v-bind="http://www.w3.org/1999/xhtml">
+<html lang="de" xmlns:v-bind="http//www.w3.org/1999/xhtml">
 <head>
     <title>JavaUno Online</title>
     <meta charset="UTF-8">
@@ -9,47 +9,72 @@
     <meta property="og:image" content="/res/img/og.png">
     <meta property="og:image:secure_url" content="/res/img/og.png">
     <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
+    <link rel="stylesheet" type="text/css" href="/res/css/fontawesome.css">
     <link rel="stylesheet" type="text/css" href="/res/css/general.css">
     <link rel="stylesheet" type="text/css" href="/res/css/view-start.css">
     <link rel="stylesheet" type="text/css" href="/res/css/view-set-players.css">
     <link rel="stylesheet" type="text/css" href="/res/css/view-game.css">
-    <script src="/res/js/config.js"></script>
+    <script src="/res/js/config-default.js"></script>
+    <script src="config.js"></script>
     <script src="/res/js/vue-core.js"></script>
-    <script src="/res/js/vue-cookies.js"></script>
     <script src="/res/js/vue-resource.js"></script>
     <script src="/res/js/toaster.js"></script>
     <script src="/res/js/toast.js"></script>
-    <script src="/res/js/qr.js"></script>
+    <script src="/res/js/qr/qr-generator.js"></script>
     <script src="/res/js/countdown.js"></script>
     <script src="/res/js/sockjs.min.js"></script>
     <script src="/res/js/stomp.min.js"></script>
 </head>
 <body>
     <header>
-        <img src="/res/img/logo.png" alt="">
-        <a href="/manual.pdf" target="_blank">Bedienungs- und Spielanleitung</a>
+        <img src="/res/img/logo.png" alt="" onclick="self.location.href='/';">
+        <a href="/manual.pdf" target="_blank"><span class="fas fa-file-pdf"></span> Bedienungs- und Spielanleitung</a>
     </header>
     <noscript>JavaUno als Browsergame basiert auf JavaScript. Bitte aktiviere JavaScript in deinen Browsereinstellungen.</noscript>
 
     <div id="javaUno">
 
         <!-- Start/Join view - From here a game can be created or joined -->
-        <div id="view-start" v-if="currentView === 'start' || currentView === 'join'">
+        <div id="view-start" v-if="currentView === 'start' || currentView === 'join' || currentView === 'noToken'">
             <p v-if="!invitation">
                 Spiele das beliebte Kartenspiel UNO online am PC oder Smartphone.<br>
-                Du kannst mit Freunden spielen oder aber auch alleine gegen computergesteuerte Gegner.
+                Du kannst mit Freunden spielen oder aber auch alleine gegen computergesteuerte Gegner.<br>
             </p>
             <p v-if="invitation">
                 Mach' mit beim beliebten Kartenspiel UNO.<br>
                 Du wurdest eingeladen, mitzuspielen. Viel Spaß!
             </p>
-            <input v-if="currentView === 'join'" type="text" v-model="name" placeholder="Name (optional)">
-            <button v-if="currentView === 'start'" @click="createGame()" v-bind:disabled="btnCreateGameDisabled">Spielspaß beginnen</button>
-            <button v-if="currentView === 'join'" @click="joinGame()"
-                    v-bind:disabled="gameState.players.length >= 8 || gameState.game.gameLifecycle === 'RUNNING' || btnJoinGameDisabled">
-                <span v-if="invitation">Jetzt mitspielen</span>
-                <span v-if="!invitation">Jetzt loslegen</span>
-            </button>
+            <div v-if="currentView === 'start'">
+                <p>
+                    <span v-if="enableTokenizedGameCreate">Um zu spielen brauchst du eine Einladung zum Mitspielen oder
+                        einen Token zur Berechtigung, ein neues Uno-Spiels zu erstellen.</span>
+                    <span v-if="!enableTokenizedGameCreate">Erstelle ein neues Uno-Spiel oder erhalte eine Einladung zum Mitspielen.</span>
+                </p>
+                <p>
+                    <button v-if="currentView === 'start'" @click="createGame()"
+                            v-bind:disabled="tokenLockedGameCreate || btnCreateGameDisabled"><span class="far fa-smile-beam"></span> Uno-Spiel erstellen</button><br>
+                    <span v-if="tokenLockedGameCreate" class="smallButtonDescription">(Berechtigungstoken erforderlich)</span>
+                </p>
+                <p v-if="hasCamera">
+                    <button @click="scanQr()" class="small"><span class="fas fa-camera"></span> QR-Code scannen</button><br>
+                    <span v-if="tokenLockedGameCreate" class="smallButtonDescription">(Für Tokens, und Einladungen)</span>
+                    <span v-if="!tokenLockedGameCreate" class="smallButtonDescription">(Für Einladungen)</span>
+                </p>
+                <p>
+                    <button @click="prepareSwitchDevice()" class="small"><span class="fas fa-exchange-alt"></span> Gerät wechseln</button><br>
+                    <span  class="smallButtonDescription">(Bestehendes Spiel hierhin wechseln)</span>
+                </p>
+            </div>
+            <div v-if="currentView === 'join'">
+                <input type="text" v-model="name" placeholder="Name (optional)">
+                <button @click="joinGame()"
+                        v-bind:disabled="gameState.players.length >= 8 || gameState.game.gameLifecycle === 'RUNNING' || btnJoinGameDisabled">
+                    <span class="fas fa-arrow-right"></span>
+                    <span v-if="invitation">Jetzt mitspielen</span>
+                    <span v-if="!invitation">Jetzt loslegen</span>
+                </button><br><br>
+                <button class="small" @click="reset()"><span class="fas fa-ban"></span> Abbrechen</button>
+            </div>
             <div  class="errMsg" v-if="currentView === 'join' && gameState.players.length >= 8">
                 Die maximale Spieleranzahl (8) wurde erreicht.
             </div>
@@ -67,33 +92,35 @@
         <div id="view-set-players" v-if="currentView === 'set_players'">
             <h3>Aktuelle Spieler ({{gameState.players.length}})</h3>
             <div id="current-players">
-                <div class="player" v-for="(player, index) in gameState.players">
+                <div v-for="(player, index) in gameState.players" v-bind:class="getPlayerClasses(player)">
                     {{ getPlayerName(player.name, index) }}
-                    <span v-if="index === gameState.myIndex">(Du)</span>
-                    <button v-if="index === gameState.myIndex" class="small" @click="leaveGame()">Spiel verlassen</button>
-                    <button v-if="player.bot" class="small" @click="removeBot(player)">Bot entfernen</button>
+                    <span v-if="index === gameState.myIndex" class="me">(Du)</span>
+                    <button v-if="index === gameState.myIndex" class="small" @click="leaveGame()"><span class="fas fa-times"></span> Spiel verlassen</button>
+                    <button v-if="player.bot" class="small" @click="removeBot(player)"><span class="fas fa-times"></span> Bot entfernen</button>
+                    <button v-if="!player.bot && index !== gameState.myIndex" v-bind:disabled="player.botifyPending || botifyPlayerPending" class="small" @click="confirmRequestBotifyPlayer(player)">
+                        <span class="fas fa-times"></span>
+                        <span>Spieler entfernen</span>
+                    </button>
                 </div>
             </div>
             <h3>Spieler hinzufügen</h3>
             <div id="add-players" v-if="gameState.players.length < 8">
                 Freunde einladen:<br>
-                Schicke deinen Freunden folgenden Link:<br>
-                <button class="small" @click="copyLink()">Kopieren</button>
-                <textarea id="invitation-link-toCopy">https://{{hostname}}/invitation.html#game:{{gameUuid}}</textarea>
-                <span id="invitation-link">https://{{hostname}}/invitation.html#game:{{gameUuid}}</span>
-                <br><br>
-                Oder, wenn sie eh bei dir sind, lasse einfach den
-                <button class="small" @click="showQrCode()">QR-Code scannen</button>
-                <div id="invitation-qr" v-show="showQr">
-                    <div id="invitation-qr-code">
-                        <img v-bind:src="qr" alt="">
+                Schicke deinen Freunden folgenden Link oder lasse sie den QR-Code scannen:<br>
+                <textarea id="invitation-link-toCopy">{{protocol}}://{{hostname}}/invitation.html#game:{{gameUuid}}</textarea>
+                <span id="invitation-link">{{protocol}}://{{hostname}}/invitation.html#game:{{gameUuid}}</span><br><br>
+                <button class="small" @click="copyLink()"><span class="far fa-copy"></span> Link Kopieren</button>&emsp;
+                <button class="small" @click="showInvitationQrCode()"><span class="fas fa-qrcode"></span> QR-Code anzeigen</button>
+                <div v-show="showInvitationQr">
+                    <div >
+                        <img v-bind:src="qr" alt="" class="qr-image">
                     </div>
-                    <button class="small" @click="showQr = false">ausblenden</button>
+                    <button class="small" @click="showInvitationQr = false">ausblenden</button>
                 </div>
                 <br><br>
-                Alternativ kannst du einen computergesteuerten Gegner hinzufügen.<br>
+                Alternativ kannst du einen computergesteuerten Gegner hinzufügen:<br>
                 <input class="small" type="text" v-model="botName" placeholder="Name (optional)">
-                <button class="small" @click="addBot()">Hinzufügen</button>
+                <button class="small" @click="addBot()"><span class="fas fa-plus"></span> Hinzufügen</button>
             </div>
             <div id="add-players-limit-reached" v-if="gameState.players.length >= 8">
                 Die maximale Spieleranzahl (8) wurde erreicht.<br>
@@ -101,17 +128,20 @@
             </div>
             <div id="start-game">
                 <button @click="startGame()"
-                        v-bind:disabled="gameState.players.length < 2">Spiel starten</button>
+                        v-bind:disabled="gameState.players.length < 2"><span class="fas fa-play"></span> Runde starten</button>
                 <div class="errMsg" v-if="gameState.players.length < 2">
                     Es werden mindestens 2 Spieler benötigt.
                 </div>
             </div>
+            <p class="largeMarginBottom">
+                <button @click="prepareSwitchDevice()" class="small"><span class="fas fa-exchange-alt"></span> Gerät wechseln</button>
+            </p>
         </div>
 
         <!-- running game view - shows the running game -->
         <div id="view-running" v-if="currentView === 'running'">
             <div id="players">
-                <div class="player" v-for="(player, index) in gameState.players" v-if="!gameState.game.reversed">
+                <div v-for="(player, index) in gameState.players" v-if="!gameState.game.reversed" v-bind:class="getPlayerClasses(player)">
                     <div class="current">
                         <div v-bind:style="'width: ' + (isPlayersTurn(index) ? timeLeftPercent : 0) + '%'"></div>
                     </div>
@@ -120,9 +150,11 @@
                     </div>
                     <div v-bind:class="'cards ' + (player.cardCount > 9 ? ' more' : '') + (player.cardCount === 1 && player.unoSaid ? ' red' : '')">
                         {{ player.cardCount }}
+                        <button v-if="player.bot && !isPlayersTurn(index)" class="small kick" @click="removeBotInGame(player)"><span class="fas fa-times"></span></button>
+                        <button v-if="!player.bot && isNotMe(index)" v-bind:disabled="player.botifyPending || botifyPlayerPending" class="small kick" @click="confirmRequestBotifyPlayer(player)"><span class="fas fa-times"></span></button>
                     </div>
                 </div>
-                <div class="player" v-for="(player, index) in gameState.players.slice().reverse()" v-if="gameState.game.reversed">
+                <div v-for="(player, index) in gameState.players.slice().reverse()" v-if="gameState.game.reversed" v-bind:class="getPlayerClasses(player)">
                     <div class="current">
                         <div v-bind:style="'width: ' + (isPlayersTurn(gameState.players.length-index-1) ? timeLeftPercent : 0) + '%'"></div>
                     </div>
@@ -131,6 +163,8 @@
                     </div>
                     <div v-bind:class="'cards ' + (player.cardCount > 9 ? ' more' : '') + (player.cardCount === 1 && player.unoSaid ? ' red' : '')">
                         {{ player.cardCount }}
+                        <button v-if="player.bot && !isPlayersTurn(gameState.players.length-index-1)" class="small kick" @click="removeBotInGame(player)">X</button>
+                        <button v-if="!player.bot && isNotMe(gameState.players.length-index-1)" v-bind:disabled="player.botifyPending || botifyPlayerPending" class="small kick" @click="confirmRequestBotifyPlayer(player)">X</button>
                     </div>
                 </div>
             </div>
@@ -145,7 +179,7 @@
                 </div>
                 <div id="say-uno">
                     <div>
-                        <button @click="sayUno()" v-bind:disabled="!isSayUnoAllowed()">Uno sagen</button>
+                        <button @click="sayUno()" v-bind:disabled="!isSayUnoAllowed()"><span class="fas fa-comment"></span> Uno</button>
                     </div>
                 </div>
                 <div id="drawPile" v-bind:class="isDrawAllowed() ? 'enabled' : 'disabled'" @click="draw()">
@@ -182,21 +216,64 @@
                     <span v-if="isMyTurn() && gameState.game.turnState === 'PUT_DRAWN' && index === (gameState.ownCards.length-1)">&emsp;&emsp;&emsp;&emsp;&emsp;</span>
                     <button
                             v-if="isMyTurn() && gameState.game.turnState === 'PUT_DRAWN' && index === (gameState.ownCards.length-1)"
-                            class="small"
-                            @click="keep()">&larr; Behalten</button>
+                            class="small putDrawn"
+                            @click="put(card, index)"><span class="fas fa-arrow-left"></span> Legen</button>
+                    <button
+                            v-if="isMyTurn() && gameState.game.turnState === 'PUT_DRAWN' && index === (gameState.ownCards.length-1)"
+                            class="small keepDrawn"
+                            @click="keep()"><span class="fas fa-arrow-left"></span> Behalten</button>
                 </div>
             </div>
+            <button class="small gameBottomButton" @click="prepareSwitchDevice()" class="small" id="in-game-switch-device"><span class="fas fa-exchange-alt"></span> Gerät wechseln</button>
+            <button class="small gameBottomButton" type="button" class="small" @click="confirmLeaveRunningGame()" id="leave-running-game"><span class="fas fa-times"></span> Spiel verlassen</button>
+            <button v-if="!stopPartyRequested" class="small gameBottomButton stopParty" type="button" class="small" @click="confirmRequestStopParty()" id="stop-party"><span class="fas fa-stop"></span> Runde beenden</button>
+            <button v-if="stopPartyRequested" class="small gameBottomButton stopParty red" type="button" class="small" @click="revokeRequestStopParty()" id="revoke-stop-party"><span class="fas fa-ban"></span> Abbrechen</button>
         </div>
+
+        <!-- switch device view -->
+        <div id="view-switch-device" v-if="currentView === 'switch-device'">
+            <button v-if="!showSwitchInQr && !showSwitchOutQr" class="small" @click="abortSwitchDevice()"><span class="fas fa-ban"></span> Abbrechen</button><br><br>
+            <span v-if="!showSwitchOutQr && !showSwitchInQr">Der Wechsel ist kinderleicht. Voraussetzung: Mindestens eines der beiden Geräte braucht eine Kamera.<br><br></span>
+            <div v-if="gameUuid !== null && gameUuid !== '' && !showSwitchInQr">
+                <button class="small" @click="prepareSwitchOut()" v-if="!showSwitchOutQr"><span class="fas fa-qrcode"></span> QR-Code anzeigen</button><br>
+                <div v-show="showSwitchOutQr">
+                    Scanne den QR-Code, um den Wechsel durchzuführen.
+                    <div>
+                        <img v-bind:src="qr" alt="" class="qr-image">
+                    </div>
+                    <button class="small" @click="abortSwitchOut()"><span class="fas fa-ban"></span> Abbrechen</button>
+                </div>
+            </div>
+            <div v-if="gameUuid === null || gameUuid === '' && !showSwitchOutQr">
+                <button class="small" @click="prepareSwitchIn()" v-if="!showSwitchInQr"><span class="fas fa-qrcode"></span> QR-Code anzeigen</button><br>
+                <div v-show="showSwitchInQr">
+                    Scanne den QR-Code, um den Wechsel durchzuführen.
+                    <div>
+                        <img v-bind:src="qr" alt="" class="qr-image">
+                    </div>
+                    <button class="small" @click="abortSwitchIn()"><span class="fas fa-ban"></span> Abbrechen</button>
+                </div>
+            </div>
+            <p>
+                <button v-if="hasCamera && !showSwitchOutQr && !showSwitchInQr" class="small" @click="scanQr()"><span class="fas fa-camera"></span> QR-Code scannen</button>
+            </p>
+        </div>
+
 
         <!-- lightbox to show winner -->
         <div id="finished" class="lightbox" v-if="winner >= 0">
             <div>
+                <picture>
+                    <source v-bind:srcset="getCardImage(gameState.game.topCard, 'large')" media="(min-width: 860px) and (min-height: 908px)">
+                    <source v-bind:srcset="getCardImage(gameState.game.topCard, 'small')" media="(max-width: 859px), (max-height: 907px)">
+                    <img v-bind:src="getCardImage(gameState.game.topCard, 'small')" alt="">
+                </picture>
                 <div v-if="winner === gameState.myIndex">
-                    Herzlichen Glückwunsch, {{getPlayerName(gameState.players[winner].name, winner)}}!<br>
+                    Herzlichen Glückwunsch, <nobr>{{getPlayerName(gameState.players[winner].name, winner)}}!</nobr><br>
                     Du hast gewonnen!
                 </div>
                 <div v-if="winner !== gameState.myIndex">
-                    {{getPlayerName(gameState.players[winner].name, winner)}} hat gewonnen!
+                    <nobr>{{getPlayerName(gameState.players[winner].name, winner)}}</nobr> hat gewonnen!
                 </div>
                 <button class="small" @click="winner = -1">OK</button>
             </div>
@@ -217,16 +294,47 @@
         <div id="processingBg" v-if="processing"></div>
         <div id="processingAnimation" v-if="processing"></div>
         <div id="processingEndAnimation" v-if="processingEnd"></div>
+
+        <!-- dialogs -->
+        <div v-if="dialog!==null">
+            <div id="dialogBackground" @click="dialog=null"></div>
+            <div id="dialogElement">
+                <div v-bind:class="dialog.classes">{{dialog.text}}</div>
+                <button v-if="!dialog.confirm && !dialog.timedCancel" type="button" class="small" @click="dialog=null">OK</button>
+                <div v-if="dialog.confirm">
+                    <button type="button" class="small" @click="dialog.confirmCallback">OK</button>
+                    &emsp;
+                    <button type="button" class="small" @click="dialog=null"><span class="fas fa-ban"></span> Abbrechen</button>
+                </div>
+                <div v-if="dialog.timedCancel">
+                    <button type="button" class="small" @click="dialog.cancelCallback"><span class="fas fa-ban"></span> ({{dialog.secondsLeft}}) Abbrechen</button>
+                </div>
+
+            </div>
+        </div>
     </div>
 
     <div id="toasts"></div>
 
     <script src="/res/js/app.js"></script>
+    <script src="/res/js/qr/qr.js"></script>
+    <script type="module" src="/res/js/qr/qr-scan.js"></script>
     <script src="/res/js/app-processing.js"></script>
     <script src="/res/js/app-requests.js"></script>
     <script src="/res/js/app-game.js"></script>
     <script src="/res/js/app-player.js"></script>
     <script src="/res/js/app-turn.js"></script>
     <script src="/res/js/push.js"></script>
+
+    <div id="legalHint">
+        Private fun project by Tomatenmark - Not related to Mattel or their original game.
+    </div>
+
+    <div id="qrScanBg"></div>
+    <video id="qrScanVideo"></video>
+    <button id="qrScanBtn"></button>
+    <button class="small" id="qrScanStopBtn"><span class="fas fa-ban"></span> Abbrechen</button>
+
+
 </body>
 </html>

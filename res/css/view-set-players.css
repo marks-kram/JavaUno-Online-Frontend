@@ -39,7 +39,7 @@
     padding: 10px;
 }
 
-#current-players .player span {
+#current-players .player span.me {
     color: #acaccb;
 }
 
