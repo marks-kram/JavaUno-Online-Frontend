@@ -28,7 +28,7 @@ const data = {
     btnJoinGameDisabled: false,
     processing: false,
     processingEnd: false,
-    enableTokenizedGameCreate: features.enableTokenizedGameCreate,
+    enableTokenizedGameCreate: false,
     token: 'empty',
     tokenLockedGameCreate: false,
     hostname: config.siteHostname,

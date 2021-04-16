@@ -50,7 +50,7 @@ function loadGameWithoutPlayer(){
 }
 
 function createGame() {
-    if(config.enableTokenizedGameCreate && app.token === ''){
+    if(app.tokenLockedGameCreate){
         return;
     }
     app.btnCreateGameDisabled = true;
@@ -65,7 +65,10 @@ function startGame(){
 }
 
 function reset(){
-    localStorage.clear();
+    localStorage.removeItem('gameUuid');
+    localStorage.removeItem('playerUuid');
+    localStorage.removeItem('invitation');
+    localStorage.removeItem('sayUno');
     self.location.replace('/');
 }
 
@@ -78,18 +81,51 @@ function handleInvitation(){
     }
 }
 
-function handleToken(){
-    if(!features.enableTokenizedGameCreate){
-        return;
-    }
+function handleTokenLink(){
     const urlParams = new URLSearchParams(window.location.search);
     const token = urlParams.get('token');
-    app.token = (token === null || token === '') ? 'empty' : token.replace('/', '');
+    if(token === null){
+        return false;
+    }
+    if(isTokenPatternValid(token)){
+        localStorage.setItem('token', token);
+    }
+    self.location.replace('/');
+    return true;
 }
 
-function isTokenPatternValid(){
+function setHandleTokenAndEnableView(data){
+    setHandleToken(data)
+    document.getElementById('javaUno').style.display = 'block';
+}
+
+function setHandleToken(data){
+    stopProcessingAnimation();
+    const enabled = data.message === 'on';
+    if(!enabled){
+        return;
+    }
+    app.enableTokenizedGameCreate = true;
+    const token = localStorage.getItem('token');
+    app.tokenValidPattern = isTokenPatternValid(token);
+    if(!app.tokenValidPattern){
+        localStorage.removeItem('token');
+        app.tokenLockedGameCreate = true;
+        return;
+    }
+    app.token = token;
+}
+
+function handleToken(){
+    doGetRequest('/game/tokenized-game-create-enabled', setHandleTokenAndEnableView)
+}
+
+function isTokenPatternValid(token){
+    if(token === null){
+        return false;
+    }
     const tokenRegex = "^([a-zA-Z0-9_-]{11})\\.([a-zA-Z0-9_-]{11})$";
-    return new RegExp(tokenRegex).test(app.token);
+    return new RegExp(tokenRegex).test(token);
 }
 
 function prepareSwitchDevice(){
@@ -243,9 +279,8 @@ function init(){
     const gameUuid = localStorage.getItem('gameUuid');
     if(gameUuid == null){
         app.currentView = 'start';
-        app.tokenValidPattern = isTokenPatternValid();
-        app.tokenLockedGameCreate = features.enableTokenizedGameCreate && !isTokenPatternValid();
-        return;
+        handleToken();
+        return false;
     }
     app.gameUuid = gameUuid;
     connectPush(gameUuid, null, null);
@@ -256,15 +291,18 @@ function init(){
     } else {
         app.loadGameWithoutPlayer();
     }
+    return true;
 }
 
 window.addEventListener("load", function() {
-    const isSwitch = handleSwitchDevice();
-    if(isSwitch){
+    if(handleSwitchDevice()){
+        return;
+    }
+    if(handleTokenLink()){
         return;
     }
     handleInvitation();
-    handleToken();
-    init();
-    document.getElementById('javaUno').style.display = 'block';
+    if(init()){
+        document.getElementById('javaUno').style.display = 'block';
+    }
 });
