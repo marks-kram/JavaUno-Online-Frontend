@@ -266,6 +266,10 @@ header a:active {
     font-size: 1.3rem;
 }
 
+#dialogElement > div.error {
+    color: #aa0000;
+}
+
 #dialogElement > button {
     margin: 10px;
 }

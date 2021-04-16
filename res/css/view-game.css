@@ -165,6 +165,14 @@
     white-space: nowrap;
 }
 
+#ownCards button.putDrawn {
+    top: 25%;
+}
+
+#ownCards button.keepDrawn {
+    top: 75%;
+}
+
 #drawPile.disabled, #ownCards picture.disabled {
     cursor: not-allowed;
 }
