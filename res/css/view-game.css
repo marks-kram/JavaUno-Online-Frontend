@@ -220,15 +220,15 @@ body.hover #drawPile.enabled:hover, body.hover #ownCards picture.enabled:hover, 
 }
 
 #in-game-switch-device {
-    left: 15px;
+    left: 10px;
 }
 
 #leave-running-game {
-    right: 15px;
+    right: calc(100vw - 850px);
 }
 
 .stopParty {
-    left: 50%;
+    left: 430px;
     transform: translateX(-50%);
 }
 
@@ -350,6 +350,15 @@ button.small.kick {
 @media (max-width: 859px) {
     button.small.gameBottomButton {
         bottom: 45px;
-        font-size: 0.8rem;
+        font-size: 0.7rem;
+    }
+
+    #leave-running-game {
+        right: calc(100vw - 350px);
+    }
+
+    .stopParty {
+        left: 180px;
+        transform: translateX(-50%);
     }
 }
