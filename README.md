@@ -2,7 +2,7 @@
 Card game - Multiplayer browser game - The Frontend
 
 ## Version
-2.0 (2021, April, 11th)
+2.0 (2021, April, 16th)
 
 ## Description
 The Frontend offers the view to the card game.\
@@ -20,10 +20,8 @@ There are two files for config:
   * Example to override the siteHostname: config.siteHostname='javauno.example.com';
 
 ## tokenized-game-create
-* Optional feature
-  * Disable: put features.enableTokenizedGameCreate=false; in /config.js
-  * Enable: put features.enableTokenizedGameCreate=true; in /config.js
-  * Default: disabled
+* Enable/Disable optional feature:\
+  Enable/Disable feature in Backend (see: https://github.com/tomatenmark/JavaUno-Online-Backend/blob/master/readme.md#tokenized-game-create)
 * visitors have to provide a valid token to create a game
 * token is given by url (/?token=...)
 * token validation happens in backend (see: https://github.com/tomatenmark/JavaUno-Online-Backend/blob/master/readme.md#tokenized-game-create)
