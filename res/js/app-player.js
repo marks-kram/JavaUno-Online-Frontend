@@ -31,14 +31,14 @@ function addBot(){
 }
 
 function removeBot(player){
-    let path = '/player/removeBot/' + app.gameUuid + '/' + player.kickUuid;
+    let path = '/player/removeBot/' + app.gameUuid + '/' + player.publicUuid;
     localStorage.setItem('gameUuid', app.gameUuid);
     localStorage.setItem('playerUuid', app.playerUuid);
     doDeleteRequest(path, loadGame);
 }
 
 function removeBotInGame(player){
-    let path = '/player/removeBotInGame/' + app.gameUuid + '/' + player.kickUuid;
+    let path = '/player/removeBotInGame/' + app.gameUuid + '/' + player.publicUuid;
     localStorage.setItem('gameUuid', app.gameUuid);
     localStorage.setItem('playerUuid', app.playerUuid);
     doDeleteRequest(path, loadGame);
@@ -55,6 +55,20 @@ function getPlayerName(name, index) {
         return indexedPlayerName;
     }
     return name.trim().replace(/(<.*?>|&.*?;)/g, '');
+}
+
+function getPlayerNameByPlayerInfo(playerInfo) {
+    const name = playerInfo.name;
+    const uuid = playerInfo.publicUuid;
+    if(name !== null && name.trim() !== ''){
+        return name;
+    }
+    for(let player in app.gameState.players){
+        if(player.publicUuid === uuid){
+            const index = app.gameState.players.indexOf(player);
+            return `Spieler ${index}`;
+        }
+    }
 }
 
 function copyLink(){
@@ -88,7 +102,7 @@ function confirmRequestBotifyPlayer(player){
 
 function requestBotifyPlayer(){
     app.dialog = null;
-    let path = '/player/request-botify/' + app.gameUuid + '/' + app.playerToBotify.kickUuid;
+    let path = '/player/request-botify/' + app.gameUuid + '/' + app.playerToBotify.publicUuid;
     doPostRequest(path, {}, setRequestBotifyPlayer);
 }
 

@@ -237,13 +237,33 @@ const doPushActionRequestBotifyPlayer = function (message){
 
 const doPushActionCancelBotifyPlayer = function (message){
     const uuid = message.body.replace(/cancel-botify-player:/, '');
-    const pendingUuid = app.playerToBotify != null ? app.playerToBotify.kickUuid : '';
+    const pendingUuid = app.playerToBotify != null ? app.playerToBotify.publicUuid : '';
     if(pendingUuid === uuid){
         app.botifyPlayerPending = false;
         app.playerToBotify = null;
         showInformationDialog('Der Spieler hat den Prozess abgebrochen.');
     }
     updateView();
+};
+
+const doPushActionMessage = function (message){
+    const playerName = message.body.replace(/message:([^:]+):([^:]+):([^:]+)$/, '$1');
+    const playerPublicUuid = message.body.replace(/message:([^:]+):([^:]+):([^:]+)$/, '$2');
+    const content = message.body.replace(/message:([^:]+):([^:]+):([^:]+)$/, '$3');
+    const playerInfo = {
+        name: playerName,
+        publicUuid: playerPublicUuid
+    }
+    const messageData = {
+        playerInfo: playerInfo,
+        content: content
+    }
+    app.gameState.game.messages.push(messageData);
+    app.newMessages = true;
+    if(app.gameState.players[app.gameState.myIndex].publicUuid !== playerPublicUuid){
+        const name = getPlayerNameByPlayerInfo(playerInfo);
+        showToast(`${name} schreibt: ${content}`);
+    }
 };
 
 function showTurnToast(index){
@@ -291,5 +311,6 @@ const pushActions = {
     'revoke-request-stop-party': doPushActionRevokeRequestStopParty,
     'stop-party': doPushActionStopParty,
     'request-botify-player': doPushActionRequestBotifyPlayer,
-    'cancel-botify-player': doPushActionCancelBotifyPlayer
+    'cancel-botify-player': doPushActionCancelBotifyPlayer,
+    'message': doPushActionMessage
 };
