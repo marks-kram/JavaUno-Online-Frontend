@@ -192,6 +192,27 @@ header a:active {
     background: #6cbaff;
 }
 
+header button {
+    position: absolute;
+    top: 50%;
+    right: 5px;
+    transform: translateY(-50%);
+    border-radius: 5px;
+    padding: 4px 4px;
+    background: #6cbaff;
+    color: black;
+}
+
+header div#newMessages {
+    position: absolute;
+    top: 20px;
+    right: 7px;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #00a207;
+}
+
 #legalHint {
     position: fixed;
     bottom: 4px;

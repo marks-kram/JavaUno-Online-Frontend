@@ -16,15 +16,28 @@ function checkConnected(){
 
 cC = setInterval('checkConnected()', 1000);
 
-function connectPush(gameUuid) {
+function connectPush(pushUuid, callback, callBackArgument) {
+    if(stompClient != null){
+        console.log('refuse to connect push. already connected.');
+        return;
+    }
     const socket = new SockJS('/ws');
     stompClient = Stomp.over(socket);
     stompClient.connect({}, function (frame) {
         console.log('Connected: ' + frame);
-        stompClient.subscribe('/api/push/'+gameUuid, function (message) {
+        stompClient.subscribe('/api/push/'+pushUuid, function (message) {
             handleMessage(message);
         });
+        if(callback != null){
+            callback(callBackArgument);
+        }
     });
+}
+
+function disconnectPush(){
+    clearInterval(cC);
+    stompClient.disconnect();
+    stompClient = null;
 }
 
 async function handleMessage(message){
@@ -76,6 +89,20 @@ const  doPushActionRemovedPlayer = function(message){
         if(isNotMe(index) || app.currentView === 'join'){
             app.gameState.players.splice(index, 1);
         }
+        updateView();
+    }
+};
+
+const doPushActionBotifiedPlayer = function(message){
+    const index = parseInt(message.body.replace(/^botified-player:(.*?)$/, '$1'));
+    if(isMe(index)){
+        reset();
+    } else {
+        let name = app.gameState.players[index].name;
+        name = name !== '' ? name : `Spieler ${index+1}`;
+        app.gameState.players[index].bot = true;
+        showInformationDialog(`${name} hat das Spiel verlassen und wurde zu einem Bot.`);
+        updateView();
     }
 };
 
@@ -145,12 +172,98 @@ const  doPushActionFinishedGame = function(message) {
     if(app.currentView === 'running' && party === app.gameState.game.party){
         app.winner = app.gameState.game.currentPlayerIndex;
     }
+    app.stopPartyRequested = false;
     updateView();
 };
 
 const  doPushActionEnd = function() {
     showToast('Spiel beendet. Danke für\'s Spielen');
     reset();
+};
+
+const  doPushActionSwitchIn = function(message) {
+    const gameUuid = message.body.replace(/switch-in:([^:]+):([^:]+)$/, '$1');
+    const playerUuid = message.body.replace(/switch-in:([^:]+):([^:]+)$/, '$2');
+    if(app.pendingSwitch){
+        localStorage.setItem('gameUuid', gameUuid);
+        localStorage.setItem('playerUuid', playerUuid);
+        doPostRequest(`/switch/switch-finished/${gameUuid}/${playerUuid}`, {}, function(){self.location.reload()});
+    }
+};
+
+const  doPushActionSwitchFinished = function(message) {
+    app.pendingPlayerIndex = parseInt(message.body.replace(/switch-finished:/, ''));
+    const path = `/gameState/get/${app.gameUuid}/${app.playerUuid}`;
+    doGetRequest(path, removeSwitchedGameFromHere);
+};
+
+const doPushActionRequestStopParty = function(message){
+    const index = parseInt(message.body.replace(/^request-stop-party:(.*?)$/, '$1'));
+    app.gameState.players[index].stopPartyRequested = true;
+    let name = app.gameState.players[index].name;
+    name = getPlayerName(name, index);
+    if(isNotMe(index)){
+        showToast(`${name} hat angefragt, diese Runde zu beenden.`);
+    }
+};
+
+const doPushActionRevokeRequestStopParty = function(message){
+    const index = parseInt(message.body.replace(/^revoke-request-stop-party:(.*?)$/, '$1'));
+    app.gameState.players[index].stopPartyRequested = false;
+    let name = app.gameState.players[index].name;
+    name = getPlayerName(name, index);
+    if(isNotMe(index)) {
+        showToast(`${name} hat die Anfrage zurück genommen, diese Runde zu beenden.`);
+    }
+};
+
+const doPushActionStopParty = function(message){
+    const party = parseInt(message.body.replace(/stop-party:/, ''));
+    if(app.currentView === 'running' && party === app.gameState.game.party){
+        app.stopPartyRequested = false;
+        app.currentView = 'set-players';
+        updateView();
+    }
+};
+
+const doPushActionRequestBotifyPlayer = function (message){
+    const uuid = message.body.replace(/request-botify-player:/, '');
+    if(app.playerUuid === uuid){
+        showTimedCancelDialog(`Jemand möchte dich aus dem Spiel entfernen. 
+        Ist das für dich ok? Du hast 10 Sekunden Zeit, diesen Vorgang abzubrechen.`, cancelBotify, 10);
+    }
+    updateView();
+};
+
+const doPushActionCancelBotifyPlayer = function (message){
+    const uuid = message.body.replace(/cancel-botify-player:/, '');
+    const pendingUuid = app.playerToBotify != null ? app.playerToBotify.publicUuid : '';
+    if(pendingUuid === uuid){
+        app.botifyPlayerPending = false;
+        app.playerToBotify = null;
+        showInformationDialog('Der Spieler hat den Prozess abgebrochen.');
+    }
+    updateView();
+};
+
+const doPushActionMessage = function (message){
+    const playerName = message.body.replace(/message:([^:]+):([^:]+):([^:]+)$/, '$1');
+    const playerPublicUuid = message.body.replace(/message:([^:]+):([^:]+):([^:]+)$/, '$2');
+    const content = message.body.replace(/message:([^:]+):([^:]+):([^:]+)$/, '$3');
+    const playerInfo = {
+        name: playerName,
+        publicUuid: playerPublicUuid
+    }
+    const messageData = {
+        playerInfo: playerInfo,
+        content: content
+    }
+    app.gameState.game.messages.push(messageData);
+    app.newMessages = true;
+    if(app.gameState.players[app.gameState.myIndex].publicUuid !== playerPublicUuid){
+        const name = getPlayerNameByPlayerInfo(playerInfo);
+        showToast(`${name} schreibt: ${content}`);
+    }
 };
 
 function showTurnToast(index){
@@ -183,6 +296,7 @@ const pushActions = {
     'started-game': doPushActionStartedGame,
     'added-player': doPushActionAddedPlayer,
     'removed-player': doPushActionRemovedPlayer,
+    'botified-player': doPushActionBotifiedPlayer,
     'put-card': doPushActionPutCard,
     'drawn-card': doPushActionDrawnCard,
     'kept-card': doPushActionKeptCard,
@@ -190,5 +304,13 @@ const pushActions = {
     'said-uno': doPushActionSaidUno,
     'next-turn': doPushActionNextTurn,
     'finished-game': doPushActionFinishedGame,
-    'end': doPushActionEnd
+    'end': doPushActionEnd,
+    'switch-in': doPushActionSwitchIn,
+    'switch-finished': doPushActionSwitchFinished,
+    'request-stop-party': doPushActionRequestStopParty,
+    'revoke-request-stop-party': doPushActionRevokeRequestStopParty,
+    'stop-party': doPushActionStopParty,
+    'request-botify-player': doPushActionRequestBotifyPlayer,
+    'cancel-botify-player': doPushActionCancelBotifyPlayer,
+    'message': doPushActionMessage
 };

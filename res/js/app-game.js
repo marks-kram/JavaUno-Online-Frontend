@@ -271,6 +271,30 @@ function revokeRequestStopParty(){
     doPostRequest(path, {}, setRevokeRequestStopParty);
 }
 
+function showChat(){
+    app.previousView = app.currentView;
+    app.currentView = 'chat';
+}
+
+function hideChat(){
+    app.currentView = app.previousView;
+    app.previousView = '';
+}
+
+function setSendMessage(){
+    stopProcessingAnimation();
+}
+
+function sendMessage(){
+    const path = `/chat/send`;
+    const data = {
+        message: app.message,
+        gameUuid: app.gameUuid,
+        playerUuid: app.playerUuid
+    }
+    doPostRequest(path, data, setSendMessage);
+}
+
 function init(){
     const invitation = localStorage.getItem('invitation');
     if(invitation != null && invitation === '1'){
