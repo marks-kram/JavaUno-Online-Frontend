@@ -57,18 +57,16 @@ function getPlayerName(name, index) {
     return name.trim().replace(/(<.*?>|&.*?;)/g, '');
 }
 
-function getPlayerNameByPlayerInfo(playerInfo) {
-    const name = playerInfo.name;
-    const uuid = playerInfo.publicUuid;
-    if(name !== null && name.trim() !== ''){
-        return name;
-    }
-    for(let player in app.gameState.players){
-        if(player.publicUuid === uuid){
-            const index = app.gameState.players.indexOf(player);
-            return `Spieler ${index}`;
+function getPlayerNameByPublicUuid(publicUuid) {
+    const players = app.gameState.players;
+    for(let i = 0; i < players.length; i++){
+        const player = players[i];
+        if(player.publicUuid === publicUuid){
+            const name = player.name;
+            return getPlayerName(name, i);
         }
     }
+    return "[Entfernter Spieler]";
 }
 
 function copyLink(){

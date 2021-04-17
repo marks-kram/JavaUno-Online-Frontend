@@ -282,6 +282,62 @@ button.small.kick {
     right: -3px;
 }
 
+.message {
+    background: #e0e0e0;
+    padding: 5px;
+    margin-bottom: 10px;
+}
+
+.message h3 {
+    margin: 0;
+}
+
+.messages {
+    position: fixed;
+    top: 40px;
+    left: 10px;
+    width: 840px;
+    height: calc(100vh - 170px);
+    overflow-x: hidden;
+    overflow-y: scroll;
+}
+
+#chatSend {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 120px;
+    background: silver;
+    padding-bottom: 45px;
+}
+
+#chatSend input.chatContent {
+    position: fixed;
+    left: 10px;
+    width: 790px;
+    bottom: 30px;
+}
+
+#chatSend button.chatSendBtn {
+    position: fixed;
+    right: calc(100vw - 850px);
+    bottom: 30px;
+    width: 40px;
+}
+
+#chatSend button.small.chatBack {
+    position: fixed;
+    bottom: 85px;
+    left: 10px;
+}
+
+div#toasts div {
+    max-width: 500px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
 @media (max-width: 859px), (max-height: 907px) {
     #players .player .name {
         font-size: 0.5rem;
@@ -360,5 +416,48 @@ button.small.kick {
     .stopParty {
         left: 180px;
         transform: translateX(-50%);
+    }
+
+    .messages {
+        width: calc(100vw - 20px);
+        height: calc(100vh - 180px);
+    }
+
+    #chatSend {
+        padding-bottom: 45px;
+    }
+
+    #chatSend input.chatContent {
+        width: calc(100vw - 70px);
+        bottom: 45px;
+    }
+
+    #chatSend button.chatSendBtn {
+        right: 10px;
+        bottom: 45px;
+    }
+
+    #chatSend button.small.chatBack {
+        bottom: 95px;
+    }
+
+    div#toasts div {
+        max-width: 350px;
+    }
+}
+
+@media (min-width: 860px) {
+    #messages {
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+    }
+
+    #messages::-webkit-scrollbar {
+        display:none;
+    }
+
+    #messages[data-scrollbar] {
+        display: block;
+        position: fixed;
     }
 }

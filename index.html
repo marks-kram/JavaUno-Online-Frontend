@@ -24,6 +24,7 @@
     <script src="/res/js/countdown.js"></script>
     <script src="/res/js/sockjs.min.js"></script>
     <script src="/res/js/stomp.min.js"></script>
+    <script src="/res/js/smooth-scrollbars.js"></script>
 </head>
 <body>
 
@@ -31,8 +32,9 @@
         <header>
             <img src="/res/img/logo.png" alt="" onclick="self.location.href='/';">
             <a href="/manual.pdf" target="_blank"><span class="fas fa-file-pdf"></span> Bedienungs- und Spielanleitung</a>
-            <button @click="showChat()" v-if="currentView === 'running' || currentView === 'set_players'" class="small"><span class="fas fa-comment"></span></button>
-            <div id="newMessages" v-if="(currentView === 'running' || currentView === 'set_players') && newMessages"></div>
+            <a id="chat" href="javascript:void(0);" @click="showChat()" v-if="currentView === 'running' || currentView === 'set_players'"><span class="fas fa-comment"></span></a>
+            <!--button id="chat" @click="showChat()" v-if="currentView === 'running' || currentView === 'set_players'" class="small"><span class="fas fa-comment"></span></button-->
+            <div id="newMessages" v-if="(currentView === 'running' || currentView === 'set_players') && readMessages < gameState.game.messages.length"></div>
         </header>
         <noscript>JavaUno als Browsergame basiert auf JavaScript. Bitte aktiviere JavaScript in deinen Browsereinstellungen.</noscript>
 
@@ -265,16 +267,16 @@
 
             <!-- chat -->
             <div v-if="currentView === 'chat'">
-                <button @click="hideChat()"><span class="fas fa-arrow-left"></span> Zurück</button><br><br>
-                <div>
-                    <div v-for="message in gameState.game.messages">
-                        <div>{{getPlayerNameByPlayerInfo(message.playerInfo)}}</div>
-                        <div>{{message.content}}</div>
+                <div class="messages" id="messages">
+                    <div v-for="message in gameState.game.messages" class="message">
+                        <h3>{{getPlayerNameByPublicUuid(message.playerPublicUuid)}}</h3>
+                        {{message.content}}
                     </div>
                 </div>
-                <div>
-                    <input type="text" v-model="message" placeholder="Nachricht">
-                    <button @click="sendMessage()"><span class="far fa-paper-plane"></span> Senden</button>
+                <div id="chatSend">
+                    <button @click="hideChat()" class="small chatBack"><span class="fas fa-arrow-left"></span> Zurück</button>
+                    <input type="text" v-model="message" placeholder="Nachricht" class="chatContent">
+                    <button @click="sendMessage()" v-bind:disabled="app.message.trim() === ''" class="chatSendBtn"><span class="far fa-paper-plane"></span></button>
                 </div>
             </div>
 

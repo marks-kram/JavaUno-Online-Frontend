@@ -246,23 +246,20 @@ const doPushActionCancelBotifyPlayer = function (message){
     updateView();
 };
 
-const doPushActionMessage = function (message){
-    const playerName = message.body.replace(/message:([^:]+):([^:]+):([^:]+)$/, '$1');
-    const playerPublicUuid = message.body.replace(/message:([^:]+):([^:]+):([^:]+)$/, '$2');
-    const content = message.body.replace(/message:([^:]+):([^:]+):([^:]+)$/, '$3');
-    const playerInfo = {
-        name: playerName,
-        publicUuid: playerPublicUuid
-    }
+const doPushActionChatMessage = function (message){
+    const playerPublicUuid = message.body.replace(/chat-message:([^:]+):([^:]+)$/, '$1');
+    const content = message.body.replace(/chat-message:([^:]+):([^:]+)$/, '$2');
     const messageData = {
-        playerInfo: playerInfo,
+        playerPublicUuid: playerPublicUuid,
         content: content
     }
     app.gameState.game.messages.push(messageData);
-    app.newMessages = true;
     if(app.gameState.players[app.gameState.myIndex].publicUuid !== playerPublicUuid){
-        const name = getPlayerNameByPlayerInfo(playerInfo);
+        const name = getPlayerNameByPublicUuid(playerPublicUuid);
         showToast(`${name} schreibt: ${content}`);
+    }
+    if(app.currentView === 'chat'){
+        setReadMessages();
     }
 };
 
@@ -312,5 +309,5 @@ const pushActions = {
     'stop-party': doPushActionStopParty,
     'request-botify-player': doPushActionRequestBotifyPlayer,
     'cancel-botify-player': doPushActionCancelBotifyPlayer,
-    'message': doPushActionMessage
+    'chat-message': doPushActionChatMessage
 };
