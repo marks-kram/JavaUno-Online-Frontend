@@ -274,6 +274,9 @@ function revokeRequestStopParty(){
 function showChat(){
     app.previousView = app.currentView;
     app.currentView = 'chat';
+    setReadMessages();
+    setTimeout('scrollToChatEnd()', 200);
+    setTimeout('setSmoothScrolling()', 200);
 }
 
 function hideChat(){
@@ -283,16 +286,45 @@ function hideChat(){
 
 function setSendMessage(){
     stopProcessingAnimation();
+    app.message = '';
+    scrollToChatEnd();
 }
 
 function sendMessage(){
-    const path = `/chat/send`;
+    const path = `/game/chat/send-message`;
     const data = {
-        message: app.message,
+        content: app.message,
         gameUuid: app.gameUuid,
         playerUuid: app.playerUuid
     }
     doPostRequest(path, data, setSendMessage);
+}
+
+function setReadMessages(){
+    app.readMessages = app.gameState.game.messages.length;
+    localStorage.setItem("readMessages", app.readMessages);
+}
+
+function getReadMessages(){
+    let readMessages = localStorage.getItem('readMessages');
+    if(readMessages === null){
+        readMessages = '0';
+    }
+    app.readMessages = parseInt(readMessages);
+    localStorage.setItem("readMessages", app.readMessages);
+}
+
+function scrollToChatEnd(){
+    let element = document.getElementById("messages");
+    element.scrollTop = element.scrollHeight;
+}
+
+function setSmoothScrolling(){
+    if(hasTouch()){
+       return;
+    }
+    let Scrollbar = window.Scrollbar;
+    Scrollbar.init(document.querySelector('#messages'), {});
 }
 
 function init(){
@@ -306,6 +338,7 @@ function init(){
         handleToken();
         return false;
     }
+    getReadMessages();
     app.gameUuid = gameUuid;
     connectPush(gameUuid, null, null);
     const playerUuid = localStorage.getItem('playerUuid');
