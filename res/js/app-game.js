@@ -30,6 +30,7 @@ function setGameState(data){
         }
         startCountdownAnimation();
     }
+    app.gameLoadedWithPlayer = true;
 }
 
 function setGameStateWithoutPlayer(data){
@@ -362,5 +363,11 @@ window.addEventListener("load", function() {
     handleInvitation();
     if(init()){
         document.getElementById('javaUno').style.display = 'block';
+    }
+});
+
+document.addEventListener('click', function(e) {
+    if(document.activeElement.toString() !== '[object HTMLInputElement]'){
+        document.activeElement.blur();
     }
 });

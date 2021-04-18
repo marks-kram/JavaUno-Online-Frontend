@@ -2,7 +2,7 @@
 Card game - Multiplayer browser game - The Frontend
 
 ## Version
-2.0 (2021, April, 18th)
+2.0 (2021, April, 19th)
 
 ## Description
 The Frontend offers the view to the card game.\
@@ -55,7 +55,9 @@ See my version as fun project
 * Security: use trusted base for urls in generated qr-codes
 * Improvement: Beginning Player is selected randomly (or the last winner)
 * Improvement: Last put card is visible in winner dialog
-* UI improvement: iconized buttons
+* UI improvement:
+  * iconized buttons
+  * minor improvements
 
 ### Version 1.2
 * improved ux: beautified processing animation

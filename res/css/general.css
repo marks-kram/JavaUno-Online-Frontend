@@ -1,7 +1,8 @@
 html, body {
     margin: 0;
     padding: 0;
-    font-size: 1em;
+    font-size: 0.9em;
+    font-family: arial, sans-serif;
     background: #bebebe;
 }
 
@@ -109,6 +110,7 @@ header img {
 
 #view-backend-down img {
     border: 1px black solid;
+    max-width: 100%;
 }
 
 #view-backend-down div {
@@ -124,6 +126,8 @@ input {
 }
 body.hover input:hover, input:focus {
     border: 1px black solid;
+    outline: none;
+    box-shadow: none;
 }
 
 button {
@@ -182,6 +186,7 @@ header a:link, header a:visited {
     background: #6cbaff;
     color: black;
     text-decoration: none;
+    line-height: 0;
 }
 header a:focus, body.hover header a:hover {
     color: black;
@@ -192,14 +197,14 @@ header a:active {
     background: #6cbaff;
 }
 
-header a#chat {
+header a.chatToggle {
     left: auto;
     right: 5px;
 }
 
 header div#newMessages {
     position: absolute;
-    top: 19px;
+    top: 18px;
     right: 7px;
     width: 6px;
     height: 6px;
@@ -301,8 +306,11 @@ header div#newMessages {
         margin-top: 5px;
     }
 
-    header a:link, header a:visited, header a:focus, body.hover header a:hover, header a:hover {
+    header a.manual:link, header a.manual:visited, header a.manual:focus, body.hover header a.manual:hover, header a.manual:hover {
         left: 135px;
+    }
+
+    header a:link, header a:visited, header a:focus, body.hover header a:hover, header a:hover {
         font-size: 0.8rem;
     }
 
