@@ -33,7 +33,6 @@
             <img src="/res/img/logo.png" alt="" onclick="self.location.href='/';">
             <a href="/manual.pdf" target="_blank"><span class="fas fa-file-pdf"></span> Bedienungs- und Spielanleitung</a>
             <a id="chat" href="javascript:void(0);" @click="showChat()" v-if="currentView === 'running' || currentView === 'set_players'"><span class="fas fa-comment"></span></a>
-            <!--button id="chat" @click="showChat()" v-if="currentView === 'running' || currentView === 'set_players'" class="small"><span class="fas fa-comment"></span></button-->
             <div id="newMessages" v-if="(currentView === 'running' || currentView === 'set_players') && readMessages < gameState.game.messages.length"></div>
         </header>
         <noscript>JavaUno als Browsergame basiert auf JavaScript. Bitte aktiviere JavaScript in deinen Browsereinstellungen.</noscript>
