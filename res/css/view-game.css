@@ -428,13 +428,16 @@ div#toasts div {
     }
 
     #chatSend input.chatContent {
-        width: calc(100vw - 70px);
+        width: calc(100vw - 58px);
         bottom: 45px;
+        font-size: 0.9rem;
     }
 
     #chatSend button.chatSendBtn {
         right: 10px;
         bottom: 45px;
+        width: 30px;
+        font-size: 0.9rem;
     }
 
     #chatSend button.small.chatBack {

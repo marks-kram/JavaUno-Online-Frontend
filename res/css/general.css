@@ -209,9 +209,11 @@ header div#newMessages {
 
 #legalHint {
     position: fixed;
-    bottom: 4px;
+    bottom: 0;
     left: 7px;
+    background: silver;
     color: #7b7b7b;
+    padding-bottom: 4px;
 }
 
 #qrScanBg {
