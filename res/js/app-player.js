@@ -31,14 +31,14 @@ function addBot(){
 }
 
 function removeBot(player){
-    let path = '/player/removeBot/' + app.gameUuid + '/' + player.kickUuid;
+    let path = '/player/removeBot/' + app.gameUuid + '/' + player.publicUuid;
     localStorage.setItem('gameUuid', app.gameUuid);
     localStorage.setItem('playerUuid', app.playerUuid);
     doDeleteRequest(path, loadGame);
 }
 
 function removeBotInGame(player){
-    let path = '/player/removeBotInGame/' + app.gameUuid + '/' + player.kickUuid;
+    let path = '/player/removeBotInGame/' + app.gameUuid + '/' + player.publicUuid;
     localStorage.setItem('gameUuid', app.gameUuid);
     localStorage.setItem('playerUuid', app.playerUuid);
     doDeleteRequest(path, loadGame);
@@ -55,6 +55,18 @@ function getPlayerName(name, index) {
         return indexedPlayerName;
     }
     return name.trim().replace(/(<.*?>|&.*?;)/g, '');
+}
+
+function getPlayerNameByPublicUuid(publicUuid) {
+    const players = app.gameState.players;
+    for(let i = 0; i < players.length; i++){
+        const player = players[i];
+        if(player.publicUuid === publicUuid){
+            const name = player.name;
+            return getPlayerName(name, i);
+        }
+    }
+    return "[Entfernter Spieler]";
 }
 
 function copyLink(){
@@ -88,7 +100,7 @@ function confirmRequestBotifyPlayer(player){
 
 function requestBotifyPlayer(){
     app.dialog = null;
-    let path = '/player/request-botify/' + app.gameUuid + '/' + app.playerToBotify.kickUuid;
+    let path = '/player/request-botify/' + app.gameUuid + '/' + app.playerToBotify.publicUuid;
     doPostRequest(path, {}, setRequestBotifyPlayer);
 }
 

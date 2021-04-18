@@ -237,13 +237,30 @@ const doPushActionRequestBotifyPlayer = function (message){
 
 const doPushActionCancelBotifyPlayer = function (message){
     const uuid = message.body.replace(/cancel-botify-player:/, '');
-    const pendingUuid = app.playerToBotify != null ? app.playerToBotify.kickUuid : '';
+    const pendingUuid = app.playerToBotify != null ? app.playerToBotify.publicUuid : '';
     if(pendingUuid === uuid){
         app.botifyPlayerPending = false;
         app.playerToBotify = null;
         showInformationDialog('Der Spieler hat den Prozess abgebrochen.');
     }
     updateView();
+};
+
+const doPushActionChatMessage = function (message){
+    const playerPublicUuid = message.body.replace(/chat-message:([^:]+):([^:]+)$/, '$1');
+    const content = message.body.replace(/chat-message:([^:]+):([^:]+)$/, '$2');
+    const messageData = {
+        playerPublicUuid: playerPublicUuid,
+        content: content
+    }
+    app.gameState.game.messages.push(messageData);
+    if(app.gameState.players[app.gameState.myIndex].publicUuid !== playerPublicUuid){
+        const name = getPlayerNameByPublicUuid(playerPublicUuid);
+        showToast(`${name} schreibt: ${content}`);
+    }
+    if(app.currentView === 'chat'){
+        setReadMessages();
+    }
 };
 
 function showTurnToast(index){
@@ -291,5 +308,6 @@ const pushActions = {
     'revoke-request-stop-party': doPushActionRevokeRequestStopParty,
     'stop-party': doPushActionStopParty,
     'request-botify-player': doPushActionRequestBotifyPlayer,
-    'cancel-botify-player': doPushActionCancelBotifyPlayer
+    'cancel-botify-player': doPushActionCancelBotifyPlayer,
+    'chat-message': doPushActionChatMessage
 };

@@ -192,6 +192,21 @@ header a:active {
     background: #6cbaff;
 }
 
+header a#chat {
+    left: auto;
+    right: 5px;
+}
+
+header div#newMessages {
+    position: absolute;
+    top: 19px;
+    right: 7px;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #006150;
+}
+
 #legalHint {
     position: fixed;
     bottom: 4px;
@@ -264,6 +279,10 @@ header a:active {
 #dialogElement > div {
     padding: 10px;
     font-size: 1.3rem;
+}
+
+#dialogElement > div.error {
+    color: #aa0000;
 }
 
 #dialogElement > button {

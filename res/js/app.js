@@ -42,6 +42,8 @@ const data = {
     stopPartyRequested: false,
     botifyPlayerPending: false,
     playerToBotify: null,
+    message: '',
+    readMessages: 0
 };
 
 const methods = {
@@ -56,6 +58,7 @@ const methods = {
     loadGameWithoutPlayer: function (){loadGameWithoutPlayer()},
     startGame: function (){startGame()},
     getPlayerName: function(name, index){ return getPlayerName(name, index)},
+    getPlayerNameByPublicUuid: function(publicUuid){ return getPlayerNameByPublicUuid(publicUuid)},
     copyLink: function(){copyLink()},
     showInvitationQrCode: function () {showInvitationQrCode()},
     getCardImage: function(card, size) { return getCardImage(card, size) },
@@ -80,11 +83,13 @@ const methods = {
     confirmRequestStopParty: function(){confirmRequestStopParty()},
     revokeRequestStopParty: function(){revokeRequestStopParty()},
     getPlayerClasses: function (player){ return getPlayerClasses(player)},
-    confirmRequestBotifyPlayer: function(player){confirmRequestBotifyPlayer(player)}
+    confirmRequestBotifyPlayer: function(player){confirmRequestBotifyPlayer(player)},
+    showChat: function(){showChat()},
+    scrollToChatEnd: function (){scrollToChatEnd()}
 };
 
 const app = new Vue({
-    el: '#javaUno',
+    el: '#app',
     data: data,
     methods: methods
 });
