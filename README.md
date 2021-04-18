@@ -55,7 +55,9 @@ See my version as fun project
 * Security: use trusted base for urls in generated qr-codes
 * Improvement: Beginning Player is selected randomly (or the last winner)
 * Improvement: Last put card is visible in winner dialog
-* UI improvement: iconized buttons
+* UI improvement:
+  * iconized buttons
+  * minor improvements
 
 ### Version 1.2
 * improved ux: beautified processing animation
