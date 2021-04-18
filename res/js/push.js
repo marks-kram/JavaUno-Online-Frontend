@@ -143,7 +143,7 @@ const doPushActionSelectedColor = function(message){
 };
 
 const doPushActionSaidUno = function(){
-    if(app.currentView === 'running'){
+    if(app.currentView === 'running' || app.previousView === 'running'){
         const index = app.gameState.game.currentPlayerIndex;
         if(!isMyTurn()){
             let name = app.gameState.players[index].name;
@@ -157,7 +157,7 @@ const doPushActionSaidUno = function(){
 };
 
 const doPushActionNextTurn = function(message){
-    if(app.currentView === 'running'){
+    if(app.currentView === 'running' || app.previousView === 'running'){
         app.gameState.game.turnState = '';
         stopCountdownAnimation(true);
         const index = parseInt(message.body.replace(/next-turn:/, ''));
@@ -220,10 +220,14 @@ const doPushActionRevokeRequestStopParty = function(message){
 const doPushActionStopParty = function(message){
     const party = parseInt(message.body.replace(/stop-party:/, ''));
     if(app.currentView === 'running' && party === app.gameState.game.party){
-        app.stopPartyRequested = false;
         app.currentView = 'set-players';
+        app.previousView = '';
         updateView();
     }
+    if(app.previousView === 'running' && party === app.gameState.game.party){
+        app.previousView = 'set-players';
+    }
+    app.stopPartyRequested = false;
 };
 
 const doPushActionRequestBotifyPlayer = function (message){
@@ -247,8 +251,8 @@ const doPushActionCancelBotifyPlayer = function (message){
 };
 
 const doPushActionChatMessage = function (message){
-    const playerPublicUuid = message.body.replace(/chat-message:([^:]+):([^:]+)$/, '$1');
-    const content = message.body.replace(/chat-message:([^:]+):([^:]+)$/, '$2');
+    const playerPublicUuid = message.body.replace(/chat-message:([^:]+):(.+)$/, '$1');
+    const content = message.body.replace(/chat-message:([^:]+):(.+)$/, '$2');
     const messageData = {
         playerPublicUuid: playerPublicUuid,
         content: content
@@ -282,6 +286,10 @@ function startCountdown(){
 }
 
 function updateView(){
+    if(app.currentView === 'chat' || app.currentView === 'switch-device'){
+        stopProcessingAnimation();
+        return;
+    }
     if(app.playerUuid !== ''){
         loadGame();
     } else {
