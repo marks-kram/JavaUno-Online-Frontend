@@ -43,7 +43,8 @@ const data = {
     botifyPlayerPending: false,
     playerToBotify: null,
     message: '',
-    readMessages: 0
+    readMessages: 0,
+    gameLoadedWithPlayer: false
 };
 
 const methods = {
