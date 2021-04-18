@@ -282,6 +282,7 @@ function showChat(){
 function hideChat(){
     app.currentView = app.previousView;
     app.previousView = '';
+    updateView();
 }
 
 function setSendMessage(){
