@@ -2,7 +2,7 @@
 Card game - Multiplayer browser game - The Frontend
 
 ## Version
-2.0 (2021, April, 16th)
+2.0 (2021, April, 18th)
 
 ## Description
 The Frontend offers the view to the card game.\
@@ -51,6 +51,7 @@ See my version as fun project
 * New feature: You can leave the running game (will become a bot)
 * New feature: You can kick players (humans and bots, humans will become bots)
 * New feature: You and the other players can commit to stop running game
+* New feature: Chat 
 * Security: use trusted base for urls in generated qr-codes
 * Improvement: Beginning Player is selected randomly (or the last winner)
 * Improvement: Last put card is visible in winner dialog
@@ -71,3 +72,4 @@ See my version as fun project
 * ability to join to a running game
 * end game when loser is known (not when winner is known)
 * configurable ruleset
+* win counting
