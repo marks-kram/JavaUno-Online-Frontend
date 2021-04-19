@@ -56,7 +56,8 @@ See my version as fun project
 * Improvement: Beginning Player is selected randomly (or the last winner)
 * Improvement: Last put card is visible in winner dialog
 * UI improvement:
-  * iconized buttons
+  * Icons on buttons
+  * Smooth scrollbar
   * minor improvements
 
 ### Version 1.2
