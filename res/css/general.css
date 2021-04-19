@@ -194,6 +194,12 @@ button.small:active {
     color: black;
 }
 
+button.small:disabled, body.hover button.small:disabled {
+    background: #a8b9c7;
+    border: 1px #a8b9c7 solid;
+    cursor: not-allowed;
+}
+
 header a:link, header a:visited {
     position: absolute;
     top: 50%;
