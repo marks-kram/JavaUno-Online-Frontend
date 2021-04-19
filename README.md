@@ -58,6 +58,7 @@ See my version as fun project
 * UI improvement:
   * Icons on buttons
   * Smooth scrollbar
+  * Use Arial as font-family
   * minor improvements
 
 ### Version 1.2
