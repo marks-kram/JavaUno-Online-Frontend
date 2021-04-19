@@ -268,9 +268,11 @@
             <!-- chat -->
             <div v-if="currentView === 'chat'">
                 <div class="messages" id="messages">
-                    <div v-for="message in gameState.game.messages" class="message">
-                        <h3>{{getPlayerNameByPublicUuid(message.playerPublicUuid)}}</h3>
-                        {{message.content}}
+                    <div>
+                        <div v-for="message in gameState.game.messages" class="message">
+                            <h3>{{getPlayerNameByPublicUuid(message.playerPublicUuid)}}</h3>
+                            {{message.content}}
+                        </div>
                     </div>
                 </div>
                 <div id="chatSend">

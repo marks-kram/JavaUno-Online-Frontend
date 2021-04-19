@@ -276,20 +276,19 @@ function showChat(){
     app.previousView = app.currentView;
     app.currentView = 'chat';
     setReadMessages();
-    setTimeout('scrollToChatEnd()', 200);
-    setTimeout(`setSmoothScrolling('#messages')`, 200);
+    setTimeout('initializeChatView()', 200);
 }
 
 function hideChat(){
     app.currentView = app.previousView;
     app.previousView = '';
+    destroyChatView();
     updateView();
 }
 
 function setSendMessage(){
     stopProcessingAnimation();
     app.message = '';
-    scrollToChatEnd();
 }
 
 function sendMessage(){
@@ -327,6 +326,24 @@ function setSmoothScrolling(selector){
     }
     let Scrollbar = window.Scrollbar;
     Scrollbar.init(document.querySelector(selector), {});
+}
+
+function destroyChatView(){
+    if(hasTouch()){
+        return;
+    }
+    let Scrollbar = window.Scrollbar;
+    Scrollbar.destroy(document.querySelector('#messages'));
+}
+
+function initializeChatView(){
+    scrollToChatEnd();
+    setSmoothScrolling('#messages');
+}
+
+function updateChatView(){
+    destroyChatView();
+    initializeChatView();
 }
 
 function init(){
