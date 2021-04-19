@@ -219,6 +219,7 @@ header div#newMessages {
     background: silver;
     color: #7b7b7b;
     padding-bottom: 4px;
+    font-size: 0.8rem;
 }
 
 #qrScanBg {
@@ -320,5 +321,11 @@ header div#newMessages {
 
     p.largeMarginBottom {
         margin-bottom: 32px;
+    }
+}
+
+@media (max-width: 450px) {
+    #legalHint {
+        font-size: 0.6rem;
     }
 }

@@ -277,7 +277,7 @@ function showChat(){
     app.currentView = 'chat';
     setReadMessages();
     setTimeout('scrollToChatEnd()', 200);
-    setTimeout('setSmoothScrolling()', 200);
+    setTimeout(`setSmoothScrolling('#messages')`, 200);
 }
 
 function hideChat(){
@@ -321,12 +321,12 @@ function scrollToChatEnd(){
     element.scrollTop = element.scrollHeight;
 }
 
-function setSmoothScrolling(){
+function setSmoothScrolling(selector){
     if(hasTouch()){
        return;
     }
     let Scrollbar = window.Scrollbar;
-    Scrollbar.init(document.querySelector('#messages'), {});
+    Scrollbar.init(document.querySelector(selector), {});
 }
 
 function init(){

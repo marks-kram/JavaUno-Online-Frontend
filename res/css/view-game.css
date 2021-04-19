@@ -290,6 +290,8 @@ button.small.kick {
 
 .message h3 {
     margin: 0;
+    font-size: inherit;
+    font-weight: bolder;
 }
 
 .messages {
@@ -336,6 +338,11 @@ div#toasts div {
     max-width: 500px;
     overflow: hidden;
     text-overflow: ellipsis;
+}
+
+#messages[data-scrollbar] {
+    display: block;
+    position: fixed;
 }
 
 @media (max-width: 859px), (max-height: 907px) {
@@ -405,7 +412,6 @@ div#toasts div {
 
 @media (max-width: 859px) {
     button.small.gameBottomButton {
-        bottom: 45px;
         font-size: 0.7rem;
     }
 
@@ -420,28 +426,26 @@ div#toasts div {
 
     .messages {
         width: calc(100vw - 20px);
-        height: calc(100vh - 180px);
+        height: calc(100vh - 145px);
     }
 
     #chatSend {
-        padding-bottom: 45px;
+        height: 105px;
     }
 
     #chatSend input.chatContent {
         width: calc(100vw - 58px);
-        bottom: 45px;
         font-size: 0.9rem;
     }
 
     #chatSend button.chatSendBtn {
         right: 10px;
-        bottom: 45px;
         width: 30px;
         font-size: 0.9rem;
     }
 
     #chatSend button.small.chatBack {
-        bottom: 95px;
+        bottom: 73px;
     }
 
     div#toasts div {
@@ -449,7 +453,7 @@ div#toasts div {
     }
 }
 
-@media (min-width: 860px) {
+@media (min-width: 800px) {
     #messages {
         -ms-overflow-style: none;
         scrollbar-width: none;
@@ -457,10 +461,5 @@ div#toasts div {
 
     #messages::-webkit-scrollbar {
         display:none;
-    }
-
-    #messages[data-scrollbar] {
-        display: block;
-        position: fixed;
     }
 }
