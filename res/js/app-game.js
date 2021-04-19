@@ -317,13 +317,6 @@ function getReadMessages(){
 }
 
 function scrollToChatEnd(){
-    /*const contentHeight = document.querySelector('.scroll-content').clientHeight.valueOf();
-    const viewHeight = document.querySelector('#main-views').clientHeight.valueOf();
-    const offset = contentHeight - viewHeight;
-    if(offset > 0){
-        document.querySelector('.scroll-content').style.transform = `translate3d(0px, -${offset}px, 0px)`;
-        document.querySelector('.scrollbar-thumb.scrollbar-thumb-y').style.transform = `translate3d(0px, 133.59px, 0px)`;
-    }*/
     prepareScroll();
     doScroll();
     finishScroll();
