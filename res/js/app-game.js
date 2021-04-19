@@ -1,3 +1,5 @@
+const Scrollbar = window.Scrollbar;
+
 function setGame(data){
     app.gameUuid = data.gameUuid;
     localStorage.setItem('gameUuid', app.gameUuid);
@@ -277,7 +279,6 @@ function showChat(){
     app.currentView = 'chat';
     setReadMessages();
     setTimeout('scrollToChatEnd()', 200);
-    setTimeout('setSmoothScrolling()', 200);
 }
 
 function hideChat(){
@@ -289,7 +290,6 @@ function hideChat(){
 function setSendMessage(){
     stopProcessingAnimation();
     app.message = '';
-    scrollToChatEnd();
 }
 
 function sendMessage(){
@@ -317,16 +317,31 @@ function getReadMessages(){
 }
 
 function scrollToChatEnd(){
-    let element = document.getElementById("messages");
-    element.scrollTop = element.scrollHeight;
+    prepareScroll();
+    doScroll();
+    finishScroll();
 }
 
-function setSmoothScrolling(){
-    if(hasTouch()){
-       return;
-    }
-    let Scrollbar = window.Scrollbar;
-    Scrollbar.init(document.querySelector('#messages'), {});
+function prepareScroll(){
+    Scrollbar.destroyAll();
+    document.querySelector('body').style.overflow = 'hidden';
+    document.querySelector('#main-views').style.overflow = 'hidden';
+    document.querySelector('#main-views').style.overflowY = 'scroll';
+}
+
+function doScroll(){
+    let element = document.querySelector('#main-views');
+    element.scrollTop = element.scrollHeight;
+}
+function finishScroll(){
+    document.querySelector('body').style.overflow = '';
+    document.querySelector('#main-views').style.overflow = '';
+    document.querySelector('#main-views').style.overflowY = '';
+    enableScrolling();
+}
+
+function enableScrolling(){
+    Scrollbar.init(document.querySelector('#main-views'), {});
 }
 
 function init(){
@@ -354,6 +369,7 @@ function init(){
 }
 
 window.addEventListener("load", function() {
+    enableScrolling();
     if(handleSwitchDevice()){
         return;
     }

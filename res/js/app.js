@@ -86,6 +86,8 @@ const methods = {
     getPlayerClasses: function (player){ return getPlayerClasses(player)},
     confirmRequestBotifyPlayer: function(player){confirmRequestBotifyPlayer(player)},
     showChat: function(){showChat()},
+    hideChat: function(){hideChat()},
+    sendMessage: function(){sendMessage()},
     scrollToChatEnd: function (){scrollToChatEnd()}
 };
 
