@@ -1,3 +1,5 @@
+const Scrollbar = window.Scrollbar;
+
 function setGame(data){
     app.gameUuid = data.gameUuid;
     localStorage.setItem('gameUuid', app.gameUuid);
@@ -276,13 +278,12 @@ function showChat(){
     app.previousView = app.currentView;
     app.currentView = 'chat';
     setReadMessages();
-    setTimeout('initializeChatView()', 200);
+    setTimeout('scrollToChatEnd()', 200);
 }
 
 function hideChat(){
     app.currentView = app.previousView;
     app.previousView = '';
-    destroyChatView();
     updateView();
 }
 
@@ -316,34 +317,38 @@ function getReadMessages(){
 }
 
 function scrollToChatEnd(){
-    let element = document.getElementById("messages");
+    /*const contentHeight = document.querySelector('.scroll-content').clientHeight.valueOf();
+    const viewHeight = document.querySelector('#main-views').clientHeight.valueOf();
+    const offset = contentHeight - viewHeight;
+    if(offset > 0){
+        document.querySelector('.scroll-content').style.transform = `translate3d(0px, -${offset}px, 0px)`;
+        document.querySelector('.scrollbar-thumb.scrollbar-thumb-y').style.transform = `translate3d(0px, 133.59px, 0px)`;
+    }*/
+    prepareScroll();
+    doScroll();
+    finishScroll();
+}
+
+function prepareScroll(){
+    Scrollbar.destroyAll();
+    document.querySelector('body').style.overflow = 'hidden';
+    document.querySelector('#main-views').style.overflow = 'hidden';
+    document.querySelector('#main-views').style.overflowY = 'scroll';
+}
+
+function doScroll(){
+    let element = document.querySelector('#main-views');
     element.scrollTop = element.scrollHeight;
 }
-
-function setSmoothScrolling(selector){
-    if(hasTouch()){
-       return;
-    }
-    let Scrollbar = window.Scrollbar;
-    Scrollbar.init(document.querySelector(selector), {});
+function finishScroll(){
+    document.querySelector('body').style.overflow = '';
+    document.querySelector('#main-views').style.overflow = '';
+    document.querySelector('#main-views').style.overflowY = '';
+    enableScrolling();
 }
 
-function destroyChatView(){
-    if(hasTouch()){
-        return;
-    }
-    let Scrollbar = window.Scrollbar;
-    Scrollbar.destroy(document.querySelector('#messages'));
-}
-
-function initializeChatView(){
-    scrollToChatEnd();
-    setSmoothScrolling('#messages');
-}
-
-function updateChatView(){
-    destroyChatView();
-    initializeChatView();
+function enableScrolling(){
+    Scrollbar.init(document.querySelector('#main-views'), {});
 }
 
 function init(){
@@ -371,6 +376,7 @@ function init(){
 }
 
 window.addEventListener("load", function() {
+    enableScrolling();
     if(handleSwitchDevice()){
         return;
     }
