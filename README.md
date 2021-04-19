@@ -2,7 +2,7 @@
 Card game - Multiplayer browser game - The Frontend
 
 ## Version
-2.0 (2021, April, 19th)
+2.0 (2021, April, 20th)
 
 ## Description
 The Frontend offers the view to the card game.\
@@ -20,16 +20,16 @@ There are two files for config:
   * Example to override the siteHostname: config.siteHostname='javauno.example.com';
 
 ## tokenized-game-create
-* Enable/Disable optional feature:\
-  Enable/Disable feature in Backend (see: https://github.com/tomatenmark/JavaUno-Online-Backend/blob/master/readme.md#tokenized-game-create)
+* Enable/Disable optional feature: Enable/Disable feature in Backend
 * visitors have to provide a valid token to create a game
-* token is given by url (/?token=...)
-* token validation happens in backend (see: https://github.com/tomatenmark/JavaUno-Online-Backend/blob/master/readme.md#tokenized-game-create)
-* frontend with this feature (enabled or disable) is not compatible with backend without the feature
+* token is given by url (/?token=...) and saved in localStorage
+* token validation happens in backend
+* see also: https://github.com/tomatenmark/JavaUno-Online-Backend -> readme.md
 
 ### Spielanleitung
-./manual.pdf\
-(For the combination of my backend and my frontend)
+./manual.docs\
+(For the combination of my backend and my frontend)\
+(pdf can be generated, it's git-ignored)
 
 ## License
 * The Frontend source code is licensed under a CC-BY-SA-NC 4.0 Licence\
@@ -41,6 +41,14 @@ There are two files for config:
   
 Notice: Mattel also offers an own free app to play UNO.
 See my version as fun project
+
+## Compatibility
+If you want to use this frontend together with my backend, please note the following compatibility information:
+* version 2.x frontend <-> version 1.x backend
+  * NOT compatible
+* Version 2.x backend <-> version 1.x frontend
+  * Compatible, if tokenized-game-create feature is disabled
+  * manual should be modified (due to randomized selection of the beginning player)
 
 ## changeLog
 
