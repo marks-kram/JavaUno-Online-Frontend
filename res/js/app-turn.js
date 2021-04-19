@@ -1,30 +1,35 @@
 let sayUnoRequestRunning = false;
+const cardImagePath = '/res/img/cards';
 
 function getCardImage(card, size) {
-    let image = '/res/img/cards/' + size + '/';
+    switch(card.cardType){
+        case 'NUMBER':
+            return getNumberCardImage(card, size);
+        case 'SKIP':
+        case 'REVERSE':
+        case 'DRAW_2':
+            return getActionCardImage(card, size);
+        case 'JOKER':
+        case 'DRAW_4':
+            return getJokerCardImage(card, size);
+    }
+}
 
-    if(card.cardType === 'NUMBER'){
-        image += card.color.toLowerCase() + card.value;
-    }
-    if(card.cardType === 'SKIP'){
-        image += card.color.toLowerCase() + 'skip';
-    }
-    if(card.cardType === 'REVERSE'){
-        image += card.color.toLowerCase() + 'reverse';
-    }
-    if(card.cardType === 'DRAW_2'){
-        image += card.color.toLowerCase() + 'draw2';
-    }
-    if(card.cardType === 'JOKER'){
-        image += 'joker';
-    }
-    if(card.cardType === 'DRAW_4'){
-        image += 'jokerdraw4';
-    }
+function getNumberCardImage(card, size){
+    const color = card.color.toLowerCase();
+    const number = card.value;
+    return `${cardImagePath}/${size}/${color}${number}.png`;
+}
 
-    image += '.png';
+function getActionCardImage(card, size){
+    const color = card.color.toLowerCase();
+    const action = card.cardType.toLowerCase().replace('_', '');
+    return `${cardImagePath}/${size}/${color}${action}.png`;
+}
 
-    return image;
+function getJokerCardImage(card, size){
+    const joker = card.cardType.toLowerCase().replace('DRAW_4', 'jokerdraw4');
+    return `${cardImagePath}/${size}/${joker}.png`;
 }
 
 function put(card, index){
