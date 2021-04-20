@@ -195,8 +195,8 @@ button.small:active {
 }
 
 button.small:disabled, body.hover button.small:disabled {
-    background: #a8b9c7;
-    border: 1px #a8b9c7 solid;
+    background: #5a5a5a;
+    border: 1px #5a5a5a solid;
     cursor: not-allowed;
 }
 
