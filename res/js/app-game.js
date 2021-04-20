@@ -331,7 +331,7 @@ function scrollToChatEnd(){
 function scrollTouchToEnd(){
     const viewHeight = document.querySelector('#main-views').clientHeight;
     const messagesHeight = document.querySelector('#messages').clientHeight;
-    const space = viewHeight - 135;
+    const space = viewHeight - 275; //140 for 3 messages, 105 for chatControl, 30 for header
     if(space <= messagesHeight){
         document.querySelector('#messages div:last-child').scrollIntoView();
     }
