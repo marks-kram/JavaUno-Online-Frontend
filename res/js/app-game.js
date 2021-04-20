@@ -335,7 +335,7 @@ function scrollTouchToEnd(){
     if(space <= messagesHeight){
         document.querySelector('#messages div:last-child').scrollIntoView();
     } else {
-        document.querySelector('#messages div:first-child').scrollIntoView();
+        document.querySelector('#main-views-content').scrollIntoView();
     }
 }
 
