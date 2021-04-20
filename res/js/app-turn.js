@@ -28,7 +28,7 @@ function getActionCardImage(card, size){
 }
 
 function getJokerCardImage(card, size){
-    const joker = card.cardType.toLowerCase().replace('DRAW_4', 'jokerdraw4');
+    const joker = card.cardType.toLowerCase().replace('draw_4', 'jokerdraw4');
     return `${cardImagePath}/${size}/${joker}.png`;
 }
 
