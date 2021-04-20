@@ -279,7 +279,7 @@ function showChat(){
     app.currentView = 'chat';
     setReadMessages();
     setTimeout('scrollToChatEnd()', 200);
-    setTimeout(`document.querySelector('#chatControl input').addEventListener('focus', scrollToChatEndAgain)`, 200);
+    setTimeout(`document.querySelector('#chatControl input').addEventListener('click', scrollToChatEndAgain)`, 200);
 }
 
 function hideChat(){
@@ -320,12 +320,21 @@ function getReadMessages(){
 
 function scrollToChatEnd(){
     if(hasTouch()){
-        document.querySelector('#messages div:last-child').scrollIntoView();
+        scrollTouchToEnd();
         return;
     }
     prepareScroll();
     doScroll();
     finishScroll();
+}
+
+function scrollTouchToEnd(){
+    const viewHeight = document.querySelector('#main-views').clientHeight;
+    const messagesHeight = document.querySelector('#messages').clientHeight;
+    const space = viewHeight - 135;
+    if(space <= messagesHeight){
+        document.querySelector('#messages div:last-child').scrollIntoView();
+    }
 }
 
 function scrollToChatEndAgain(){
