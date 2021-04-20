@@ -239,11 +239,12 @@ header div#newMessages {
 #legalHint {
     position: fixed;
     bottom: 0;
-    left: 7px;
+    left: 0;
     width: 100%;
     background: #bebebe;
     color: #7b7b7b;
     padding-bottom: 4px;
+    padding-left: 7px;
     font-size: 0.8rem;
 }
 

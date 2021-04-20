@@ -423,11 +423,11 @@ div#toasts div {
     }
 
     #leave-running-game {
-        right: calc(100vw - 350px);
+        right: 10px;
     }
 
     .stopParty {
-        left: 180px;
+        left: 50%;
         transform: translateX(-50%);
     }
 
