@@ -39,6 +39,7 @@ const data = {
     pendingPlayerIndex: -1,
     pushUuid: '',
     dialog: null,
+    refreshPageOnDialogClose: false,
     stopPartyRequested: false,
     botifyPlayerPending: false,
     playerToBotify: null,
@@ -88,7 +89,8 @@ const methods = {
     showChat: function(){showChat()},
     hideChat: function(){hideChat()},
     sendMessage: function(){sendMessage()},
-    scrollToChatEnd: function (){scrollToChatEnd()}
+    scrollToChatEnd: function (){scrollToChatEnd()},
+    hideDialog : function(){hideDialog()}
 };
 
 const app = new Vue({
@@ -157,10 +159,15 @@ function showTimedCancelDialog(text, cancelCallback, time){
     rTCDSL = setInterval('reduceTimedConfirmationDialogSecondsLeft()', 1000);
 }
 
-
-
 function reduceTimedConfirmationDialogSecondsLeft(){
     if(--app.dialog.secondsLeft <= 0){
         clearInterval(rTCDSL);
+    }
+}
+
+function hideDialog(){
+    app.dialog = null;
+    if(app.refreshPageOnDialogClose){
+        self.location.replace('/');
     }
 }

@@ -334,10 +334,10 @@
 
             <!-- dialogs -->
             <div v-if="dialog!==null">
-                <div id="dialogBackground" @click="dialog=null"></div>
+                <div id="dialogBackground" @click="hideDialog()"></div>
                 <div id="dialogElement">
                     <div v-bind:class="dialog.classes">{{dialog.text}}</div>
-                    <button v-if="!dialog.confirm && !dialog.timedCancel" type="button" class="small" @click="dialog=null">OK</button>
+                    <button v-if="!dialog.confirm && !dialog.timedCancel" type="button" class="small" @click="hideDialog()">OK</button>
                     <div v-if="dialog.confirm">
                         <button type="button" class="small" @click="dialog.confirmCallback">OK</button>
                         &emsp;

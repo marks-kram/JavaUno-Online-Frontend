@@ -203,8 +203,8 @@ function switchOut(urlParams){
     let gameUuid = localStorage.getItem('gameUuid');
     let playerUuid = localStorage.getItem('playerUuid');
     if((gameUuid != null && gameUuid !== '') || (playerUuid != null && playerUuid !== '')){
+        app.refreshPageOnDialogClose = true;
         showErrorDialog('Hier ist bereits ein Spiel. Wechsel kann nicht erfolgen.');
-        self.location.replace('/');
         return false;
     }
     gameUuid = urlParams.get('gameUuid');
@@ -232,8 +232,8 @@ function switchIn(urlParams){
         connectPush(gameUuid, setSwitchIn, pushUuid);
         return true;
     } else {
+        app.refreshPageOnDialogClose = true;
         showErrorDialog('Hier ist kein Spiel. Wechsel kann nicht erfolgen.');
-        self.location.replace('/');
         return false;
     }
 }
