@@ -279,7 +279,7 @@ function showChat(){
     app.currentView = 'chat';
     setReadMessages();
     setTimeout('scrollToChatEnd()', 200);
-    setTimeout(`document.querySelector('#chatControl input').addEventListener('focus', scrollToChatEnd)`, 200);
+    setTimeout(`document.querySelector('#chatControl input').addEventListener('focus', scrollToChatEndAgain)`, 200);
 }
 
 function hideChat(){
@@ -326,6 +326,10 @@ function scrollToChatEnd(){
     prepareScroll();
     doScroll();
     finishScroll();
+}
+
+function scrollToChatEndAgain(){
+    setTimeout('scrollToChatEnd()', 200);
 }
 
 function prepareScroll(){
