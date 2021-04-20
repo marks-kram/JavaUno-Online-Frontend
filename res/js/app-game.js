@@ -300,6 +300,7 @@ function sendMessage(){
         playerUuid: app.playerUuid
     }
     doPostRequest(path, data, setSendMessage);
+    document.querySelector('#chatControl input').focus();
 }
 
 function setReadMessages(){
