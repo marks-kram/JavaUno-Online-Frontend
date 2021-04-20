@@ -300,6 +300,7 @@ function sendMessage(){
         playerUuid: app.playerUuid
     }
     doPostRequest(path, data, setSendMessage);
+    document.querySelector('#chatControl input').focus();
 }
 
 function setReadMessages(){
@@ -317,6 +318,10 @@ function getReadMessages(){
 }
 
 function scrollToChatEnd(){
+    if(hasTouch()){
+        document.querySelector('#messages div:last-child').scrollIntoView()
+        return;
+    }
     prepareScroll();
     doScroll();
     finishScroll();
@@ -341,7 +346,14 @@ function finishScroll(){
 }
 
 function enableScrolling(){
-    Scrollbar.init(document.querySelector('#main-views'), {});
+    if(hasTouch()){
+        document.querySelector('body').style.overflow = 'hidden';
+        document.querySelector('body').style.overflowY = 'scroll';
+        document.querySelector('header').style.position = 'fixed';
+    }
+    else {
+        Scrollbar.init(document.querySelector('#main-views'), {});
+    }
 }
 
 function init(){
