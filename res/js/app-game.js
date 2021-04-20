@@ -1,4 +1,5 @@
 const Scrollbar = window.Scrollbar;
+let scrolledToChatEnd = false;
 
 function setGame(data){
     app.gameUuid = data.gameUuid;
@@ -279,6 +280,7 @@ function showChat(){
     app.currentView = 'chat';
     setReadMessages();
     setTimeout('scrollToChatEnd()', 200);
+    setTimeout(`document.querySelector('#chatControl input').addEventListener('focus', scrollToChatEndAgain)`, 200);
 }
 
 function hideChat(){
@@ -318,6 +320,7 @@ function getReadMessages(){
 }
 
 function scrollToChatEnd(){
+    scrolledToChatEnd = true;
     if(hasTouch()){
         document.querySelector('#messages div:last-child').scrollIntoView()
         return;
@@ -325,6 +328,12 @@ function scrollToChatEnd(){
     prepareScroll();
     doScroll();
     finishScroll();
+}
+
+function scrollToChatEndAgain(){
+    if(scrolledToChatEnd){
+        scrollToChatEnd();
+    }
 }
 
 function prepareScroll(){
@@ -399,3 +408,7 @@ document.addEventListener('click', function(e) {
         document.activeElement.blur();
     }
 });
+
+document.addEventListener('scroll', function(){
+    scrolledToChatEnd = false;
+})
