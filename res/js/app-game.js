@@ -286,6 +286,9 @@ function hideChat(){
     app.currentView = app.previousView;
     app.previousView = '';
     updateView();
+    if(hasTouch()){
+        document.querySelector('#main-views-content').scrollIntoView();
+    }
 }
 
 function setSendMessage(){
