@@ -217,30 +217,26 @@ body.hover #drawPile.enabled:hover, body.hover #ownCards picture.enabled:hover, 
 }
 
 #bottomButtons {
-    position: fixed;
-    width: 100%;
-    background: #bebebe;
-    height: 65px;
-    bottom: 0;
-    left: 0;
+    display: inline-block;
+    height: 150px;
+}
+
+#bottomButtons > div {
+    display: table;
+    padding: 10px;
+    width: max-content;
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
 }
 
 .gameBottomButton {
-    position: fixed;
-    bottom: 25px;
+    display: block;
+    margin-bottom: 10px;
 }
 
-#in-game-switch-device {
-    left: 10px;
-}
-
-#leave-running-game {
-    right: calc(100vw - 850px);
-}
-
-.stopParty {
-    left: 430px;
-    transform: translateX(-50%);
+.gameBottomButton:last-child {
+    margin-bottom: 0;
 }
 
 button.stopParty.red {
@@ -395,7 +391,7 @@ div#toasts div {
         font-size: 3rem;
     }
 
-    #color-selection {
+    #color-selection, #bottomButtons {
         height: 60px;
     }
 
@@ -420,15 +416,6 @@ div#toasts div {
 @media (max-width: 859px) {
     button.small.gameBottomButton {
         font-size: 0.7rem;
-    }
-
-    #leave-running-game {
-        right: 10px;
-    }
-
-    .stopParty {
-        left: 50%;
-        transform: translateX(-50%);
     }
 
     .messages {

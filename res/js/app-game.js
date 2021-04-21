@@ -367,8 +367,8 @@ function finishScroll(){
 function enableScrolling(){
     if(hasTouch()){
         document.querySelector('body').style.overflow = 'hidden';
-        document.querySelector('body').style.overflowY = 'scroll';
-        document.querySelector('header').style.position = 'fixed';
+        document.querySelector('#main-views').style.overflow = 'hidden';
+        document.querySelector('#main-views').style.overflowY = 'scroll';
     }
     else {
         Scrollbar.init(document.querySelector('#main-views'), {});
