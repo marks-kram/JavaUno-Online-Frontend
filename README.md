@@ -65,7 +65,6 @@ If you want to use this frontend together with my backend, please note the follo
 * Improvement: Last put card is visible in winner dialog
 * UI improvement:
   * Icons on buttons
-  * Smooth scrollbar
   * Use Arial as font-family
   * minor improvements
 
