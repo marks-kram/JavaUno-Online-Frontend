@@ -217,30 +217,26 @@ body.hover #drawPile.enabled:hover, body.hover #ownCards picture.enabled:hover, 
 }
 
 #bottomButtons {
-    position: fixed;
-    width: 100%;
-    background: #bebebe;
-    height: 65px;
-    bottom: 0;
-    left: 0;
+    display: inline-block;
+    height: 150px;
+}
+
+#bottomButtons > div {
+    display: table;
+    padding: 10px;
+    width: max-content;
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
 }
 
 .gameBottomButton {
-    position: fixed;
-    bottom: 25px;
+    display: block;
+    margin-bottom: 10px;
 }
 
-#in-game-switch-device {
-    left: 10px;
-}
-
-#leave-running-game {
-    right: calc(100vw - 850px);
-}
-
-.stopParty {
-    left: 430px;
-    transform: translateX(-50%);
+.gameBottomButton:last-child {
+    margin-bottom: 0;
 }
 
 button.stopParty.red {
@@ -293,10 +289,28 @@ button.small.kick {
     right: -3px;
 }
 
+.chat-before-after {
+    width: 100%;
+}
+
+#chat-before {
+    height: 10px;
+}
+
+.messages {
+    width: 100%;
+    position: fixed;
+    top: 30px;
+    left: 0;
+    height: calc(100vh - 132px);
+    overflow: hidden auto;
+}
+
 .message {
     background: #e0e0e0;
     padding: 5px;
-    margin-bottom: 10px;
+    margin: 0 0 10px 10px;
+    width: 840px;
 }
 
 .message h3 {
@@ -305,10 +319,8 @@ button.small.kick {
     font-weight: bolder;
 }
 
-.messages {
-    width: 840px;
-    margin-top: 11px;
-    margin-bottom: 115px;
+#noMessages {
+    padding: 10px;
 }
 
 #chatControl {
@@ -316,28 +328,27 @@ button.small.kick {
     bottom: 0;
     left: 0;
     width: 100%;
-    height: 120px;
-    background: #bebebe;
-    padding-bottom: 45px;
+    height: 102px;
+    background: #9e9e9e;
 }
 
 #chatControl input.chatContent {
     position: fixed;
     left: 10px;
     width: 790px;
-    bottom: 30px;
+    bottom: 10px;
 }
 
 #chatControl button.chatSendBtn {
     position: fixed;
     right: calc(100vw - 850px);
-    bottom: 30px;
+    bottom: 10px;
     width: 40px;
 }
 
-#chatControl button.small.chatBack {
+#chatControl .backTopBottom {
     position: fixed;
-    bottom: 85px;
+    bottom: 65px;
     left: 10px;
 }
 
@@ -345,11 +356,6 @@ div#toasts div {
     max-width: 500px;
     overflow: hidden;
     text-overflow: ellipsis;
-}
-
-#messages[data-scrollbar] {
-    display: block;
-    position: fixed;
 }
 
 @media (max-width: 859px), (max-height: 907px) {
@@ -395,7 +401,7 @@ div#toasts div {
         font-size: 3rem;
     }
 
-    #color-selection {
+    #color-selection, #bottomButtons {
         height: 60px;
     }
 
@@ -422,22 +428,16 @@ div#toasts div {
         font-size: 0.7rem;
     }
 
-    #leave-running-game {
-        right: 10px;
-    }
-
-    .stopParty {
-        left: 50%;
-        transform: translateX(-50%);
-    }
-
     .messages {
-        width: calc(100vw - 20px);
-        margin-bottom: 100px;
+        height: calc(100vh - 120px);
+    }
+
+    .message {
+        width: calc(100% - 20px);
     }
 
     #chatControl {
-        height: 105px;
+        height: 90px;
     }
 
     #chatControl input.chatContent {
@@ -451,8 +451,8 @@ div#toasts div {
         font-size: 0.9rem;
     }
 
-    #chatControl button.small.chatBack {
-        bottom: 73px;
+    #chatControl .backTopBottom {
+        bottom: 53px;
     }
 
     div#toasts div {

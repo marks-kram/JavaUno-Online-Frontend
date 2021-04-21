@@ -24,7 +24,6 @@
     <script src="/res/js/countdown.js"></script>
     <script src="/res/js/sockjs.min.js"></script>
     <script src="/res/js/stomp.min.js"></script>
-    <script src="/res/js/smooth-scrollbars.js"></script>
 </head>
 <body>
 
@@ -45,7 +44,7 @@
                 <div id="main-views-content">
 
                     <!-- Start/Join view - From here a game can be created or joined -->
-                    <div id="view-start" v-if="currentView === 'start' || currentView === 'join'">
+                    <div id="view-start" v-if="currentView === 'start' || currentView === 'join'" class="view">
                         <p v-if="!invitation">
                             Spiele das beliebte Kartenspiel UNO online am PC oder Smartphone.<br>
                             Du kannst mit Freunden spielen oder aber auch alleine gegen computergesteuerte Gegner.<br>
@@ -99,7 +98,7 @@
                     </div>
 
                     <!-- Set players view - From here Players can be added and removed and game round can be started -->
-                    <div id="view-set-players" v-if="currentView === 'set_players'">
+                    <div id="view-set-players" v-if="currentView === 'set_players'" class="view">
                         <h3>Aktuelle Spieler ({{gameState.players.length}})</h3>
                         <div id="current-players">
                             <div v-for="(player, index) in gameState.players" v-bind:class="getPlayerClasses(player)">
@@ -149,7 +148,7 @@
                     </div>
 
                     <!-- running game view - shows the running game -->
-                    <div id="view-running" v-if="currentView === 'running'">
+                    <div id="view-running" v-if="currentView === 'running'" class="view">
                         <div id="players">
                             <div v-for="(player, index) in gameState.players" v-if="!gameState.game.reversed" v-bind:class="getPlayerClasses(player)">
                                 <div class="current">
@@ -214,6 +213,14 @@
                                     </div>
                                 </div>
                             </div>
+                            <div v-if="gameState.game.turnState !== 'SELECT_COLOR' || !isMyTurn()" id="bottomButtons">
+                                <div>
+                                    <button class="small gameBottomButton" @click="prepareSwitchDevice()" class="small" id="in-game-switch-device"><span class="fas fa-exchange-alt"></span> Gerät wechseln</button>
+                                    <button class="small gameBottomButton" type="button" class="small" @click="confirmLeaveRunningGame()" id="leave-running-game"><span class="fas fa-times"></span> Spiel verlassen</button>
+                                    <button v-if="!stopPartyRequested" class="small gameBottomButton stopParty" type="button" class="small" @click="confirmRequestStopParty()" id="stop-party"><span class="fas fa-stop"></span> Runde beenden</button>
+                                    <button v-if="stopPartyRequested" class="small gameBottomButton stopParty red" type="button" class="small" @click="revokeRequestStopParty()" id="revoke-stop-party"><span class="fas fa-ban"></span> Abbrechen</button>
+                                </div>
+                            </div>
                         </div>
                         <div id="ownCards">
                             <div class="current">
@@ -266,36 +273,40 @@
                             <button v-if="hasCamera && !showSwitchOutQr && !showSwitchInQr" class="small" @click="scanQr()"><span class="fas fa-camera"></span> QR-Code scannen</button>
                         </p>
                     </div>
-
-                    <!-- chat -->
-                    <div v-if="currentView === 'chat'">
-                        <div class="messages" id="messages">
-                            <div v-for="message in gameState.game.messages" class="message">
-                                <h3>{{getPlayerNameByPublicUuid(message.playerPublicUuid)}}</h3>
-                                {{message.content}}
-                            </div>
-                        </div>
-                    </div>
                 </div>
             </div>
             <!-- MAIN VIEWS END -->
 
-            <!-- chatControl -->
-            <div v-if="currentView === 'chat'" id="chatControl">
-                <button @click="hideChat()" class="small chatBack"><span class="fas fa-arrow-left"></span> Zurück</button>
-                <input type="text" v-model="message" placeholder="Nachricht" class="chatContent">
-                <button @click="sendMessage()" v-bind:disabled="app.message.trim() === ''" class="chatSendBtn"><span class="far fa-paper-plane"></span></button>
+            <!-- chat -->
+            <div v-if="currentView === 'chat'">
+                <div class="messages" id="messages">
+                    <div>
+                        <div id="chat-before" class="chat-before-after"></div>
+                        <div v-for="message in gameState.game.messages" class="message">
+                            <h3>{{getPlayerNameByPublicUuid(message.playerPublicUuid)}}</h3>
+                            {{message.content}}
+                        </div>
+                        <div id="noMessages" v-if="gameState.game.messages.length === 0">
+                            Es hat noch niemand etwas geschrieben.<br>
+                            Du kannst gerne den Anfang machen.
+                        </div>
+                        <div id="chat-after" class="chat-before-after"></div>
+                    </div>
+                </div>
+                <div id="chatControl">
+                    <div class="backTopBottom">
+                        <button @click="hideChat()" class="small chatBack"><span class="fas fa-arrow-left"></span> Zurück</button>&emsp;
+                        <button v-bind:disabled="chatScrolledToTop" @click="scrollToChatTop()" class="small"><span class="fas fa-angle-up"></span></button>&emsp;
+                        <button v-bind:disabled="chatScrolledToEnd" @click="scrollToChatEnd()" class="small"><span class="fas fa-angle-down"></span></button>
+                    </div>
+
+                    <input type="text" v-model="message" placeholder="Nachricht" class="chatContent">
+                    <button @click="sendMessage()" v-bind:disabled="app.message.trim() === ''" class="chatSendBtn"><span class="far fa-paper-plane"></span></button>
+                </div>
             </div>
 
-            <!-- bottom buttons for running game view -->
-            <div v-if="currentView === 'running'" id="bottomButtons">
-                <button class="small gameBottomButton" @click="prepareSwitchDevice()" class="small" id="in-game-switch-device"><span class="fas fa-exchange-alt"></span> Gerät wechseln</button>
-                <button class="small gameBottomButton" type="button" class="small" @click="confirmLeaveRunningGame()" id="leave-running-game"><span class="fas fa-times"></span> Spiel verlassen</button>
-                <button v-if="!stopPartyRequested" class="small gameBottomButton stopParty" type="button" class="small" @click="confirmRequestStopParty()" id="stop-party"><span class="fas fa-stop"></span> Runde beenden</button>
-                <button v-if="stopPartyRequested" class="small gameBottomButton stopParty red" type="button" class="small" @click="revokeRequestStopParty()" id="revoke-stop-party"><span class="fas fa-ban"></span> Abbrechen</button>
-            </div>
-
-            <div id="legalHint">
+            <!-- legalHint -->
+            <div id="legalHint" v-if="currentView === 'start'">
                 Private fun project by Tomatenmark - Not related to Mattel or their original game.
             </div>
 
@@ -362,6 +373,7 @@
     <script src="/res/js/app-processing.js"></script>
     <script src="/res/js/app-requests.js"></script>
     <script src="/res/js/app-game.js"></script>
+    <script src="/res/js/app-chat.js"></script>
     <script src="/res/js/app-player.js"></script>
     <script src="/res/js/app-turn.js"></script>
     <script src="/res/js/push.js"></script>

@@ -1,4 +1,3 @@
-const Scrollbar = window.Scrollbar;
 
 function setGame(data){
     app.gameUuid = data.gameUuid;
@@ -274,107 +273,6 @@ function revokeRequestStopParty(){
     doPostRequest(path, {}, setRevokeRequestStopParty);
 }
 
-function showChat(){
-    app.previousView = app.currentView;
-    app.currentView = 'chat';
-    setReadMessages();
-    setTimeout('scrollToChatEnd()', 200);
-    setTimeout(`document.querySelector('#chatControl input').addEventListener('click', scrollToChatEndAgain)`, 200);
-}
-
-function hideChat(){
-    app.currentView = app.previousView;
-    app.previousView = '';
-    updateView();
-    if(hasTouch()){
-        document.querySelector('#main-views-content').scrollIntoView();
-    }
-}
-
-function setSendMessage(){
-    stopProcessingAnimation();
-    app.message = '';
-}
-
-function sendMessage(){
-    const path = `/game/chat/send-message`;
-    const data = {
-        content: app.message,
-        gameUuid: app.gameUuid,
-        playerUuid: app.playerUuid
-    }
-    doPostRequest(path, data, setSendMessage);
-    document.querySelector('#chatControl input').focus();
-}
-
-function setReadMessages(){
-    app.readMessages = app.gameState.game.messages.length;
-    localStorage.setItem("readMessages", app.readMessages);
-}
-
-function getReadMessages(){
-    let readMessages = localStorage.getItem('readMessages');
-    if(readMessages === null){
-        readMessages = '0';
-    }
-    app.readMessages = parseInt(readMessages);
-    localStorage.setItem("readMessages", app.readMessages);
-}
-
-function scrollToChatEnd(){
-    if(hasTouch()){
-        scrollTouchToEnd();
-        return;
-    }
-    prepareScroll();
-    doScroll();
-    finishScroll();
-}
-
-function scrollTouchToEnd(){
-    const viewHeight = document.querySelector('#main-views').clientHeight;
-    const messagesHeight = document.querySelector('#messages').clientHeight;
-    const space = viewHeight - 225; //90 for 2 messages, 105 for chatControl, 30 for header
-    if(space <= messagesHeight){
-        document.querySelector('#messages div:last-child').scrollIntoView();
-    } else {
-        document.querySelector('#main-views-content').scrollIntoView();
-    }
-}
-
-function scrollToChatEndAgain(){
-    setTimeout('scrollToChatEnd()', 200);
-}
-
-function prepareScroll(){
-    Scrollbar.destroyAll();
-    document.querySelector('body').style.overflow = 'hidden';
-    document.querySelector('#main-views').style.overflow = 'hidden';
-    document.querySelector('#main-views').style.overflowY = 'scroll';
-}
-
-function doScroll(){
-    let element = document.querySelector('#main-views');
-    element.scrollTop = element.scrollHeight;
-}
-function finishScroll(){
-    document.querySelector('body').style.overflow = '';
-    document.querySelector('#main-views').style.overflow = '';
-    document.querySelector('#main-views').style.overflowY = '';
-    enableScrolling();
-}
-
-function enableScrolling(){
-    if(hasTouch()){
-        document.querySelector('body').style.overflow = 'hidden';
-        document.querySelector('body').style.overflowY = 'scroll';
-        document.querySelector('header').style.position = 'fixed';
-    }
-    else {
-        Scrollbar.init(document.querySelector('#main-views'), {});
-    }
-}
-
 function init(){
     const invitation = localStorage.getItem('invitation');
     if(invitation != null && invitation === '1'){
@@ -400,7 +298,6 @@ function init(){
 }
 
 window.addEventListener("load", function() {
-    enableScrolling();
     if(handleSwitchDevice()){
         return;
     }
