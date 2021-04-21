@@ -46,6 +46,16 @@ function enableChatScrolling(){
     document.querySelector("#messages").addEventListener('scroll', updateChatScrolledProperties);
 }
 
+function scrollToChatTop(){
+    if(hasTouch()){
+        document.querySelector('#chat-before').scrollIntoView();
+        updateChatScrolledProperties();
+        return;
+    }
+    document.querySelector("#messages").scrollTo(0, 0);
+    updateChatScrolledProperties();
+}
+
 function scrollToChatEnd(){
     if(hasTouch()){
         document.querySelector('#chat-after').scrollIntoView();
@@ -54,16 +64,6 @@ function scrollToChatEnd(){
     }
     const element = document.querySelector("#messages");
     element.scrollTo(0,element.scrollHeight);
-    updateChatScrolledProperties();
-}
-
-function scrollToChatTop(){
-    if(hasTouch()){
-        document.querySelector('#chat-before').scrollIntoView();
-        updateChatScrolledProperties();
-        return;
-    }
-    document.querySelector("#messages").scrollTo(0, 0);
     updateChatScrolledProperties();
 }
 
