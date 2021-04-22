@@ -19,6 +19,7 @@ async function waitForGameStateToBeSet(){
 
 function setGameState(data){
     waitForGameStateToBeSet();
+    setReadMessages();
     app.gameState = data;
     app.stopPartyRequested = app.gameState.players[app.gameState.myIndex].stopPartyRequested;
     app.currentView = data.game.gameLifecycle.toLowerCase();
@@ -70,6 +71,7 @@ function reset(){
     localStorage.removeItem('playerUuid');
     localStorage.removeItem('invitation');
     localStorage.removeItem('sayUno');
+    localStorage.removeItem('readMessages');
     self.location.replace('/');
 }
 
