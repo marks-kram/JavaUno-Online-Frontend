@@ -264,7 +264,8 @@ const doPushActionChatMessage = function (message){
     }
     if(app.currentView === 'chat'){
         setReadMessages();
-        setTimeout('scrollToChatEnd()', 200);
+        setTimeout('updateChatScrollable()', 200);
+        setTimeout('scrollToChatEnd()', 250);
     }
 };
 

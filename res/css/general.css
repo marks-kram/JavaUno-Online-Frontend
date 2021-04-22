@@ -4,7 +4,6 @@ html, body {
     font-size: 0.9em;
     font-family: arial, sans-serif;
     background: #bebebe;
-    overflow: hidden;
 }
 
 *{
@@ -34,20 +33,7 @@ header img {
 
 #javaUno {
     display: none;
-}
-
-#main-views {
-    position: absolute;
-    top: 30px;
-    left: 0;
-    padding: 0;
-    width: 100%;
-    height: calc(100vh - 30px);
-    overflow: hidden auto;
-}
-
-#main-views #main-views-content {
-    padding: 0 10px 20px 10px;
+    padding: 30px 10px 20px 10px;
 }
 
 .view > p:first-child, .view > h3:first-child {
