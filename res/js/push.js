@@ -161,7 +161,7 @@ const doPushActionSaidUno = function(){
 const doPushActionNextTurn = function(message){
     if(app.currentView === 'running' || app.previousView === 'running'){
         app.gameState.game.turnState = '';
-        stopCountdownAnimation(true);
+        stopCountdownAnimation(false);
         const index = parseInt(message.body.replace(/next-turn:/, ''));
         app.gameState.game.currentPlayerIndex = index;
         showTurnToast(index);
@@ -200,6 +200,7 @@ const  doPushActionSwitchFinished = function(message) {
 };
 
 const doPushActionRequestStopParty = function(message){
+    stopCountdownAnimation(false);
     const index = parseInt(message.body.replace(/^request-stop-party:(.*?)$/, '$1'));
     app.gameState.players[index].stopPartyRequested = true;
     let name = app.gameState.players[index].name;
@@ -283,7 +284,6 @@ function showTurnToast(index){
 
 function startCountdown(){
     if(app.currentView === 'running' && aC === null){
-        aC = 0;
         app.gameState.game.turnState = 'FINAL_COUNTDOWN';
         startCountdownAnimation();
     }

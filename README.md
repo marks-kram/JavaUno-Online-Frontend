@@ -63,6 +63,7 @@ If you want to use this frontend together with my backend, please note the follo
 * Security: use trusted base for urls in generated qr-codes
 * Improvement: Beginning Player is selected randomly (or the last winner)
 * Improvement: Last put card is visible in winner dialog
+* Improvement: Fixed xss attack which was providing method to have empty name
 * UI improvement:
   * Icons on buttons
   * Use Arial as font-family
