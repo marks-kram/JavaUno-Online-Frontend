@@ -55,8 +55,10 @@ function doPushActions(message){
     pushActions[messageType](message);
 }
 
-const doPushActionStartedGame = function(){
+const doPushActionStartedGame = function(message){
+    const index = parseInt(message.body.replace(/^started-game:(\d)$/, '$1'));
     app.gameState.game.gameLifecycle = 'RUNNING';
+    app.gameState.game.currentPlayerIndex = index;
     app.timeLeftPercent = 100;
     app.winner = -1;
     showTurnToast(app.gameState.game.currentPlayerIndex);
