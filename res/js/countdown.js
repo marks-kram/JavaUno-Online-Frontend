@@ -8,7 +8,6 @@ function startCountdownAnimation() {
     if(aC !== null){
         return;
     }
-    app.countdownRunning = true;
     startAnimation();
     aC = setTimeout('stopCountdownAnimation(true)', duranceMillis);
 }

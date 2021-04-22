@@ -2,7 +2,7 @@
 Card game - Multiplayer browser game - The Frontend
 
 ## Version
-2.0 (2021, April, 22nd)
+2.0 (2021, April, 23rd)
 
 ## Description
 The Frontend offers the view to the card game.\
