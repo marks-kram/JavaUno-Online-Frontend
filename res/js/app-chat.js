@@ -24,7 +24,7 @@ function sendMessage(){
         playerUuid: app.playerUuid
     }
     doPostRequest(path, data, setSendMessage);
-    document.querySelector('#chatControl input').focus();
+    document.querySelector('#chat-view input').focus();
 }
 
 function setReadMessages(){
@@ -42,45 +42,30 @@ function getReadMessages(){
 }
 
 function enableChatScrolling(){
-    scrollToChatEnd();
-    document.querySelector("#messages").addEventListener('scroll', updateChatScrolledProperties);
+    updateChatScrollable();
+    setTimeout('scrollToChatEnd()', 200);
+    document.querySelector('#chat-view input').addEventListener('focus', updateChatScrollable);
+    document.querySelector('#chat-view input').addEventListener('blur', updateChatScrollable);
 }
 
 function scrollToChatTop(){
-    if(hasTouch()){
-        document.querySelector('#chat-before').scrollIntoView();
-        updateChatScrolledProperties();
+    if(!app.chatScrollable){
         return;
     }
-    document.querySelector("#messages").scrollTo(0, 0);
-    updateChatScrolledProperties();
+    document.querySelector("html").scrollTo(0, 0);
 }
 
 function scrollToChatEnd(){
-    if(hasTouch()){
-        document.querySelector('#chat-after').scrollIntoView();
-        updateChatScrolledProperties();
+    if(!app.chatScrollable){
         return;
     }
-    const element = document.querySelector("#messages");
+    const element = document.querySelector("html");
     element.scrollTo(0,element.scrollHeight);
-    updateChatScrolledProperties();
 }
 
-function isChatScrolledToTop(){
-    return document.querySelector('#messages').scrollTop === 0;
-}
-
-function isChatScrolledToEnd(){
-    const containerHeight = document.querySelector('#messages').clientHeight;
-    const contentHeight = document.querySelector('#messages').scrollHeight;
-    let maxOffset = contentHeight - containerHeight;
-    return document.querySelector('#messages').scrollTop === maxOffset;
-}
-
-function updateChatScrolledProperties(){
-    if(app.currentView === 'chat') {
-        app.chatScrolledToTop = isChatScrolledToTop();
-        app.chatScrolledToEnd = isChatScrolledToEnd();
-    }
+function updateChatScrollable(){
+    const available = window.innerHeight - 30;
+    const required = document.querySelector('#chat-view').clientHeight;
+    const more = available - required;
+    app.chatScrollable = more <= 0;
 }
