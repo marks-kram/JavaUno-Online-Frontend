@@ -44,6 +44,7 @@ function getReadMessages(){
 function enableChatScrolling(){
     updateChatScrollable();
     setTimeout('scrollToChatEnd()', 200);
+    document.querySelector('#chat-view input').addEventListener('click', scrollToChatEnd);
     document.querySelector('#chat-view input').addEventListener('focus', updateChatScrollable);
     document.querySelector('#chat-view input').addEventListener('blur', updateChatScrollable);
 }
