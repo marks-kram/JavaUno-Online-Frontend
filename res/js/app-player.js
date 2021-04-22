@@ -6,7 +6,7 @@ function joinGame(){
     const data = {
         bot: false,
         gameUuid: app.gameUuid,
-        name: app.name
+        name: sanitizePlayerName(app.name)
     };
     doPostRequest('/player/add', data, setPlayer);
 }
@@ -22,7 +22,7 @@ function addBot(){
     const data = {
         bot: true,
         gameUuid: app.gameUuid,
-        name: app.botName
+        name: sanitizePlayerName(app.botName)
     };
     app.botName = '';
     localStorage.setItem('gameUuid', app.gameUuid);
@@ -67,6 +67,11 @@ function getPlayerNameByPublicUuid(publicUuid) {
         }
     }
     return "[Entfernter Spieler]";
+}
+
+function sanitizePlayerName(name){
+    name = name.replace(/[<>'"]/g, '');
+    return name.trim();
 }
 
 function copyLink(){
