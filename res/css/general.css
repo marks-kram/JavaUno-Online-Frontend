@@ -6,6 +6,10 @@ html, body {
     background: #bebebe;
 }
 
+html {
+    min-height: 100vh;
+}
+
 *{
     box-sizing: border-box;
 }
