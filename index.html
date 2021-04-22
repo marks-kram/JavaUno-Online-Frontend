@@ -148,7 +148,8 @@
                 <div id="players" v-bind:class="gameState.game.reversed ? 'reversed' : ''">
                     <div v-for="(player, index) in gameState.players" v-bind:class="getPlayerClasses(player)">
                         <div class="current">
-                            <div v-bind:style="'width: ' + (isPlayersTurn(index) ? timeLeftPercent : 0) + '%'"></div>
+                            <div v-show="isPlayersTurn(index)" class="turnBar"></div>
+                            <div v-show="!isPlayersTurn(index)" class="placeholder"></div>
                         </div>
                         <div class="name">
                             {{ getPlayerName(player.name, index) }}
@@ -207,7 +208,8 @@
                 </div>
                 <div id="ownCards">
                     <div class="current">
-                        <div v-bind:style="'width: ' + (gameState.myIndex === gameState.game.currentPlayerIndex ? timeLeftPercent : 0) + '%'"></div>
+                        <div v-show="isMyTurn()" class="turnBar"></div>
+                        <div v-show="!isMyTurn()" class="placeholder"></div>
                     </div>
                     <div class="card" v-for="(card, index) in gameState.ownCards">
                         <picture v-bind:class="isPutAllowed(card, index) ? 'enabled' : 'disabled'" @click="put(card, index)">

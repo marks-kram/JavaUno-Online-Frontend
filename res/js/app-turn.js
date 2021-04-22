@@ -75,6 +75,7 @@ function next() {
         app.gameState.game.currentPlayerIndex = -1;
         app.gameState.game.turnState = '';
         const path = '/turn/next/' + app.gameUuid + '/' + app.playerUuid;
+        app.countdownRunning = false;
         doPostRequest(path, {}, nullCallback);
     } else {
         setTimeout('next()', 1000);

@@ -193,9 +193,13 @@ body.hover #drawPile.enabled:hover, body.hover #ownCards picture.enabled:hover, 
 
 .current div {
     display: block;
-    width: 0;
     height: 5px;
+}
+
+.current div.turnBar {
+    width: 100%;
     background: #24bb07;
+    will-change: width;
 }
 
 #ownCards .current {

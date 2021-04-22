@@ -25,11 +25,10 @@ function setGameState(data){
     joinGameRunning = false;
     setGameStateRunning = false;
     if(app.gameState.game.turnState === 'FINAL_COUNTDOWN' && app.gameState.game.gameLifecycle === 'RUNNING' && aC === null){
-        aC = 0;
         if(localStorage.getItem('sayUno') !== null && localStorage.getItem('sayUno') === '1'){
             sayUno();
         }
-        startCountdownAnimation();
+        setTimeout('startCountdownAnimation()', 200);
     }
     app.gameLoadedWithPlayer = true;
 }
