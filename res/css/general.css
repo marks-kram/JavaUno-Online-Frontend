@@ -329,6 +329,13 @@ header div#newMessages {
     width: 360px;
 }
 
+.ruler {
+    width: 840px;
+    height: 3px;
+    background: black;
+    margin-bottom: 10px;
+}
+
 @media (max-width: 859px) {
     header img {
         width: 120px;
@@ -349,6 +356,10 @@ header div#newMessages {
 
     p.largeMarginBottom {
         margin-bottom: 32px;
+    }
+
+    .ruler {
+        width: 100%;
     }
 }
 

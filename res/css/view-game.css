@@ -1,7 +1,12 @@
+
 #players {
     max-width: 840px;
-    border-bottom: 3px black solid;
-    margin-bottom: 10px;
+    width: max-content;
+    display: flex;
+}
+
+#players.reversed {
+    flex-direction: row-reverse;
 }
 
 #players .player {
@@ -333,6 +338,10 @@ div#toasts div {
 }
 
 @media (max-width: 859px), (max-height: 907px) {
+    #players {
+        max-width: 100%;
+    }
+
     #players .player .name {
         font-size: 0.5rem;
         width: 50px;
