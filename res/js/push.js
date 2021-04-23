@@ -184,19 +184,11 @@ const  doPushActionEnd = function() {
 };
 
 const  doPushActionSwitchIn = function(message) {
-    const gameUuid = message.body.replace(/switch-in:([^:]+):([^:]+)$/, '$1');
-    const playerUuid = message.body.replace(/switch-in:([^:]+):([^:]+)$/, '$2');
-    if(app.pendingSwitch){
-        localStorage.setItem('gameUuid', gameUuid);
-        localStorage.setItem('playerUuid', playerUuid);
-        doPostRequest(`/switch/switch-finished/${gameUuid}/${playerUuid}`, {}, function(){self.location.reload()});
-    }
+    handlePushSwitchIn(message);
 };
 
 const  doPushActionSwitchFinished = function(message) {
-    app.pendingPlayerIndex = parseInt(message.body.replace(/switch-finished:/, ''));
-    const path = `/gameState/get/${app.gameUuid}/${app.playerUuid}`;
-    doGetRequest(path, removeSwitchedGameFromHere);
+    handlePushSwitchFinished(message);
 };
 
 const doPushActionRequestStopParty = function(message){
