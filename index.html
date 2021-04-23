@@ -115,6 +115,7 @@
                     <textarea id="invitation-link-toCopy">{{protocol}}://{{hostname}}/invitation.html#game:{{gameUuid}}</textarea>
                     <span id="invitation-link">{{protocol}}://{{hostname}}/invitation.html#game:{{gameUuid}}</span><br>
                     <button class="small" @click="copyLink()"><span class="far fa-copy"></span> Link kopieren</button>&emsp;
+                    <span v-if="navigator.share"><button class="small" @click="shareLink()"><span class="fa fa-share-alt"></span> Link teilen</button>&emsp;</span>
                     <button class="small" @click="showInvitationQrCode()"><span class="fas fa-qrcode"></span> QR-Code anzeigen</button>
                     <div v-show="showInvitationQr">
                         <div >

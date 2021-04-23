@@ -82,6 +82,23 @@ function copyLink(){
     showToast('Erfolgreich kopiert!');
 }
 
+function shareLink(){
+    let url = app.protocol+'://' + app.hostname + '/invitation.html#game:' + app.gameUuid;
+    let title = 'JavaUno - Einladung zum mitspielen';
+    if (navigator.share) {
+        navigator.share({
+            title: title,
+            url: url,
+            text: ''
+        }).then(() => {
+            console.log('sharing successful');
+        })
+            .catch(console.error);
+    } else {
+        showToast('Teilen fehlgeschlagen. Kein Smartphone?');
+    }
+}
+
 function showInvitationQrCode(){
     app.qr = genQr(app.protocol+'://' + app.hostname + '/invitation.html#game:' + app.gameUuid);
     app.showInvitationQr = true;
