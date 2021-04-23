@@ -3,11 +3,10 @@ html, body {
     padding: 0;
     font-size: 0.9em;
     font-family: arial, sans-serif;
-    background: #bebebe;
 }
 
 html {
-    min-height: 100vh;
+    background: #bebebe;
 }
 
 *{
