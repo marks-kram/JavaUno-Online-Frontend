@@ -234,18 +234,20 @@
             <!-- switch device view -->
             <div id="view-switch-device" v-if="currentView === 'switch-device'">
                 <button v-if="!showSwitchInQr && !showSwitchOutQr" class="small" @click="abortSwitchDevice()"><span class="fas fa-ban"></span> Abbrechen</button><br><br>
-                <span v-if="!showSwitchOutQr && !showSwitchInQr">Der Wechsel ist kinderleicht. Voraussetzung: Mindestens eines der beiden Geräte braucht eine Kamera.<br><br></span>
                 <div v-if="gameUuid !== null && gameUuid !== '' && !showSwitchInQr">
-                    <button class="small" @click="prepareSwitchOut()" v-if="!showSwitchOutQr"><span class="fas fa-qrcode"></span> QR-Code anzeigen</button><br>
+                    <span v-if="!showSwitchOutQr">Der Wechsel ist kinderleicht.<br><br></span>
+                    <button class="small" @click="prepareSwitchOut()" v-if="!showSwitchOutQr"><span class="fas fa-qrcode"></span> QR-Code anzeigen / <span class="far fa-copy"></span> Link kopieren</button><br><br>
                     <div v-show="showSwitchOutQr">
-                        Scanne den QR-Code, um den Wechsel durchzuführen.
+                        Scanne den QR-Code oder kopiere den Link, um den Wechsel durchzuführen.<br>
+                        <button class="small" @click="copySwitchLink()"><span class="far fa-copy"></span> Link kopieren</button><br><br>
                         <div>
-                            <img v-bind:src="qr" alt="" class="qr-image">
+                            <img v-bind:src="qr" alt="" class="qr-image" @click="showSwitchLink()">
                         </div>
                         <button class="small" @click="abortSwitchOut()"><span class="fas fa-ban"></span> Abbrechen</button>
                     </div>
                 </div>
                 <div v-if="gameUuid === null || gameUuid === '' && !showSwitchOutQr">
+                    <span v-if="!showSwitchInQr">Der Wechsel ist kinderleicht. Voraussetzung: Mindestens eines der beiden Geräte braucht eine Kamera.<br><br></span>
                     <button class="small" @click="prepareSwitchIn()" v-if="!showSwitchInQr"><span class="fas fa-qrcode"></span> QR-Code anzeigen</button><br>
                     <div v-show="showSwitchInQr">
                         Scanne den QR-Code, um den Wechsel durchzuführen.

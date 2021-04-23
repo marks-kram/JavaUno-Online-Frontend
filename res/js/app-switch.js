@@ -3,6 +3,7 @@ const localeStorageEntriesToTransport = ['sayUno', 'readMessages'];
 function prepareSwitchDevice(){
     app.previousView = app.currentView;
     app.currentView = 'switch-device';
+    app.pendingRemoveAfterSwitch = false;
 }
 
 function abortSwitchDevice(){
@@ -11,14 +12,7 @@ function abortSwitchDevice(){
 }
 
 function prepareSwitchOut(){
-    let url = `${app.protocol}://${app.hostname}/?switch=out&gameUuid=${app.gameUuid}&playerUuid=${app.playerUuid}`;
-    for(let i = 0; i < localeStorageEntriesToTransport.length; i++){
-        const entry = localeStorageEntriesToTransport[i];
-        const value = localStorage.getItem(entry);
-        if(value !== null && value !== ''){
-            url += `&${entry}=${value}`;
-        }
-    }
+    const url = getSwitchOutUrl();
     app.qr = genQr(url);
     app.showSwitchOutQr = true;
     app.pendingRemoveAfterSwitch = true;
@@ -154,6 +148,20 @@ function handlePushSwitchFinished(message){
     doGetRequest(path, removeSwitchedGameFromHere);
 }
 
+function copySwitchLink(){
+    const url = getSwitchOutUrl();
+    const textarea = document.createElement('textarea');
+    document.querySelector('body').appendChild(textarea);
+    textarea.value = url;
+    textarea.select();
+    textarea.setSelectionRange(0, 500); /*For mobile devices*/
+    document.execCommand("copy");
+    document.querySelector('body').removeChild(textarea);
+    app.currentView = app.previousView;
+    app.previousView = '';
+    showInformationDialog('Link wurde kopiert. Rufe die Adresse nun auf dem Ziel-Gerät im Ziel-Browser auf.')
+}
+
 function generateUUID() {
     let d = new Date().getTime();
     let uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
@@ -162,4 +170,16 @@ function generateUUID() {
         return (c=='x' ? r : (r&0x3|0x8)).toString(16);
     });
     return uuid;
+}
+
+function getSwitchOutUrl(){
+    let url = `${app.protocol}://${app.hostname}/?switch=out&gameUuid=${app.gameUuid}&playerUuid=${app.playerUuid}`;
+    for(let i = 0; i < localeStorageEntriesToTransport.length; i++){
+        const entry = localeStorageEntriesToTransport[i];
+        const value = localStorage.getItem(entry);
+        if(value !== null && value !== ''){
+            url += `&${entry}=${value}`;
+        }
+    }
+    return url;
 }
