@@ -1,3 +1,5 @@
+const localeStorageEntriesToTransport = ['sayUno', 'readMessages'];
+
 function prepareSwitchDevice(){
     app.previousView = app.currentView;
     app.currentView = 'switch-device';
@@ -9,7 +11,15 @@ function abortSwitchDevice(){
 }
 
 function prepareSwitchOut(){
-    app.qr = genQr(`${app.protocol}://${app.hostname}/?switch=out&gameUuid=${app.gameUuid}&playerUuid=${app.playerUuid}`);
+    let url = `${app.protocol}://${app.hostname}/?switch=out&gameUuid=${app.gameUuid}&playerUuid=${app.playerUuid}`;
+    for(let i = 0; i < localeStorageEntriesToTransport.length; i++){
+        const entry = localeStorageEntriesToTransport[i];
+        const value = localStorage.getItem(entry);
+        if(value !== null && value !== ''){
+            url += `&${entry}=${value}`;
+        }
+    }
+    app.qr = genQr(url);
     app.showSwitchOutQr = true;
     app.pendingRemoveAfterSwitch = true;
 }
@@ -67,6 +77,13 @@ function switchOut(urlParams){
     gameUuid = urlParams.get('gameUuid');
     playerUuid = urlParams.get('playerUuid');
     if(gameUuid != null && gameUuid !== '' && playerUuid != null && playerUuid !== ''){
+        for(let i = 0; i < localeStorageEntriesToTransport.length; i++) {
+            const entry = localeStorageEntriesToTransport[i];
+            const value = urlParams.get(entry);
+            if(value !== null && value !== ''){
+                localStorage.setItem(entry, value);
+            }
+        }
         localStorage.setItem('gameUuid', gameUuid);
         localStorage.setItem('playerUuid', playerUuid);
         doPostRequest(`/switch/switch-finished/${gameUuid}/${playerUuid}`, {}, setSwitchFinished);
@@ -75,7 +92,15 @@ function switchOut(urlParams){
 }
 
 function setSwitchIn(pushUuid){
-    doPostRequest(`/switch/switch-in/${pushUuid}/${app.gameUuid}/${app.playerUuid}`, {}, nullCallback);
+    let path = `/switch/switch-in/${pushUuid}/${app.gameUuid}/${app.playerUuid}`;
+    for(let i = 0; i < localeStorageEntriesToTransport.length; i++){
+        const entry = localeStorageEntriesToTransport[i];
+        const value = localStorage.getItem(entry);
+        const empty = value === null || value === '';
+        const toAdd = empty ? 'empty' : value;
+        path += `/${toAdd}`;
+    }
+    doPostRequest(path, {}, nullCallback);
 }
 
 function switchIn(urlParams){
@@ -104,12 +129,22 @@ function removeSwitchedGameFromHere(data){
 }
 
 function handlePushSwitchIn(message){
-    const gameUuid = message.body.replace(/switch-in:([^:]+):([^:]+)$/, '$1');
-    const playerUuid = message.body.replace(/switch-in:([^:]+):([^:]+)$/, '$2');
+    const values = [];
+    const gameUuid = message.body.replace(/switch-in:([^:]+):([^:]+):([^:]+):([^:]+)$/, '$1');
+    const playerUuid = message.body.replace(/switch-in:([^:]+):([^:]+):([^:]+):([^:]+)$/, '$2');
+    values[0] = message.body.replace(/switch-in:([^:]+):([^:]+):([^:]+):([^:]+)$/, '$3');
+    values[1] = message.body.replace(/switch-in:([^:]+):([^:]+):([^:]+):([^:]+)$/, '$4');
     if(app.pendingSwitch){
         localStorage.setItem('gameUuid', gameUuid);
         localStorage.setItem('playerUuid', playerUuid);
-        doPostRequest(`/switch/switch-finished/${gameUuid}/${playerUuid}`, {}, function(){self.location.reload()});
+        for(let i = 0; i < localeStorageEntriesToTransport.length; i++) {
+            const entry = localeStorageEntriesToTransport[i];
+            const value = values[i];
+            if(value !== null && value !== 'empty'){
+                localStorage.setItem(entry, value);
+            }
+        }
+        doPostRequest(`/switch/switch-finished/${gameUuid}/${playerUuid}`, {}, function(){self.location.replace('/')});
     }
 }
 
