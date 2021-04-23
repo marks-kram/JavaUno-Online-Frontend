@@ -55,8 +55,10 @@ function doPushActions(message){
     pushActions[messageType](message);
 }
 
-const doPushActionStartedGame = function(){
+const doPushActionStartedGame = function(message){
+    const index = parseInt(message.body.replace(/^started-game:(\d)$/, '$1'));
     app.gameState.game.gameLifecycle = 'RUNNING';
+    app.gameState.game.currentPlayerIndex = index;
     app.timeLeftPercent = 100;
     app.winner = -1;
     showTurnToast(app.gameState.game.currentPlayerIndex);
@@ -159,7 +161,7 @@ const doPushActionSaidUno = function(){
 const doPushActionNextTurn = function(message){
     if(app.currentView === 'running' || app.previousView === 'running'){
         app.gameState.game.turnState = '';
-        stopCountdownAnimation(true);
+        stopCountdownAnimation(false);
         const index = parseInt(message.body.replace(/next-turn:/, ''));
         app.gameState.game.currentPlayerIndex = index;
         showTurnToast(index);
@@ -182,22 +184,15 @@ const  doPushActionEnd = function() {
 };
 
 const  doPushActionSwitchIn = function(message) {
-    const gameUuid = message.body.replace(/switch-in:([^:]+):([^:]+)$/, '$1');
-    const playerUuid = message.body.replace(/switch-in:([^:]+):([^:]+)$/, '$2');
-    if(app.pendingSwitch){
-        localStorage.setItem('gameUuid', gameUuid);
-        localStorage.setItem('playerUuid', playerUuid);
-        doPostRequest(`/switch/switch-finished/${gameUuid}/${playerUuid}`, {}, function(){self.location.reload()});
-    }
+    handlePushSwitchIn(message);
 };
 
 const  doPushActionSwitchFinished = function(message) {
-    app.pendingPlayerIndex = parseInt(message.body.replace(/switch-finished:/, ''));
-    const path = `/gameState/get/${app.gameUuid}/${app.playerUuid}`;
-    doGetRequest(path, removeSwitchedGameFromHere);
+    handlePushSwitchFinished(message);
 };
 
 const doPushActionRequestStopParty = function(message){
+    stopCountdownAnimation(false);
     const index = parseInt(message.body.replace(/^request-stop-party:(.*?)$/, '$1'));
     app.gameState.players[index].stopPartyRequested = true;
     let name = app.gameState.players[index].name;
@@ -264,7 +259,8 @@ const doPushActionChatMessage = function (message){
     }
     if(app.currentView === 'chat'){
         setReadMessages();
-        setTimeout('scrollToChatEnd()', 200);
+        setTimeout('updateChatScrollable()', 200);
+        setTimeout('scrollToChatEnd()', 250);
     }
 };
 
@@ -280,7 +276,6 @@ function showTurnToast(index){
 
 function startCountdown(){
     if(app.currentView === 'running' && aC === null){
-        aC = 0;
         app.gameState.game.turnState = 'FINAL_COUNTDOWN';
         startCountdownAnimation();
     }

@@ -46,8 +46,7 @@ const data = {
     message: '',
     readMessages: 0,
     gameLoadedWithPlayer: false,
-    chatScrolledToTop: false,
-    chatScrolledToEnd: false
+    chatScrollable: false
 };
 
 const methods = {
@@ -91,8 +90,6 @@ const methods = {
     showChat: function(){showChat()},
     hideChat: function(){hideChat()},
     sendMessage: function(){sendMessage()},
-    scrollToChatTop: function (){scrollToChatTop()},
-    scrollToChatEnd: function (){scrollToChatEnd()},
     hideDialog : function(){hideDialog()}
 };
 
