@@ -66,7 +66,7 @@ function scrollToChatEnd(){
 
 function updateChatScrollable(){
     const available = window.innerHeight - 30;
-    const required = document.querySelector('#chat-view').clientHeight;
+    const required = document.querySelector('#chat-view').clientHeight+30;
     const more = available - required;
     app.chatScrollable = more <= 0;
 }
