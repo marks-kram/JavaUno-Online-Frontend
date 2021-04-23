@@ -19,7 +19,7 @@ async function waitForGameStateToBeSet(){
 
 function setGameState(data){
     waitForGameStateToBeSet();
-    setReadMessages();
+    setTimeout('setReadMessages()', 200);
     app.gameState = data;
     app.stopPartyRequested = app.gameState.players[app.gameState.myIndex].stopPartyRequested;
     app.currentView = data.game.gameLifecycle.toLowerCase();
