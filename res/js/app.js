@@ -63,6 +63,7 @@ const methods = {
     getPlayerName: function(name, index){ return getPlayerName(name, index)},
     getPlayerNameByPublicUuid: function(publicUuid){ return getPlayerNameByPublicUuid(publicUuid)},
     copyLink: function(){copyLink()},
+    shareLink: function(){shareLink()},
     showInvitationQrCode: function () {showInvitationQrCode()},
     getCardImage: function(card, size) { return getCardImage(card, size) },
     put: function(card, index) { put(card, index) },
