@@ -83,6 +83,7 @@ const methods = {
     abortSwitchOut: function (){ abortSwitchOut() },
     prepareSwitchIn: function (){ prepareSwitchIn() },
     abortSwitchIn: function (){ abortSwitchIn() },
+    copySwitchLink: function(){copySwitchLink()},
     confirmLeaveRunningGame: function(){confirmLeaveRunningGame();},
     confirmRequestStopParty: function(){confirmRequestStopParty()},
     revokeRequestStopParty: function(){revokeRequestStopParty()},
