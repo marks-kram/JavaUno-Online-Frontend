@@ -103,6 +103,22 @@ function removeSwitchedGameFromHere(data){
     }
 }
 
+function handlePushSwitchIn(message){
+    const gameUuid = message.body.replace(/switch-in:([^:]+):([^:]+)$/, '$1');
+    const playerUuid = message.body.replace(/switch-in:([^:]+):([^:]+)$/, '$2');
+    if(app.pendingSwitch){
+        localStorage.setItem('gameUuid', gameUuid);
+        localStorage.setItem('playerUuid', playerUuid);
+        doPostRequest(`/switch/switch-finished/${gameUuid}/${playerUuid}`, {}, function(){self.location.reload()});
+    }
+}
+
+function handlePushSwitchFinished(message){
+    app.pendingPlayerIndex = parseInt(message.body.replace(/switch-finished:/, ''));
+    const path = `/gameState/get/${app.gameUuid}/${app.playerUuid}`;
+    doGetRequest(path, removeSwitchedGameFromHere);
+}
+
 function generateUUID() {
     let d = new Date().getTime();
     let uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
