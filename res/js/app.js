@@ -90,8 +90,6 @@ const methods = {
     showChat: function(){showChat()},
     hideChat: function(){hideChat()},
     sendMessage: function(){sendMessage()},
-    scrollToChatTop: function (){scrollToChatTop()},
-    scrollToChatEnd: function (){scrollToChatEnd()},
     hideDialog : function(){hideDialog()}
 };
 

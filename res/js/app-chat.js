@@ -49,13 +49,6 @@ function enableChatScrolling(){
     document.querySelector('#chat-view input').addEventListener('blur', updateChatScrollable);
 }
 
-function scrollToChatTop(){
-    if(!app.chatScrollable){
-        return;
-    }
-    document.querySelector("html").scrollTo(0, 0);
-}
-
 function scrollToChatEnd(){
     if(!app.chatScrollable){
         return;
