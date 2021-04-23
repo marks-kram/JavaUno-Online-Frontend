@@ -86,13 +86,13 @@ function switchOut(urlParams){
         }
         localStorage.setItem('gameUuid', gameUuid);
         localStorage.setItem('playerUuid', playerUuid);
-        doPostRequest(`/switch/switch-finished/${gameUuid}/${playerUuid}`, {}, setSwitchFinished);
+        doPostRequest(`/switch/finished/${gameUuid}/${playerUuid}`, {}, setSwitchFinished);
         return true;
     }
 }
 
 function setSwitchIn(pushUuid){
-    let path = `/switch/switch-in/${pushUuid}/${app.gameUuid}/${app.playerUuid}`;
+    let path = `/switch/in/${pushUuid}/${app.gameUuid}/${app.playerUuid}`;
     for(let i = 0; i < localeStorageEntriesToTransport.length; i++){
         const entry = localeStorageEntriesToTransport[i];
         const value = localStorage.getItem(entry);
@@ -144,7 +144,7 @@ function handlePushSwitchIn(message){
                 localStorage.setItem(entry, value);
             }
         }
-        doPostRequest(`/switch/switch-finished/${gameUuid}/${playerUuid}`, {}, function(){self.location.replace('/')});
+        doPostRequest(`/switch/finished/${gameUuid}/${playerUuid}`, {}, function(){self.location.replace('/')});
     }
 }
 
