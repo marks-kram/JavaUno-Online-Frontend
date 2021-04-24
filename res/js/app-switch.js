@@ -150,16 +150,10 @@ function handlePushSwitchFinished(message){
 
 function copySwitchLink(){
     const url = getSwitchOutUrl();
-    const textarea = document.createElement('textarea');
-    document.querySelector('body').appendChild(textarea);
-    textarea.value = url;
-    textarea.select();
-    textarea.setSelectionRange(0, 500); /*For mobile devices*/
-    document.execCommand("copy");
-    document.querySelector('body').removeChild(textarea);
+    copy(url);
     app.currentView = app.previousView;
     app.previousView = '';
-    showInformationDialog('Link wurde kopiert. Rufe die Adresse nun auf dem Ziel-Gerät im Ziel-Browser auf.')
+    showInformationDialog('Link wurde kopiert. Rufe die Adresse nun auf dem Ziel-Gerät im Ziel-Browser auf.');
 }
 
 function generateUUID() {

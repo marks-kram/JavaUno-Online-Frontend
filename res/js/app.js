@@ -173,3 +173,13 @@ function hideDialog(){
         self.location.replace('/');
     }
 }
+
+function copy(text){
+    const textarea = document.createElement('textarea');
+    document.querySelector('body').appendChild(textarea);
+    textarea.value = text;
+    textarea.select();
+    textarea.setSelectionRange(0, 500); /*For mobile devices*/
+    document.execCommand("copy");
+    document.querySelector('body').removeChild(textarea);
+}

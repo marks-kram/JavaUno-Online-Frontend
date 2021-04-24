@@ -75,10 +75,8 @@ function sanitizePlayerName(name){
 }
 
 function copyLink(){
-    const copyText = document.getElementById('invitation-link-toCopy');
-    copyText.select();
-    copyText.setSelectionRange(0, 99); /*For mobile devices*/
-    document.execCommand("copy");
+    const url = app.protocol+'://' + app.hostname + '/invitation.html#game:' + app.gameUuid;
+    copy(url);
     showToast('Erfolgreich kopiert!');
 }
 
