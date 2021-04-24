@@ -140,13 +140,13 @@ p:last-child {
     font-size: 2rem;
 }
 
-input {
+input, textarea {
     font-size: 1.5rem;
     padding: 7px;
     border: 1px silver solid;
     border-radius: 11px;
 }
-body.hover input:hover, input:focus {
+body.hover input:hover, input:focus, body.hover textarea:hover, textarea:focus {
     border: 1px black solid;
     outline: none;
     box-shadow: none;

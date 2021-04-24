@@ -265,7 +265,9 @@
                     <div v-for="message in gameState.game.messages" v-bind:class="`message ${getMessageDirection(message.playerPublicUuid)}`">
                         <div class="message-content">
                             <h3>{{getSenderName(message.playerPublicUuid)}}&emsp;&emsp;&emsp;&emsp;<span class="clock">{{getMessageClock(message.time)}}</span></h3>
-                            {{message.content}}
+                            <div v-for="line in getMessageLines(message)">
+                                {{line}}
+                            </div>
                         </div>
                     </div>
                     <div id="noMessages" v-if="gameState.game.messages.length === 0">
@@ -275,7 +277,7 @@
                 </div>
                 <div id="chatPlaceholder"></div>
                 <div id="chatControls">
-                    <input type="text" v-model="message" placeholder="Nachricht" class="chatContent">
+                    <textarea rows="1" v-model="message" placeholder="Nachricht" class="chatContent"></textarea>
                     <button @click="sendMessage()" v-bind:disabled="app.message.trim() === ''" class="chatSendBtn"><span class="far fa-paper-plane"></span></button>
                 </div>
             </div>

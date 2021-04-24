@@ -94,6 +94,7 @@ const methods = {
     getMessageDirection: function(playerPublicUuid){ return getMessageDirection(playerPublicUuid)},
     getSenderName: function(playerPublicUuid){ return getSenderName(playerPublicUuid)},
     getMessageClock: function(time) {return getMessageClock(time)},
+    getMessageLines: function (message) {return getMessageLines(message)},
     hideDialog : function(){hideDialog()}
 };
 

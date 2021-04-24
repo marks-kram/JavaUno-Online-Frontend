@@ -6,6 +6,7 @@ function showChat(){
 }
 
 function hideChat(){
+    resetInputHeight();
     app.currentView = app.previousView;
     app.previousView = '';
     updateView();
@@ -14,6 +15,7 @@ function hideChat(){
 function setSendMessage(){
     stopProcessingAnimation();
     app.message = '';
+    setTimeout('setInputHeight()', 200);
 }
 
 function sendMessage(){
@@ -24,7 +26,7 @@ function sendMessage(){
         playerUuid: app.playerUuid
     }
     doPostRequest(path, data, setSendMessage);
-    document.querySelector('#chat-view input').focus();
+    document.querySelector('#chat-view textarea').focus();
 }
 
 function setReadMessages(){
@@ -42,8 +44,11 @@ function getReadMessages(){
 }
 
 function enableChatScrolling(){
+    setTimeout('setInputHeight()', 100);
     setTimeout('scrollToChatEnd()', 200);
-    document.querySelector('#chat-view input').addEventListener('click', waitAndScrollToChatEnd);
+    document.querySelector('#chat-view textarea').addEventListener('click', waitAndScrollToChatEnd);
+    document.querySelector('#chat-view textarea').addEventListener('input', waitAndScrollToChatEnd);
+    document.querySelector('#chat-view textarea').addEventListener('input', setInputHeight);
 }
 
 function waitAndScrollToChatEnd(){
@@ -85,9 +90,9 @@ function getMessageClock(time){
 }
 
 function handlePushActionChatMessage(message){
-    const playerPublicUuid = message.body.replace(/chat-message:([^:]+):([^:]+):(.+)$/, '$1');
-    const time = parseInt(message.body.replace(/chat-message:([^:]+):([^:]+):(.+)$/, '$2'));
-    const content = message.body.replace(/chat-message:([^:]+):([^:]+):(.+)$/, '$3');
+    const playerPublicUuid = message.body.replace(/chat-message:([^:]+):([^:]+):(.+)$/ms, '$1');
+    const time = parseInt(message.body.replace(/chat-message:([^:]+):([^:]+):(.+)$/ms, '$2'));
+    const content = message.body.replace(/chat-message:([^:]+):([^:]+):(.+)$/ms, '$3');
     const messageData = {
         playerPublicUuid: playerPublicUuid,
         content: content,
@@ -102,4 +107,25 @@ function handlePushActionChatMessage(message){
         setReadMessages();
         setTimeout('scrollToChatEnd()', 250);
     }
+}
+
+function setInputHeight(){
+    const textarea = document.querySelector('#chat-view textarea');
+    textarea.style.height = 'auto';
+    const height = textarea.scrollHeight;
+    textarea.style.height = `${height}px`;
+    const threshold = textarea.clientWidth === 794 ? 140 : 100;
+    textarea.style.overflow = height > threshold ? 'hidden scroll' : 'hidden';
+    document.querySelector('#chat-view #chatPlaceholder').style.height = `${height+9}px`;
+}
+
+function resetInputHeight(){
+    const textarea = document.querySelector('#chat-view textarea');
+    textarea.style.height = '';
+    textarea.style.overflow = '';
+    document.querySelector('#chat-view #chatPlaceholder').style.height = '';
+}
+
+function getMessageLines(message){
+    return message.content.split('\n');
 }
