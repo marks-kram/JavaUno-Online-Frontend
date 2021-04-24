@@ -409,7 +409,7 @@ div#toasts div {
     }
 }
 
-@media (max-width: 859px) {
+@media (max-width: 875px) {
     button.small.gameBottomButton {
         font-size: 0.7rem;
     }
@@ -419,7 +419,7 @@ div#toasts div {
     }
 
     #chat-view input.chatContent {
-        width: calc(100vw - 55px);
+        width: calc(100% - 35px);
         font-size: 0.9rem;
     }
 
