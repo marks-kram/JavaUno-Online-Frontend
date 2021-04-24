@@ -246,21 +246,7 @@ const doPushActionCancelBotifyPlayer = function (message){
 };
 
 const doPushActionChatMessage = function (message){
-    const playerPublicUuid = message.body.replace(/chat-message:([^:]+):(.+)$/, '$1');
-    const content = message.body.replace(/chat-message:([^:]+):(.+)$/, '$2');
-    const messageData = {
-        playerPublicUuid: playerPublicUuid,
-        content: content
-    }
-    app.gameState.game.messages.push(messageData);
-    if(app.gameState.players[app.gameState.myIndex].publicUuid !== playerPublicUuid){
-        const name = getPlayerNameByPublicUuid(playerPublicUuid);
-        showToast(`${name} schreibt: ${content}`);
-    }
-    if(app.currentView === 'chat'){
-        setReadMessages();
-        setTimeout('scrollToChatEnd()', 250);
-    }
+    handlePushActionChatMessage(message);
 };
 
 function showTurnToast(index){

@@ -303,7 +303,6 @@ button.small.kick {
 
 .messages {
     width: 840px;
-    position: relative;
 }
 
 .message {
@@ -314,6 +313,7 @@ button.small.kick {
 }
 
 .message .message-content {
+    position: relative;
     background: white;
     padding: 5px;
     max-width: 65%;
@@ -336,6 +336,17 @@ button.small.kick {
     margin: 0;
     font-size: inherit;
     font-weight: bolder;
+}
+
+.message.out h3 {
+    font-style: italic;
+}
+
+.message h3 .clock {
+    position: absolute;
+    right: 6px;
+    font-size: 0.8em;
+    opacity: 0.5;
 }
 
 #noMessages {

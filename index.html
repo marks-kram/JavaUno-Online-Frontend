@@ -264,7 +264,7 @@
                 <div class="messages" id="messages">
                     <div v-for="message in gameState.game.messages" v-bind:class="`message ${getMessageDirection(message.playerPublicUuid)}`">
                         <div class="message-content">
-                            <h3>{{getPlayerNameByPublicUuid(message.playerPublicUuid)}}</h3>
+                            <h3>{{getSenderName(message.playerPublicUuid)}}&emsp;&emsp;&emsp;&emsp;<span class="clock">{{getMessageClock(message.time)}}</span></h3>
                             {{message.content}}
                         </div>
                     </div>

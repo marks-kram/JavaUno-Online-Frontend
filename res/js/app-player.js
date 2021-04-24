@@ -57,18 +57,6 @@ function getPlayerName(name, index) {
     return name.trim().replace(/(<.*?>|&.*?;)/g, '');
 }
 
-function getPlayerNameByPublicUuid(publicUuid) {
-    const players = app.gameState.players;
-    for(let i = 0; i < players.length; i++){
-        const player = players[i];
-        if(player.publicUuid === publicUuid){
-            const name = player.name;
-            return getPlayerName(name, i);
-        }
-    }
-    return "[Entfernter Spieler]";
-}
-
 function sanitizePlayerName(name){
     name = name.replace(/[<>'"]/g, '');
     return name.trim();
