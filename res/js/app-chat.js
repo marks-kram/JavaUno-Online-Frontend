@@ -42,26 +42,13 @@ function getReadMessages(){
 }
 
 function enableChatScrolling(){
-    updateChatScrollable();
     setTimeout('scrollToChatEnd()', 200);
     document.querySelector('#chat-view input').addEventListener('click', scrollToChatEnd);
-    document.querySelector('#chat-view input').addEventListener('focus', updateChatScrollable);
-    document.querySelector('#chat-view input').addEventListener('blur', updateChatScrollable);
 }
 
 function scrollToChatEnd(){
-    if(!app.chatScrollable){
-        return;
-    }
     const element = document.querySelector("html");
     element.scrollTo(0,element.scrollHeight);
-}
-
-function updateChatScrollable(){
-    const available = window.innerHeight - 30;
-    const required = document.querySelector('#chat-view').clientHeight+30;
-    const more = available - required;
-    app.chatScrollable = more <= 0;
 }
 
 function getMessageDirection(playerPublicUuid){
