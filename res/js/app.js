@@ -111,7 +111,8 @@ function hasTouch() {
 }
 
 if(!hasTouch()){
-    document.body.setAttribute('class', 'hover');
+    document.querySelector('body').setAttribute('class', 'hover');
+    document.querySelector('html').setAttribute('class', 'custom-scrollbars');
 }
 
 function showErrorDialog(text){

@@ -31,6 +31,7 @@ header {
 header img {
     display: inline-block;
     margin-top: 2px;
+    margin-left: 3px;
     cursor: pointer;
 }
 
@@ -161,6 +162,7 @@ button {
     color: white;
     border-radius: 11px;
     cursor: pointer;
+    outline: none;
 }
 body.hover button:hover, button:focus {
     background: #148d06;
@@ -340,6 +342,27 @@ header div#newMessages {
     margin-bottom: 10px;
 }
 
+html.custom-scrollbars::-webkit-scrollbar, html.custom-scrollbars .chatContent::-webkit-scrollbar {
+    width: 8px;
+}
+
+html.custom-scrollbars::-webkit-scrollbar-track, html.custom-scrollbars .chatContent::-webkit-scrollbar-track {
+    background: #eee;
+}
+
+html.custom-scrollbars::-webkit-scrollbar-thumb, html.custom-scrollbars .chatContent::-webkit-scrollbar-thumb {
+    background: #999;
+}
+
+html.custom-scrollbars::-webkit-scrollbar-thumb:hover, html.custom-scrollbars .chatContent::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+
+/* firefox */
+html.custom-scrollbars, html.custom-scrollbars .chatContent {
+    scrollbar-color: #999 #eee;
+}
+
 @media (max-width: 859px) {
     header img {
         width: 120px;
@@ -364,6 +387,14 @@ header div#newMessages {
 
     .ruler {
         width: 100%;
+    }
+
+    html.custom-scrollbars::-webkit-scrollbar, html.custom-scrollbars .chatContent::-webkit-scrollbar {
+        width: 4px;
+    }
+
+    html.custom-scrollbars, html.custom-scrollbars .chatContent {
+        scrollbar-width: thin;
     }
 }
 
