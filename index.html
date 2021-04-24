@@ -273,8 +273,11 @@
                         Du kannst gerne den Anfang machen.
                     </div>
                 </div>
-                <input type="text" v-model="message" placeholder="Nachricht" class="chatContent">
-                <button @click="sendMessage()" v-bind:disabled="app.message.trim() === ''" class="chatSendBtn"><span class="far fa-paper-plane"></span></button>
+                <div id="chatPlaceholder"></div>
+                <div id="chatControls">
+                    <input type="text" v-model="message" placeholder="Nachricht" class="chatContent">
+                    <button @click="sendMessage()" v-bind:disabled="app.message.trim() === ''" class="chatSendBtn"><span class="far fa-paper-plane"></span></button>
+                </div>
             </div>
 
             <!-- legalHint -->
