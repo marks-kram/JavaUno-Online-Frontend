@@ -87,3 +87,4 @@ If you want to use this frontend together with my backend, please note the follo
 * end game when loser is known (not when winner is known)
 * configurable ruleset
 * win counting
+* chat: voice records
