@@ -63,3 +63,22 @@ function updateChatScrollable(){
     const more = available - required;
     app.chatScrollable = more <= 0;
 }
+
+function getMessageDirection(playerPublicUuid){
+    const myPublicUuid = app.gameState.players[app.gameState.myIndex].publicUuid;
+    return (playerPublicUuid === myPublicUuid) ? 'out' : 'in';
+}
+
+function getPlayerNameByPublicUuid(publicUuid) {
+    const players = app.gameState.players;
+    for(let i = 0; i < players.length; i++){
+        const player = players[i];
+        if(player.publicUuid === publicUuid){
+            const name = player.name;
+            return getPlayerName(name, i);
+        }
+    }
+    return "[Entfernter Spieler]";
+}
+
+

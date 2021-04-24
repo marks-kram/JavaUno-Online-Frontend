@@ -92,6 +92,7 @@ const methods = {
     showChat: function(){showChat()},
     hideChat: function(){hideChat()},
     sendMessage: function(){sendMessage()},
+    getMessageDirection: function(playerPublicUuid){ return getMessageDirection(playerPublicUuid)},
     hideDialog : function(){hideDialog()}
 };
 

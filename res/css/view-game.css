@@ -301,19 +301,35 @@ button.small.kick {
     margin-top: 10px;
 }
 
-.chat-before-after {
-    width: 100%;
-}
-
 .messages {
-    width: 100%;
+    width: 840px;
+    position: relative;
 }
 
 .message {
-    background: #e0e0e0;
-    padding: 5px;
-    width: 840px;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
     margin-top: 10px;
+}
+
+.message .message-content {
+    background: white;
+    padding: 5px;
+    max-width: 65%;
+    border-radius: 10px;
+}
+
+.message.out .message-content {
+    background: #d5ecff;
+}
+
+.message.in {
+    align-items: flex-start;
+}
+
+.message.out {
+    align-items: flex-end;
 }
 
 .message h3 {
@@ -414,8 +430,12 @@ div#toasts div {
         font-size: 0.7rem;
     }
 
-    .message {
+    #messages {
         width: 100%;
+    }
+
+    .message {
+        max-width: calc(100% - 35px);
     }
 
     #chat-view input.chatContent {

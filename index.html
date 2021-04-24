@@ -262,16 +262,16 @@
             <!-- chat -->
             <div v-if="currentView === 'chat'" id="chat-view">
                 <div class="messages" id="messages">
-                    <div id="chat-before" class="chat-before-after"></div>
-                    <div v-for="message in gameState.game.messages" class="message">
-                        <h3>{{getPlayerNameByPublicUuid(message.playerPublicUuid)}}</h3>
-                        {{message.content}}
+                    <div v-for="message in gameState.game.messages" v-bind:class="`message ${getMessageDirection(message.playerPublicUuid)}`">
+                        <div class="message-content">
+                            <h3>{{getPlayerNameByPublicUuid(message.playerPublicUuid)}}</h3>
+                            {{message.content}}
+                        </div>
                     </div>
                     <div id="noMessages" v-if="gameState.game.messages.length === 0">
                         Es hat noch niemand etwas geschrieben.<br>
                         Du kannst gerne den Anfang machen.
                     </div>
-                    <div id="chat-after" class="chat-before-after"></div>
                 </div>
                 <input type="text" v-model="message" placeholder="Nachricht" class="chatContent">
                 <button @click="sendMessage()" v-bind:disabled="app.message.trim() === ''" class="chatSendBtn"><span class="far fa-paper-plane"></span></button>
