@@ -56,6 +56,11 @@ function getMessageDirection(playerPublicUuid){
     return (playerPublicUuid === myPublicUuid) ? 'out' : 'in';
 }
 
+function getSenderName(playerPublicUuid){
+    const myPublicUuid = app.gameState.players[app.gameState.myIndex].publicUuid;
+    return (playerPublicUuid === myPublicUuid) ? 'Du' : getPlayerNameByPublicUuid(playerPublicUuid);
+}
+
 function getPlayerNameByPublicUuid(publicUuid) {
     const players = app.gameState.players;
     for(let i = 0; i < players.length; i++){
@@ -68,4 +73,29 @@ function getPlayerNameByPublicUuid(publicUuid) {
     return "[Entfernter Spieler]";
 }
 
+function getMessageClock(time){
+    const date = new Date(time);
+    const hours = "0" + date.getHours();
+    const minutes = "0" + date.getMinutes();
+    return `${hours.substr(-2)}:${minutes.substr(-2)}`;
+}
 
+function handlePushActionChatMessage(message){
+    const playerPublicUuid = message.body.replace(/chat-message:([^:]+):([^:]+):(.+)$/, '$1');
+    const time = parseInt(message.body.replace(/chat-message:([^:]+):([^:]+):(.+)$/, '$2'));
+    const content = message.body.replace(/chat-message:([^:]+):([^:]+):(.+)$/, '$3');
+    const messageData = {
+        playerPublicUuid: playerPublicUuid,
+        content: content,
+        time: time
+    }
+    app.gameState.game.messages.push(messageData);
+    if(app.gameState.players[app.gameState.myIndex].publicUuid !== playerPublicUuid){
+        const name = getPlayerNameByPublicUuid(playerPublicUuid);
+        showToast(`${name} schreibt: ${content}`);
+    }
+    if(app.currentView === 'chat'){
+        setReadMessages();
+        setTimeout('scrollToChatEnd()', 250);
+    }
+}

@@ -61,7 +61,6 @@ const methods = {
     loadGameWithoutPlayer: function (){loadGameWithoutPlayer()},
     startGame: function (){startGame()},
     getPlayerName: function(name, index){ return getPlayerName(name, index)},
-    getPlayerNameByPublicUuid: function(publicUuid){ return getPlayerNameByPublicUuid(publicUuid)},
     copyLink: function(){copyLink()},
     shareLink: function(){shareLink()},
     showInvitationQrCode: function () {showInvitationQrCode()},
@@ -93,6 +92,8 @@ const methods = {
     hideChat: function(){hideChat()},
     sendMessage: function(){sendMessage()},
     getMessageDirection: function(playerPublicUuid){ return getMessageDirection(playerPublicUuid)},
+    getSenderName: function(playerPublicUuid){ return getSenderName(playerPublicUuid)},
+    getMessageClock: function(time) {return getMessageClock(time)},
     hideDialog : function(){hideDialog()}
 };
 
