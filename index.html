@@ -31,8 +31,8 @@
         <header>
             <img src="/res/img/logo.png" alt="" onclick="self.location.href='/';">
             <a class="manual" href="/manual.pdf" target="_blank"><span class="fas fa-file-pdf"></span> Bedienungs- und Spielanleitung</a>
-            <a class="chatToggle" href="javascript:void(0);" @click="showChat()" v-if="gameLoadedWithPlayer && currentView !== 'chat' && currentView !== 'switch-device'"><span class="fas fa-comment"></span></a>
-            <a class="chatToggle" href="javascript:void(0);" @click="hideChat()" v-if="gameLoadedWithPlayer && currentView === 'chat'"><span class="fas fa-arrow-left"></span></a>
+            <a class="chatToggle" href="#" @click="showChat()" v-if="gameLoadedWithPlayer && currentView !== 'chat' && currentView !== 'switch-device'"><span class="fas fa-comment"></span></a>
+            <a class="chatToggle" href="#" @click="hideChat()" v-if="gameLoadedWithPlayer && currentView === 'chat'"><span class="fas fa-arrow-left"></span></a>
             <div id="newMessages" v-if="(currentView === 'running' || currentView === 'set_players') && readMessages < gameState.game.messages.length"></div>
         </header>
         <noscript>JavaUno als Browsergame basiert auf JavaScript. Bitte aktiviere JavaScript in deinen Browsereinstellungen.</noscript>
@@ -277,8 +277,8 @@
                 </div>
                 <div id="chatPlaceholder"></div>
                 <div id="chatControls">
-                    <textarea rows="1" v-model="message" placeholder="Nachricht" class="chatContent"></textarea>
-                    <button @click="sendMessage()" v-bind:disabled="app.message.trim() === ''" class="chatSendBtn"><span class="far fa-paper-plane"></span></button>
+                    <textarea rows="1" v-model="message" placeholder="Nachricht" class="chatContent"></textarea><!--
+                    --><button @click="sendMessage()" v-bind:disabled="app.message.trim() === ''" class="chatSendBtn"><span class="far fa-paper-plane"></span></button>
                 </div>
             </div>
 

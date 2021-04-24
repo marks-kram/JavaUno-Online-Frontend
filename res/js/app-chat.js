@@ -114,7 +114,8 @@ function setInputHeight(){
     textarea.style.height = 'auto';
     const height = textarea.scrollHeight;
     textarea.style.height = `${height}px`;
-    const threshold = textarea.clientWidth === 794 ? 140 : 100;
+    document.querySelector('#chat-view button').style.height = `${height}px`;
+    const threshold = textarea.clientWidth > 780 ? 140 : 100;
     textarea.style.overflow = height > threshold ? 'hidden scroll' : 'hidden';
     document.querySelector('#chat-view #chatPlaceholder').style.height = `${height+9}px`;
 }
@@ -124,6 +125,7 @@ function resetInputHeight(){
     textarea.style.height = '';
     textarea.style.overflow = '';
     document.querySelector('#chat-view #chatPlaceholder').style.height = '';
+    document.querySelector('#chat-view button').style.height = '';
 }
 
 function getMessageLines(message){
