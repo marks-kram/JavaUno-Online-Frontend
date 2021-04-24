@@ -355,6 +355,8 @@ button.small.kick {
 
 #chat-view #chatPlaceholder {
     height: 51px;
+    min-height: 51px;
+    max-height: 148px;
 }
 
 #chat-view #chatControls {
@@ -370,12 +372,18 @@ button.small.kick {
     margin-top: 0;
 }
 
-#chat-view input.chatContent {
+#chat-view .chatContent {
     width: 796px;
+    min-height: 42px;
+    max-height: 140px;
+    vertical-align: top;
+    resize: none;
+    overflow: hidden;
 }
 
 #chat-view button.chatSendBtn {
     width: 40px;
+    vertical-align: bottom;
 }
 
 div#toasts div {
@@ -464,10 +472,14 @@ div#toasts div {
 
     #chat-view #chatPlaceholder {
         height: 41px;
+        min-height: 41px;
+        max-height: 113px;
     }
 
-    #chat-view input.chatContent {
+    #chat-view .chatContent {
         width: calc(100% - 35px);
+        min-height: 32px;
+        max-height: 104px;
         font-size: 0.9rem;
     }
 

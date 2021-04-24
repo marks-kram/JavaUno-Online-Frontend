@@ -51,7 +51,7 @@ async function handleMessage(message){
 }
 
 function doPushActions(message){
-    const messageType = message.body.replace(/:.*$/, '');
+    const messageType = message.body.replace(/:.*$/ms, '');
     pushActions[messageType](message);
 }
 

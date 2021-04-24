@@ -197,7 +197,7 @@ window.addEventListener("load", function() {
 });
 
 document.addEventListener('click', function(e) {
-    if(document.activeElement.toString() !== '[object HTMLInputElement]'){
+    if(document.activeElement.toString() !== '[object HTMLInputElement]' && document.activeElement.toString() !== '[object HTMLTextAreaElement]'){
         document.activeElement.blur();
     }
 });
