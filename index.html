@@ -111,9 +111,9 @@
                 <h3>Spieler hinzufügen</h3>
                 <div id="add-players" v-if="gameState.players.length < 8">
                     Freunde einladen:<br>
-                    <button class="small" @click="showInvitationQrCode()"><span class="fas fa-qrcode"></span> QR-Code anzeigen</button>&emsp;
-                    <button class="small" @click="copyLink()"><span class="far fa-copy"></span> Adresse kopieren</button>&emsp;
-                    <span v-if="navigator.share"><button class="small" @click="shareLink()"><span class="fa fa-share-alt"></span> Adresse teilen</button></span>
+                    <button class="small invitation" @click="showInvitationQrCode()"><span class="fas fa-qrcode"></span> QR-Code anzeigen</button>
+                    <button class="small invitation" @click="copyLink()"><span class="far fa-copy"></span> Adresse kopieren</button>
+                    <button class="small invitation" v-if="navigator.share" @click="shareLink()"><span class="fa fa-share-alt"></span> Adresse teilen</button>
                     <div v-show="showInvitationQr">
                         <div >
                             <img v-bind:src="qr" alt="" class="qr-image">

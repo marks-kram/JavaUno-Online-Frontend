@@ -43,8 +43,18 @@
     color: #acaccb;
 }
 
+button.small.invitation {
+    display: inline-block;
+    margin-right: 10px;
+}
+
 @media (max-width: 619px) {
     #current-players .player {
         font-size: 1.0rem;
+    }
+
+    button.small.invitation {
+        display: block;
+        margin-bottom: 10px;
     }
 }
