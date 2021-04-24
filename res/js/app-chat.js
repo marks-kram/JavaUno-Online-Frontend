@@ -43,7 +43,11 @@ function getReadMessages(){
 
 function enableChatScrolling(){
     setTimeout('scrollToChatEnd()', 200);
-    document.querySelector('#chat-view input').addEventListener('click', scrollToChatEnd);
+    document.querySelector('#chat-view input').addEventListener('click', waitAndScrollToChatEnd);
+}
+
+function waitAndScrollToChatEnd(){
+    setTimeout('scrollToChatEnd()', 200);
 }
 
 function scrollToChatEnd(){

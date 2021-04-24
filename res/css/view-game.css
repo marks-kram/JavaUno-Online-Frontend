@@ -353,6 +353,23 @@ button.small.kick {
     margin-top: 10px;
 }
 
+#chat-view #chatPlaceholder {
+    height: 51px;
+}
+
+#chat-view #chatControls {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    background: #d7d7d7;
+    width: 100%;
+    padding: 10px;
+}
+
+#chat-view #chatControls button {
+    margin-top: 0;
+}
+
 #chat-view input.chatContent {
     width: 796px;
 }
@@ -445,8 +462,8 @@ div#toasts div {
         width: 100%;
     }
 
-    .message {
-        max-width: calc(100% - 35px);
+    #chat-view #chatPlaceholder {
+        height: 41px;
     }
 
     #chat-view input.chatContent {
