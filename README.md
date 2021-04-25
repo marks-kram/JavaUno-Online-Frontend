@@ -66,9 +66,10 @@ If you want to use this frontend together with my backend, please note the follo
 * Improvement: Fixed xss attack which was providing method to have empty name
 * UI improvement:
   * Icons on buttons
+  * Green header
   * Simplified invitation link copy and added native link sharing
   * Use Arial as font-family
-  * Beautified none-touch-device scrollbars (Chrome & Firefox)
+  * Beautified and green none-touch-device scrollbars (Chrome & Firefox)
   * minor improvements
 
 ### Version 1.2
