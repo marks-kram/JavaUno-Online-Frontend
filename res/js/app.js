@@ -76,6 +76,7 @@ const methods = {
     isSayUnoAllowed: function() { return isSayUnoAllowed() },
     isMyTurn: function() { return isMyTurn() },
     isPlayersTurn: function(index) { return isPlayersTurn(index) },
+    isPlayerInRow: function(index, row) { return isPlayerInRow(index, row) },
     scanQr: function() { scanQr() },
     prepareSwitchDevice: function (){ prepareSwitchDevice() },
     abortSwitchDevice: function (){ abortSwitchDevice() },

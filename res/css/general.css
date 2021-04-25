@@ -195,7 +195,6 @@ p:last-child {
 
 .view > p:first-child:before,
 .view > h3:first-child:before,
-#view-running > div#players:before,
 #view-switch-device:before {
     content: "";
     display: block;
