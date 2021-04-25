@@ -141,3 +141,16 @@ function getPlayerClasses(player){
     }
     return classes;
 }
+
+function isPlayerInRow(index, row){
+    const players = app.gameState.players.length;
+    const reversed = app.gameState.game.reversed;
+    const threshold = reversed && players === 7 ? 3 : 4;
+    if(players <= 6){
+        return true;
+    }
+    if(row === 1){
+        return index < threshold;
+    }
+    return index >= threshold;
+}

@@ -1,11 +1,24 @@
+#players-placeholder {
+    height: 5px;
+}
 
 #players {
+    display: flex;
+    flex-direction: row;
+    width: max-content;
+}
+
+#players.reversed {
+    flex-direction: row-reverse;
+}
+
+#players  .players-row {
     max-width: 840px;
     width: max-content;
     display: flex;
 }
 
-#players.reversed {
+#players.reversed .players-row {
     flex-direction: row-reverse;
 }
 
@@ -546,5 +559,15 @@ div#toasts div {
 
     div#toasts div {
         max-width: 350px;
+    }
+}
+
+@media (max-width: 465px) {
+    #players {
+        flex-direction: column;
+    }
+
+    #players.reversed {
+        flex-direction: column-reverse;
     }
 }
