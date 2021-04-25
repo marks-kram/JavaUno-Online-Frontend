@@ -83,10 +83,6 @@ If you want to use this frontend together with my backend, please note the follo
   
 ### Future Updates
 
-### Version 2.x
-* improvements
-  * combine and minify css and js files
-
 #### Version 3.0 (maybe Summer 2022)
 * ability to join to a running game
 * end game when loser is known (not when winner is known)
