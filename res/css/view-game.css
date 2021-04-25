@@ -27,7 +27,6 @@
 }
 
 #players .player .cards {
-    background-image: url('/res/img/cards/large/back.png');
     width: 100px;
     height: 150px;
     display: table-cell;
@@ -35,12 +34,12 @@
     text-align: center;
     font-weight: bold;
     font-size: 6rem;
-    color: white;
+    color: var(--card-count-color);
     text-shadow: -1px -1px 1px black, 1px 1px 1px black;
 }
 
 #players .player .cards.red {
-    color: #ff6969;
+    color: var(--card-count-red-color);
 }
 
 #players .player .cards.more {
@@ -48,7 +47,7 @@
 }
 
 #table {
-    border-bottom: 3px black solid;
+    border-bottom: 3px var(--ruler-color) solid;
     margin-bottom: 10px;
     max-width: 840px;
     padding-bottom: 10px;
@@ -58,13 +57,12 @@
     height: 5px;
 }
 
-#topCard div.red {background: #cc0000;}
-#topCard div.green {background: #1dc300;}
-#topCard div.blue {background: #0075e6;}
-#topCard div.yellow {background: #f2f130;}
+#topCard div.red {background: var(--wish-red-color);}
+#topCard div.green {background: var(--wish-green-color);}
+#topCard div.blue {background: var(--wish-blue-color);}
+#topCard div.yellow {background: var(--wish-yellow-color);}
 
 #drawPile {
-    background-image: url('/res/img/cards/large/back.png');
     width: 100px;
     height: 150px;
     cursor: pointer;
@@ -78,15 +76,15 @@
     text-align: center;
     font-size: 7rem;
     text-shadow: -1px -1px 1px
-    black, 1px 1px 1px black;
+    var(--shadow-color), 1px 1px 1px var(--shadow-color);
 }
 
 #drawPile div.penalties {
-    color: #ff6969;
+    color: var(--card-count-red-color);
 }
 
 #drawPile div.duties {
-    color: #99ecff;
+    color: var(--card-count-blue-color);
 }
 
 #topCard, #drawPile {
@@ -127,17 +125,28 @@
     height: 60px;
     margin: 11px 5px 11px 6px;
     border-radius: 20px;
-    color: black;
     font-size: 3rem;
     font-weight: bolder;
     text-align: center;
     cursor: pointer;
 }
 
-#color-selection .red {background: #cc0000 url('/res/img/color-red.png');}
-#color-selection .green {background: #1dc300 url('/res/img/color-green.png');}
-#color-selection .blue {background: #0075e6 url('/res/img/color-blue.png');}
-#color-selection .yellow {background: #f2f130 url('/res/img/color-yellow.png');}
+#color-selection .red {background: var(--wish-red-color) url('/res/img/color-red.png');}
+#color-selection .green {background: var(--wish-green-color) url('/res/img/color-green.png');}
+#color-selection .blue {background: var(--wish-blue-color) url('/res/img/color-blue.png');}
+#color-selection .yellow {background: var(--wish-yellow-color) url('/res/img/color-yellow.png');}
+
+#players .player .cards, #drawPile {
+    background-image: url('/res/img/cards/large/back.png');
+}
+
+html[data-theme="dark"] #players .player .cards , html[data-theme="dark"] #drawPile, html[data-theme="dark"] #color-selection {
+    filter: brightness(0.7);
+}
+
+html[data-theme="dark"] #players .player .cards button.small.kick {
+    filter: brightness(1.4);
+}
 
 #finished div {
     font-size: 2rem;
@@ -198,7 +207,7 @@ body.hover #drawPile.enabled:hover, body.hover #ownCards picture.enabled:hover, 
 
 .current div.turnBar {
     width: 100%;
-    background: #24bb07;
+    background: var(--turn-bar-color);
     will-change: width;
 }
 
@@ -213,7 +222,7 @@ body.hover #drawPile.enabled:hover, body.hover #ownCards picture.enabled:hover, 
     z-index: 1;
     width: 100%;
     height: 100%;
-    background: #000d;
+    background: var(--light-box-bgcolor);
 }
 
 .lightbox > div {
@@ -221,13 +230,14 @@ body.hover #drawPile.enabled:hover, body.hover #ownCards picture.enabled:hover, 
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    color: white;
+    color: var(--light-box-text-color);
     text-align: center;
 }
 
 #bottomButtons {
     display: inline-block;
     height: 150px;
+    margin-left: 30px;
 }
 
 #bottomButtons > div {
@@ -241,7 +251,7 @@ body.hover #drawPile.enabled:hover, body.hover #ownCards picture.enabled:hover, 
 
 .gameBottomButton {
     display: block;
-    margin-bottom: 10px;
+    margin-bottom: 30px;
 }
 
 .gameBottomButton:last-child {
@@ -249,31 +259,34 @@ body.hover #drawPile.enabled:hover, body.hover #ownCards picture.enabled:hover, 
 }
 
 button.stopParty.red {
-    background:#a92424;
+    background:var(--button-stop-party-abort-bgcolor);
+    border: 1px var(--button-stop-party-abort-bgcolor) solid;
     color: white;
 }
 
 body.hover button.stopParty.red:hover, button.stopParty.red:focus {
-    background: #682222;
+    background: var(--button-stop-party-abort-hover-bgcolor);
+    border: 1px var(--button-stop-party-abort-hover-bgcolor) solid;
     color: white;
 }
 
 button.stopParty.red:active {
-    background: #421616;
+    background: var(--button-stop-party-abort-active-bgcolor);
+    border: 1px var(--button-stop-party-abort-active-bgcolor) solid;
     color: white;
 }
 
 .stopPartyRequested {
-    background: #900000;
-    color: white;
+    background: var(--stop-party-requested-bg-color);
+    color: var(--button-small-color);
 }
 
 #current-players .player.botifyPending {
-    background: #a1a1bf;
+    background: var(--botify-pending-bgcolor);
 }
 
 #players .player.botifyPending {
-    background: #b1b1c5;
+    background: var(--botify-pending-bgcolor);
 }
 
 .bot {
@@ -281,11 +294,11 @@ button.stopParty.red:active {
 }
 
 #current-players .player.botifyPending span {
-    color: #dcdcdc;
+    color: var(--botify-pending-text-color);
 }
 
 .player.stopPartyRequested .current div {
-    background: #86ab7f;
+    background: var(--turn-bar-stop-party-requested-color);
 }
 
 #players .player .cards {
@@ -304,6 +317,7 @@ button.small.kick {
 
 .messages {
     width: 840px;
+    color: var(--chat-text-color);
 }
 
 .message {
@@ -315,14 +329,14 @@ button.small.kick {
 
 .message .message-content {
     position: relative;
-    background: white;
+    background: var(--messages-in-bgcolor);
     padding: 5px;
     max-width: 65%;
     border-radius: 10px;
 }
 
 .message.out .message-content {
-    background: #d5ecff;
+    background: var(--messages-out-bgcolor);
 }
 
 .message.in {
@@ -339,7 +353,7 @@ button.small.kick {
     font-weight: bolder;
 }
 
-.message.out h3 {
+.message.out h3 span.name {
     font-style: italic;
 }
 
@@ -364,7 +378,7 @@ button.small.kick {
     position: fixed;
     bottom: 0;
     left: 0;
-    background: #d7d7d7;
+    background: var(--chat-controlls-bgcolor);
     width: 100%;
     padding: 10px;
 }
@@ -395,7 +409,7 @@ button.small.kick {
 }
 
 #chat-view .chatContent:hover+button.chatSendBtn, #chat-view .chatContent:focus+button.chatSendBtn {
-    border: 1px black solid;
+    border: 1px var(--input-bordercolor) solid;
     border-left: none;
 }
 
@@ -405,8 +419,8 @@ div#toasts div {
     text-overflow: ellipsis;
 }
 
-@media (max-width: 859px), (max-height: 907px) {
-    #players {
+@media (max-width: 875px), (max-height: 907px) {
+    #players, #table, #ownCards {
         max-width: 100%;
     }
 
@@ -417,7 +431,6 @@ div#toasts div {
     }
 
     #players .player .cards {
-        background-image: url('/res/img/cards/small/back.png');
         width: 40px;
         height: 60px;
         font-size: 3rem;
@@ -441,9 +454,12 @@ div#toasts div {
     }
 
     #drawPile {
-        background-image: url('/res/img/cards/small/back.png');
         width: 40px;
         height: 60px;
+    }
+
+    #players .player .cards, #drawPile {
+        background-image: url('/res/img/cards/small/back.png');
     }
 
     #drawPile div {
@@ -472,12 +488,35 @@ div#toasts div {
         right: -7px;
         font-size: 0.6rem;
     }
-}
 
-@media (max-width: 875px) {
+    #bottomButtons {
+        margin-left: 5px;
+    }
+
+    #bottomButtons > div {
+        width: 170px;
+    }
+
+    #bottomButtons > div button {
+        margin-bottom: 10px;
+    }
+
+    #bottomButtons > div button:nth-child(2) {
+        position: relative;
+        left: 100%;
+        transform: translateX(-100%);
+    }
+
+    #bottomButtons > div button:last-child {
+        margin: 0;
+    }
+
     button.small.gameBottomButton {
         font-size: 0.7rem;
     }
+}
+
+@media (max-width: 875px) {
 
     #messages {
         width: 100%;
