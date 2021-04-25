@@ -46,7 +46,8 @@ const data = {
     message: '',
     readMessages: 0,
     gameLoadedWithPlayer: false,
-    chatScrollable: false
+    chatScrollable: false,
+    darkMode: false,
 };
 
 const methods = {
@@ -95,7 +96,8 @@ const methods = {
     getSenderName: function(playerPublicUuid){ return getSenderName(playerPublicUuid)},
     getMessageClock: function(time) {return getMessageClock(time)},
     getMessageLines: function (message) {return getMessageLines(message)},
-    hideDialog : function(){hideDialog()}
+    hideDialog : function(){hideDialog()},
+    toggleTheme: function(){toggleTheme()}
 };
 
 const app = new Vue({

@@ -65,8 +65,8 @@ If you want to use this frontend together with my backend, please note the follo
 * Improvement: Last put card is visible in winner dialog
 * Improvement: Fixed xss attack which was providing method to have empty name
 * UI improvement:
+  * Added dark theme
   * Icons on buttons
-  * Green header
   * Simplified invitation link copy and added native link sharing
   * Use Arial as font-family
   * Beautified and green none-touch-device scrollbars (Chrome & Firefox)
@@ -88,4 +88,7 @@ If you want to use this frontend together with my backend, please note the follo
 * end game when loser is known (not when winner is known)
 * configurable ruleset
 * win counting
-* chat: voice records
+* chat:
+  * voice records
+  * attachments
+  * checkmarks
