@@ -291,7 +291,7 @@ button.stopParty.red:active {
 
 .stopPartyRequested {
     background: var(--stop-party-requested-bg-color);
-    color: var(--button-small-color);
+    color: white;
 }
 
 #current-players .player.botifyPending {
