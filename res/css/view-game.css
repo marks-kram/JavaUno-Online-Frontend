@@ -422,7 +422,7 @@ button.small.kick {
 }
 
 #chat-view .chatContent:hover+button.chatSendBtn, #chat-view .chatContent:focus+button.chatSendBtn {
-    border: 1px var(--input-bordercolor) solid;
+    border: 1px var(--input-hover-bordercolor) solid;
     border-left: none;
 }
 

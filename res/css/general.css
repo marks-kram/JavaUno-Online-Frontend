@@ -17,6 +17,7 @@
     --link-color: #0000ea;
     --link-hover-color: #720000;
     --link-active-color: black;
+    --input-text-color: black;
 
     --theme-primary-bgcolor: #bebebe;
     --theme-secondary-bgcolor: #6a6264;
@@ -62,7 +63,8 @@
     --turn-bar-stop-party-requested-color: #86ab7f;
     --shadow-color: black;
     --toaster-shadow-color: rgba(0, 0, 0, .8);
-    --input-bordercolor: black;
+    --input-bordercolor: silver;
+    --input-hover-bordercolor: black;
 
     --scrollbar-track-color: white;
     --scrollbar-handle-color: #454545;
@@ -88,6 +90,7 @@
     --link-color: #c4c4f1;
     --link-hover-color: #ff9292;
     --link-active-color: white;
+    --input-text-color: #d6d6d6;
 
     --theme-primary-bgcolor: #1f1f1f;
     --theme-secondary-bgcolor: #3a3536;
@@ -117,7 +120,7 @@
     --messages-out-bgcolor: #243848;
     --chat-controlls-bgcolor: black;
     --toaster-bgcolor: rgba(255, 255, 255, .65);
-    --input-bgcolor: silver;
+    --input-bgcolor: #1b1b1b;
 
 
     --processing-animation-bordercolor: #014f52;
@@ -133,7 +136,8 @@
     --turn-bar-stop-party-requested-color: #597753;
     --shadow-color: black;
     --toaster-shadow-color: black;
-    --input-bordercolor: white;
+    --input-bordercolor: #3e3e3e;
+    --input-hover-bordercolor: #545454;
 
     --scrollbar-track-color: black;
     --scrollbar-handle-color: #6c6c6c;
@@ -288,12 +292,13 @@ p:last-child {
 input, textarea {
     font-size: 1.5rem;
     padding: 7px;
-    border: 1px silver solid;
+    border: 1px var(--input-bordercolor) solid;
     border-radius: 11px;
     background: var(--input-bgcolor);
+    color: var(--input-text-color);
 }
 body.hover input:hover, input:focus, body.hover textarea:hover, textarea:focus {
-    border: 1px var(--input-bordercolor) solid;
+    border: 1px var(--input-hover-bordercolor) solid;
     outline: none;
     box-shadow: none;
 }
