@@ -1,17 +1,16 @@
 # JavaUno-Online-Frontend
-Card game - Multiplayer browser game - The Frontend
+Card game - Multiplayer browser game - The Frontend\
+This is the frontend for play.java-uno.de
 
 ## Version
-2.0 (2021, April, 26th)
+2.0 (2021, April, 27th)
 
 ## Description
 The Frontend offers the view to the card game.\
 It is an VUE.js-Application
 
 ## Backend
-You can use your own backend or use my backend under: https://github.com/tomatenmark/JavaUno-Online-Backend.\
-If you want to use your own backend, it has to offer the same api endpoints like my backend
-(see README.md of my backend to get further information)
+Backend is here: https://github.com/tomatenmark/JavaUno-Online-Backend.\
 
 ## Config
 There are two files for config:
@@ -28,19 +27,13 @@ There are two files for config:
 
 ### Spielanleitung
 ./manual.docs\
-(For the combination of my backend and my frontend)\
-(pdf can be generated, it's git-ignored)
+(generated to https://play.java-uno.de/manual.pdf)
 
 ## License
 * The Frontend source code is licensed under a CC-BY-SA-NC 4.0 Licence\
    * License: https://creativecommons.org/licenses/by-nc-sa/4.0/
    * Creator: Mark Herrmann (Nickname: Tomatenmark)
 * For the card images all rights are reserved to Creators Denis Oster and Mark Herrmann (Nickname: Tomatenmark)
-* For the original card game all rights are reserved to Mattel games.\
-  (I have no co-operation with Mattel)
-  
-Notice: Mattel also offers an own free app to play UNO.
-See my version as fun project
 
 ## Compatibility
 If you want to use this frontend together with my backend, please note the following compatibility information:
