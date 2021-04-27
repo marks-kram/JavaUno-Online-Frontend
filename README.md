@@ -80,15 +80,3 @@ If you want to use this frontend together with my backend, please note the follo
 * improved ux
    * show myself in players list instead of only showing the others
    * reverse display order of players if playing direction is reversed
-  
-### Future Updates
-
-#### Version 3.0 (maybe Summer 2022)
-* ability to join to a running game
-* end game when loser is known (not when winner is known)
-* configurable ruleset
-* win counting
-* chat:
-  * voice records
-  * attachments
-  * checkmarks (message is received/read)
