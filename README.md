@@ -36,7 +36,6 @@ There are two files for config:
 * For the card images all rights are reserved to Creators Denis Oster and Mark Herrmann (Nickname: Tomatenmark)
 
 ## Compatibility
-If you want to use this frontend together with my backend, please note the following compatibility information:
 * version 2.x frontend <-> version 1.x backend
   * NOT compatible
 * Version 2.x backend <-> version 1.x frontend
