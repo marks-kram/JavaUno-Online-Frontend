@@ -58,7 +58,7 @@
                     </p>
                     <p>
                         <button v-if="currentView === 'start'" @click="createGame()"
-                                v-bind:disabled="tokenLockedGameCreate || btnCreateGameDisabled"><span class="far fa-smile-beam"></span> Uno-Spiel erstellen</button><br>
+                                v-bind:disabled="tokenLockedGameCreate || btnCreateGameDisabled"><span v-bind:class="`far fa-${tokenLockedGameCreate ? 'meh' : 'smile-beam'}`"></span> Uno-Spiel erstellen</button><br>
                         <span v-if="tokenLockedGameCreate" class="smallButtonDescription">(Berechtigungstoken erforderlich)</span>
                     </p>
                     <p v-if="hasCamera">
