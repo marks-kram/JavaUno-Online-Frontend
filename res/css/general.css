@@ -154,6 +154,7 @@ html, body {
 
 html {
     background: var(--theme-primary-bgcolor);
+    scroll-behavior: smooth;
 }
 
 *{
