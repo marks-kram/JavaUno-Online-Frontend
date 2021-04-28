@@ -49,7 +49,6 @@
     --toaster-bgcolor: rgba(0, 0, 0, .85);
     --input-bgcolor: white;
 
-
     --processing-animation-bordercolor: #00989f;
     --processing-end-animation-bordercolor: #00b100;
     --dialog-bordercolor: silver;
@@ -61,7 +60,6 @@
     --wish-yellow-color: #f2f130;
     --turn-bar-color: #24bb07;
     --turn-bar-stop-party-requested-color: #86ab7f;
-    --shadow-color: black;
     --toaster-shadow-color: rgba(0, 0, 0, .8);
     --input-bordercolor: silver;
     --input-hover-bordercolor: black;
@@ -69,20 +67,18 @@
     --scrollbar-track-color: white;
     --scrollbar-handle-color: #454545;
     --scrollbar-handle-hover-color: black;
+
+    --img-brightness-filter: 1.0;
+    --colors-brightness-filter: 1.0;
+    --img-brightness-revert-filter: 1.0;
 }
 
 [data-theme="dark"] {
     --error-color: #ff6262;
     --text-color: #b9b9b9;
-    --greyed-text-color: #7b7b7b;
-    --card-count-color: white;
-    --card-count-red-color: #ff6969;
-    --card-count-blue-color: #99ecff;
-    --botify-pending-text-color: #dcdcdc;
     --player-text-color: #b7b7ff;
     --player-me-text-color: #4a4a69;
     --button-small-color: white;
-    --button-main-color: white;
     --light-box-text-color: #bbbbbb;
     --dialog-text-color: #d6d6d6;
     --toaster-text-color: rgba(0, 0, 0, .8);
@@ -111,9 +107,7 @@
     --link-button-bgcolor: #3a6184;
     --link-button-hover-bgcolor: #4f75a0;
     --link-button-active-bgcolor: #5781a7;
-    --overlay-bg-color: black;
     --dialog-bgcolor: #505050;
-    --light-box-bgcolor: #000000dd;
     --stop-party-requested-bg-color: #750505;
     --botify-pending-bgcolor: #000069;
     --messages-in-bgcolor: #3e3e3e;
@@ -122,19 +116,13 @@
     --toaster-bgcolor: rgba(255, 255, 255, .65);
     --input-bgcolor: #1b1b1b;
 
-
     --processing-animation-bordercolor: #014f52;
     --processing-end-animation-bordercolor: #007300;
     --dialog-bordercolor: dimgrey;
     --new-messages-mark-color: #00cca8;
     --ruler-color: #313131;
-    --wish-red-color: #cc0000;
-    --wish-green-color: #1dc300;
-    --wish-blue-color: #0075e6;
-    --wish-yellow-color: #f2f130;
     --turn-bar-color: #0f5d00;
     --turn-bar-stop-party-requested-color: #597753;
-    --shadow-color: black;
     --toaster-shadow-color: black;
     --input-bordercolor: #3e3e3e;
     --input-hover-bordercolor: #545454;
@@ -142,6 +130,10 @@
     --scrollbar-track-color: black;
     --scrollbar-handle-color: #6c6c6c;
     --scrollbar-handle-hover-color: #a1a1a1;
+
+    --img-brightness-filter: 0.8;
+    --colors-brightness-filter: 0.7;
+    --img-brightness-revert-filter: 1.4;
 }
 
 html, body {
@@ -182,7 +174,7 @@ header img {
 }
 
 html[data-theme="dark"] img {
-    filter: brightness(0.8);
+    filter: brightness(var(--img-brightness-filter));
 }
 
 #javaUno {
