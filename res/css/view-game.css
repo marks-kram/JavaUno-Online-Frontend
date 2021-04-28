@@ -88,8 +88,7 @@
     vertical-align: middle;
     text-align: center;
     font-size: 7rem;
-    text-shadow: -1px -1px 1px
-    var(--shadow-color), 1px 1px 1px var(--shadow-color);
+    text-shadow: -1px -1px 1px black, 1px 1px 1px black;
 }
 
 #drawPile div.penalties {
@@ -154,11 +153,11 @@
 }
 
 html[data-theme="dark"] #players .player .cards , html[data-theme="dark"] #drawPile, html[data-theme="dark"] #color-selection {
-    filter: brightness(0.7);
+    filter: brightness(var(--colors-brightness-filter));
 }
 
 html[data-theme="dark"] #players .player .cards button.small.kick {
-    filter: brightness(1.4);
+    filter: brightness(var(--img-brightness-revert-filter));
 }
 
 #finished div {
@@ -421,9 +420,13 @@ button.small.kick {
     border-left: none;
 }
 
-#chat-view .chatContent:hover+button.chatSendBtn, #chat-view .chatContent:focus+button.chatSendBtn {
+body.hover #chat-view .chatContent:hover+button.chatSendBtn, #chat-view .chatContent:focus+button.chatSendBtn {
     border: 1px var(--input-hover-bordercolor) solid;
     border-left: none;
+}
+
+#chat-view #chatControls .chatContent+button.chatSendBtn:focus {
+    border: 1px var(--input-hover-bordercolor) solid;
 }
 
 div#toasts div {
