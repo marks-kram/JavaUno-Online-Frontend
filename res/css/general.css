@@ -173,7 +173,7 @@ header img {
     margin-left: 3px;
 }
 
-html[data-theme="dark"] img {
+img {
     filter: brightness(var(--img-brightness-filter));
 }
 
