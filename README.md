@@ -3,7 +3,7 @@ Card game - Multiplayer browser game - The Frontend\
 This is the frontend for play.java-uno.de
 
 ## Version
-2.0 (2021, April, 28th)
+2.0 (2021, April, 29th)
 
 ## Description
 The Frontend offers the view to the card game.\
@@ -57,6 +57,7 @@ There are two files for config:
 * Improvement: Last put card is visible in winner dialog
 * Improvement: Fixed xss attack which was providing method to have empty name
 * UI improvement:
+  * native share for invitation link
   * Added dark theme
   * Icons on buttons
   * Simplified invitation link copy and added native link sharing
