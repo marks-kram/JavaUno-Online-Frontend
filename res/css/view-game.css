@@ -152,11 +152,11 @@
     background-image: url('/res/img/cards/large/back.png');
 }
 
-html[data-theme="dark"] #players .player .cards , html[data-theme="dark"] #drawPile, html[data-theme="dark"] #color-selection {
+#players .player .cards, #drawPile, #color-selection {
     filter: brightness(var(--colors-brightness-filter));
 }
 
-html[data-theme="dark"] #players .player .cards button.small.kick {
+#players .player .cards button.small.kick {
     filter: brightness(var(--img-brightness-revert-filter));
 }
 
@@ -246,13 +246,13 @@ body.hover #drawPile.enabled:hover, body.hover #ownCards picture.enabled:hover, 
     text-align: center;
 }
 
-#bottomButtons {
+#tableRightButtons {
     display: inline-block;
     height: 150px;
     margin-left: 30px;
 }
 
-#bottomButtons > div {
+#tableRightButtons > div {
     display: table;
     padding: 10px;
     width: max-content;
@@ -261,12 +261,12 @@ body.hover #drawPile.enabled:hover, body.hover #ownCards picture.enabled:hover, 
     transform: translateY(-50%);
 }
 
-.gameBottomButton {
+.tableRightButton {
     display: block;
     margin-bottom: 30px;
 }
 
-.gameBottomButton:last-child {
+.tableRightButton:last-child {
     margin-bottom: 0;
 }
 
@@ -484,7 +484,7 @@ div#toasts div {
         font-size: 3rem;
     }
 
-    #color-selection, #bottomButtons {
+    #color-selection, #tableRightButtons {
         height: 60px;
     }
 
@@ -505,29 +505,29 @@ div#toasts div {
         font-size: 0.6rem;
     }
 
-    #bottomButtons {
+    #tableRightButtons {
         margin-left: 5px;
     }
 
-    #bottomButtons > div {
+    #tableRightButtons > div {
         width: 170px;
     }
 
-    #bottomButtons > div button {
+    #tableRightButtons > div button {
         margin-bottom: 10px;
     }
 
-    #bottomButtons > div button:nth-child(2) {
+    #tableRightButtons > div button:nth-child(2) {
         position: relative;
         left: 100%;
         transform: translateX(-100%);
     }
 
-    #bottomButtons > div button:last-child {
+    #tableRightButtons > div button:last-child {
         margin: 0;
     }
 
-    button.small.gameBottomButton {
+    button.small.tableRightButton {
         font-size: 0.7rem;
     }
 }
