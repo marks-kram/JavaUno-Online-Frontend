@@ -46,7 +46,6 @@ const data = {
     message: '',
     readMessages: 0,
     gameLoadedWithPlayer: false,
-    chatScrollable: false,
     darkMode: false,
 };
 
