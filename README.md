@@ -3,7 +3,7 @@ Card game - Multiplayer browser game - The Frontend\
 This is the frontend for play.java-uno.de
 
 ## Version
-2.0 (2021, April, 29th)
+2.0 (2021, April, 30th)
 
 ## Description
 The Frontend offers the view to the card game.\
