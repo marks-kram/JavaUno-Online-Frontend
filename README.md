@@ -61,7 +61,7 @@ There are two files for config:
   * Icons on buttons
   * Simplified invitation link copy and added native link sharing
   * Use Arial as font-family
-  * Beautified and green none-touch-device scrollbars (Chrome & Firefox)
+  * Beautified none-touch-device scrollbars (Chrome & Firefox)
   * minor improvements
 
 ### Version 1.2
