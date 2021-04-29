@@ -46,7 +46,7 @@ const data = {
     message: '',
     readMessages: 0,
     gameLoadedWithPlayer: false,
-    chatScrollable: false
+    darkMode: false,
 };
 
 const methods = {
@@ -61,8 +61,8 @@ const methods = {
     loadGameWithoutPlayer: function (){loadGameWithoutPlayer()},
     startGame: function (){startGame()},
     getPlayerName: function(name, index){ return getPlayerName(name, index)},
-    getPlayerNameByPublicUuid: function(publicUuid){ return getPlayerNameByPublicUuid(publicUuid)},
     copyLink: function(){copyLink()},
+    shareLink: function(){shareLink()},
     showInvitationQrCode: function () {showInvitationQrCode()},
     getCardImage: function(card, size) { return getCardImage(card, size) },
     put: function(card, index) { put(card, index) },
@@ -75,6 +75,7 @@ const methods = {
     isSayUnoAllowed: function() { return isSayUnoAllowed() },
     isMyTurn: function() { return isMyTurn() },
     isPlayersTurn: function(index) { return isPlayersTurn(index) },
+    isPlayerInRow: function(index, row) { return isPlayerInRow(index, row) },
     scanQr: function() { scanQr() },
     prepareSwitchDevice: function (){ prepareSwitchDevice() },
     abortSwitchDevice: function (){ abortSwitchDevice() },
@@ -82,6 +83,7 @@ const methods = {
     abortSwitchOut: function (){ abortSwitchOut() },
     prepareSwitchIn: function (){ prepareSwitchIn() },
     abortSwitchIn: function (){ abortSwitchIn() },
+    copySwitchLink: function(){copySwitchLink()},
     confirmLeaveRunningGame: function(){confirmLeaveRunningGame();},
     confirmRequestStopParty: function(){confirmRequestStopParty()},
     revokeRequestStopParty: function(){revokeRequestStopParty()},
@@ -90,7 +92,12 @@ const methods = {
     showChat: function(){showChat()},
     hideChat: function(){hideChat()},
     sendMessage: function(){sendMessage()},
-    hideDialog : function(){hideDialog()}
+    getMessageDirection: function(playerPublicUuid){ return getMessageDirection(playerPublicUuid)},
+    getSenderName: function(playerPublicUuid){ return getSenderName(playerPublicUuid)},
+    getMessageClock: function(time) {return getMessageClock(time)},
+    getMessageLines: function (message) {return getMessageLines(message)},
+    hideDialog : function(){hideDialog()},
+    toggleTheme: function(){toggleTheme()}
 };
 
 const app = new Vue({
@@ -106,7 +113,8 @@ function hasTouch() {
 }
 
 if(!hasTouch()){
-    document.body.setAttribute('class', 'hover');
+    document.querySelector('body').setAttribute('class', 'hover');
+    document.querySelector('html').setAttribute('class', 'custom-scrollbars');
 }
 
 function showErrorDialog(text){
@@ -170,4 +178,14 @@ function hideDialog(){
     if(app.refreshPageOnDialogClose){
         self.location.replace('/');
     }
+}
+
+function copy(text){
+    const textarea = document.createElement('textarea');
+    document.querySelector('body').appendChild(textarea);
+    textarea.value = text;
+    textarea.select();
+    textarea.setSelectionRange(0, 500); /*For mobile devices*/
+    document.execCommand("copy");
+    document.querySelector('body').removeChild(textarea);
 }

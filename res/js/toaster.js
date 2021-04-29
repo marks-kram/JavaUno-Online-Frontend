@@ -8,6 +8,7 @@
  --All Rights Reserved--
  edited for javaUno by me:
   * multiple toasters are positioned one above the other instead of stacked positioning
+  * variable colors
  original version is here: https://github.com/mlcheng/js-toast
 
  ***********************************************/
@@ -259,11 +260,11 @@ iqwerty.toast = (function() {
              * @type {String}
              */
             defaultStyle: ""+
-            "background: rgba(0, 0, 0, .85);" +
-            "box-shadow: 0 0 10px rgba(0, 0, 0, .8);" +
+            "background: var(--toaster-bgcolor);" +
+            "box-shadow: 0 0 10px var(--toaster-shadow-color);" +
             "z-index: 99999;" +
             "border-radius: 3px;" +
-            "color: rgba(255, 255, 255, .9);" +
+            "color: var(--toaster-text-color);" +
             "padding: 5px;" +
             "font-size: 0.9rem;" +
             "word-break: keep-all;" +

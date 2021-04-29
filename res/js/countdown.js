@@ -15,7 +15,7 @@ function startCountdownAnimation() {
 function startAnimation(){
     const playerIndex = app.gameState.game.currentPlayerIndex;
     countdownOnIndex = playerIndex;
-    startAnimationOn(`#players > .player:nth-child(${playerIndex+1}) > .current > .turnBar`);
+    startAnimationOn(`#players .player .current.index${playerIndex} > .turnBar`);
     if(isMyTurn()){
         startAnimationOn(`#ownCards > .current > .turnBar`);
     }
@@ -26,7 +26,7 @@ function resetAnimation(){
     if(playerIndex === -1){
         return;
     }
-    resetAnimationOn(`#players > .player:nth-child(${playerIndex+1}) > .current > .turnBar`);
+    resetAnimationOn(`#players .player .current.index${playerIndex} > .turnBar`);
     if(isMe(playerIndex)){
         resetAnimationOn(`#ownCards > .current > .turnBar`);
     }

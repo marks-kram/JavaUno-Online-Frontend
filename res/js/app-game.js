@@ -184,6 +184,7 @@ function init(){
 }
 
 window.addEventListener("load", function() {
+    loadTheme();
     if(handleSwitchDevice()){
         return;
     }
@@ -197,7 +198,29 @@ window.addEventListener("load", function() {
 });
 
 document.addEventListener('click', function(e) {
-    if(document.activeElement.toString() !== '[object HTMLInputElement]'){
+    if(document.activeElement.toString() !== '[object HTMLInputElement]' && document.activeElement.toString() !== '[object HTMLTextAreaElement]'){
         document.activeElement.blur();
+        setTimeout('document.activeElement.blur()', 100);
     }
 });
+
+function loadTheme(){
+    let theme = localStorage.getItem('theme');
+    if(theme !== 'dark'){
+        theme = 'light';
+    } else {
+        app.darkMode = true;
+    }
+    setTheme(theme);
+}
+
+function toggleTheme(){
+    app.darkMode = !app.darkMode;
+    const theme = app.darkMode ? 'dark' : 'light';
+    setTheme(theme);
+}
+
+function setTheme(theme){
+    document.querySelector('html').setAttribute('data-theme', theme);
+    localStorage.setItem('theme', theme);
+}

@@ -1,11 +1,24 @@
+#players-placeholder {
+    height: 5px;
+}
 
 #players {
+    display: flex;
+    flex-direction: row;
+    width: max-content;
+}
+
+#players.reversed {
+    flex-direction: row-reverse;
+}
+
+#players  .players-row {
     max-width: 840px;
     width: max-content;
     display: flex;
 }
 
-#players.reversed {
+#players.reversed .players-row {
     flex-direction: row-reverse;
 }
 
@@ -27,7 +40,6 @@
 }
 
 #players .player .cards {
-    background-image: url('/res/img/cards/large/back.png');
     width: 100px;
     height: 150px;
     display: table-cell;
@@ -35,12 +47,12 @@
     text-align: center;
     font-weight: bold;
     font-size: 6rem;
-    color: white;
+    color: var(--card-count-color);
     text-shadow: -1px -1px 1px black, 1px 1px 1px black;
 }
 
 #players .player .cards.red {
-    color: #ff6969;
+    color: var(--card-count-red-color);
 }
 
 #players .player .cards.more {
@@ -48,7 +60,7 @@
 }
 
 #table {
-    border-bottom: 3px black solid;
+    border-bottom: 3px var(--ruler-color) solid;
     margin-bottom: 10px;
     max-width: 840px;
     padding-bottom: 10px;
@@ -58,13 +70,12 @@
     height: 5px;
 }
 
-#topCard div.red {background: #cc0000;}
-#topCard div.green {background: #1dc300;}
-#topCard div.blue {background: #0075e6;}
-#topCard div.yellow {background: #f2f130;}
+#topCard div.red {background: var(--wish-red-color);}
+#topCard div.green {background: var(--wish-green-color);}
+#topCard div.blue {background: var(--wish-blue-color);}
+#topCard div.yellow {background: var(--wish-yellow-color);}
 
 #drawPile {
-    background-image: url('/res/img/cards/large/back.png');
     width: 100px;
     height: 150px;
     cursor: pointer;
@@ -77,16 +88,15 @@
     vertical-align: middle;
     text-align: center;
     font-size: 7rem;
-    text-shadow: -1px -1px 1px
-    black, 1px 1px 1px black;
+    text-shadow: -1px -1px 1px black, 1px 1px 1px black;
 }
 
 #drawPile div.penalties {
-    color: #ff6969;
+    color: var(--card-count-red-color);
 }
 
 #drawPile div.duties {
-    color: #99ecff;
+    color: var(--card-count-blue-color);
 }
 
 #topCard, #drawPile {
@@ -127,17 +137,28 @@
     height: 60px;
     margin: 11px 5px 11px 6px;
     border-radius: 20px;
-    color: black;
     font-size: 3rem;
     font-weight: bolder;
     text-align: center;
     cursor: pointer;
 }
 
-#color-selection .red {background: #cc0000 url('/res/img/color-red.png');}
-#color-selection .green {background: #1dc300 url('/res/img/color-green.png');}
-#color-selection .blue {background: #0075e6 url('/res/img/color-blue.png');}
-#color-selection .yellow {background: #f2f130 url('/res/img/color-yellow.png');}
+#color-selection .red {background: var(--wish-red-color) url('/res/img/color-red.png');}
+#color-selection .green {background: var(--wish-green-color) url('/res/img/color-green.png');}
+#color-selection .blue {background: var(--wish-blue-color) url('/res/img/color-blue.png');}
+#color-selection .yellow {background: var(--wish-yellow-color) url('/res/img/color-yellow.png');}
+
+#players .player .cards, #drawPile {
+    background-image: url('/res/img/cards/large/back.png');
+}
+
+#players .player .cards, #drawPile, #color-selection {
+    filter: brightness(var(--colors-brightness-filter));
+}
+
+#players .player .cards button.small.kick {
+    filter: brightness(var(--img-brightness-revert-filter));
+}
 
 #finished div {
     font-size: 2rem;
@@ -198,7 +219,7 @@ body.hover #drawPile.enabled:hover, body.hover #ownCards picture.enabled:hover, 
 
 .current div.turnBar {
     width: 100%;
-    background: #24bb07;
+    background: var(--turn-bar-color);
     will-change: width;
 }
 
@@ -210,9 +231,10 @@ body.hover #drawPile.enabled:hover, body.hover #ownCards picture.enabled:hover, 
     position: fixed;
     top: 0;
     left: 0;
+    z-index: 1;
     width: 100%;
     height: 100%;
-    background: #000d;
+    background: var(--light-box-bgcolor);
 }
 
 .lightbox > div {
@@ -220,16 +242,17 @@ body.hover #drawPile.enabled:hover, body.hover #ownCards picture.enabled:hover, 
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    color: white;
+    color: var(--light-box-text-color);
     text-align: center;
 }
 
-#bottomButtons {
+#tableRightButtons {
     display: inline-block;
     height: 150px;
+    margin-left: 30px;
 }
 
-#bottomButtons > div {
+#tableRightButtons > div {
     display: table;
     padding: 10px;
     width: max-content;
@@ -238,41 +261,44 @@ body.hover #drawPile.enabled:hover, body.hover #ownCards picture.enabled:hover, 
     transform: translateY(-50%);
 }
 
-.gameBottomButton {
+.tableRightButton {
     display: block;
-    margin-bottom: 10px;
+    margin-bottom: 30px;
 }
 
-.gameBottomButton:last-child {
+.tableRightButton:last-child {
     margin-bottom: 0;
 }
 
 button.stopParty.red {
-    background:#a92424;
+    background:var(--button-stop-party-abort-bgcolor);
+    border: 1px var(--button-stop-party-abort-bgcolor) solid;
     color: white;
 }
 
 body.hover button.stopParty.red:hover, button.stopParty.red:focus {
-    background: #682222;
+    background: var(--button-stop-party-abort-hover-bgcolor);
+    border: 1px var(--button-stop-party-abort-hover-bgcolor) solid;
     color: white;
 }
 
 button.stopParty.red:active {
-    background: #421616;
+    background: var(--button-stop-party-abort-active-bgcolor);
+    border: 1px var(--button-stop-party-abort-active-bgcolor) solid;
     color: white;
 }
 
 .stopPartyRequested {
-    background: #900000;
+    background: var(--stop-party-requested-bg-color);
     color: white;
 }
 
 #current-players .player.botifyPending {
-    background: #a1a1bf;
+    background: var(--botify-pending-bgcolor);
 }
 
 #players .player.botifyPending {
-    background: #b1b1c5;
+    background: var(--botify-pending-bgcolor);
 }
 
 .bot {
@@ -280,11 +306,11 @@ button.stopParty.red:active {
 }
 
 #current-players .player.botifyPending span {
-    color: #dcdcdc;
+    color: var(--botify-pending-text-color);
 }
 
 .player.stopPartyRequested .current div {
-    background: #86ab7f;
+    background: var(--turn-bar-stop-party-requested-color);
 }
 
 #players .player .cards {
@@ -301,19 +327,36 @@ button.small.kick {
     margin-top: 10px;
 }
 
-.chat-before-after {
-    width: 100%;
-}
-
 .messages {
-    width: 100%;
+    width: 840px;
+    color: var(--chat-text-color);
 }
 
 .message {
-    background: #e0e0e0;
-    padding: 5px;
-    width: 840px;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
     margin-top: 10px;
+}
+
+.message .message-content {
+    position: relative;
+    background: var(--messages-in-bgcolor);
+    padding: 5px;
+    max-width: 65%;
+    border-radius: 10px;
+}
+
+.message.out .message-content {
+    background: var(--messages-out-bgcolor);
+}
+
+.message.in {
+    align-items: flex-start;
+}
+
+.message.out {
+    align-items: flex-end;
 }
 
 .message h3 {
@@ -322,16 +365,68 @@ button.small.kick {
     font-weight: bolder;
 }
 
+.message.out h3 span.name {
+    font-style: italic;
+}
+
+.message h3 .clock {
+    position: absolute;
+    right: 6px;
+    font-size: 0.8em;
+    opacity: 0.5;
+}
+
 #noMessages {
     margin-top: 10px;
 }
 
-#chat-view input.chatContent {
+#chat-view #chatPlaceholder {
+    height: 51px;
+    min-height: 51px;
+    max-height: 147px;
+}
+
+#chat-view #chatControls {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    background: var(--chat-controlls-bgcolor);
+    width: 100%;
+    padding: 10px;
+}
+
+#chat-view #chatControls button {
+    margin-top: 0;
+}
+
+#chat-view .chatContent {
     width: 796px;
+    min-height: 42px;
+    max-height: 139px;
+    vertical-align: top;
+    resize: none;
+    overflow: hidden;
+    border-radius: 11px 0 0 11px;
+    border-right: none;
+    margin: 0;
 }
 
 #chat-view button.chatSendBtn {
     width: 40px;
+    min-height: 42px;
+    max-height: 139px;
+    border-radius: 0 11px 11px 0;
+    border: 1px transparent solid;
+    border-left: none;
+}
+
+body.hover #chat-view .chatContent:hover+button.chatSendBtn, #chat-view .chatContent:focus+button.chatSendBtn {
+    border: 1px var(--input-hover-bordercolor) solid;
+    border-left: none;
+}
+
+#chat-view #chatControls .chatContent+button.chatSendBtn:focus {
+    border: 1px var(--input-hover-bordercolor) solid;
 }
 
 div#toasts div {
@@ -340,8 +435,8 @@ div#toasts div {
     text-overflow: ellipsis;
 }
 
-@media (max-width: 859px), (max-height: 907px) {
-    #players {
+@media (max-width: 875px), (max-height: 907px) {
+    #players, #table, #ownCards {
         max-width: 100%;
     }
 
@@ -352,7 +447,6 @@ div#toasts div {
     }
 
     #players .player .cards {
-        background-image: url('/res/img/cards/small/back.png');
         width: 40px;
         height: 60px;
         font-size: 3rem;
@@ -376,9 +470,12 @@ div#toasts div {
     }
 
     #drawPile {
-        background-image: url('/res/img/cards/small/back.png');
         width: 40px;
         height: 60px;
+    }
+
+    #players .player .cards, #drawPile {
+        background-image: url('/res/img/cards/small/back.png');
     }
 
     #drawPile div {
@@ -387,7 +484,7 @@ div#toasts div {
         font-size: 3rem;
     }
 
-    #color-selection, #bottomButtons {
+    #color-selection, #tableRightButtons {
         height: 60px;
     }
 
@@ -407,28 +504,73 @@ div#toasts div {
         right: -7px;
         font-size: 0.6rem;
     }
-}
 
-@media (max-width: 859px) {
-    button.small.gameBottomButton {
-        font-size: 0.7rem;
+    #tableRightButtons {
+        margin-left: 5px;
     }
 
-    .message {
+    #tableRightButtons > div {
+        width: 170px;
+    }
+
+    #tableRightButtons > div button {
+        margin-bottom: 10px;
+    }
+
+    #tableRightButtons > div button:nth-child(2) {
+        position: relative;
+        left: 100%;
+        transform: translateX(-100%);
+    }
+
+    #tableRightButtons > div button:last-child {
+        margin: 0;
+    }
+
+    button.small.tableRightButton {
+        font-size: 0.7rem;
+    }
+}
+
+@media (max-width: 875px) {
+
+    #messages {
         width: 100%;
     }
 
-    #chat-view input.chatContent {
-        width: calc(100vw - 55px);
+    #chat-view #chatPlaceholder {
+        height: 41px;
+        min-height: 41px;
+        max-height: 113px;
+    }
+
+    #chat-view .chatContent {
+        width: calc(100% - 35px);
+        height: 31px;
+        min-height: 31px;
+        max-height: 104px;
         font-size: 0.9rem;
     }
 
     #chat-view button.chatSendBtn {
         width: 30px;
+        height: 31px;
+        min-height: 31px;
+        max-height: 104px;
         font-size: 0.9rem;
     }
 
     div#toasts div {
         max-width: 350px;
+    }
+}
+
+@media (max-width: 465px) {
+    #players {
+        flex-direction: column;
+    }
+
+    #players.reversed {
+        flex-direction: column-reverse;
     }
 }

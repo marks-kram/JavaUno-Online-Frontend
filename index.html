@@ -29,10 +29,11 @@
 
     <div id="app">
         <header>
-            <img src="/res/img/logo.png" alt="" onclick="self.location.href='/';">
-            <a class="manual" href="/manual.pdf" target="_blank"><span class="fas fa-file-pdf"></span> Bedienungs- und Spielanleitung</a>
-            <a class="chatToggle" href="javascript:void(0);" @click="showChat()" v-if="gameLoadedWithPlayer && currentView !== 'chat' && currentView !== 'switch-device'"><span class="fas fa-comment"></span></a>
-            <a class="chatToggle" href="javascript:void(0);" @click="hideChat()" v-if="gameLoadedWithPlayer && currentView === 'chat'"><span class="fas fa-arrow-left"></span></a>
+            <img src="/res/img/logo.png" alt="">
+            <a class="themeToggle" href="#" @click="toggleTheme" v-if="darkMode"><span class="fas fa-sun"></span></a>
+            <a class="themeToggle" href="#" @click="toggleTheme" v-if="!darkMode"><span class="fas fa-moon"></span></a>
+            <a class="chatToggle" href="#" @click="showChat()" v-if="gameLoadedWithPlayer && currentView !== 'chat' && currentView !== 'switch-device'"><span class="fas fa-comment"></span></a>
+            <a class="chatToggle" href="#" @click="hideChat()" v-if="gameLoadedWithPlayer && currentView === 'chat'"><span class="fas fa-arrow-left"></span></a>
             <div id="newMessages" v-if="(currentView === 'running' || currentView === 'set_players') && readMessages < gameState.game.messages.length"></div>
         </header>
         <noscript>JavaUno als Browsergame basiert auf JavaScript. Bitte aktiviere JavaScript in deinen Browsereinstellungen.</noscript>
@@ -57,7 +58,7 @@
                     </p>
                     <p>
                         <button v-if="currentView === 'start'" @click="createGame()"
-                                v-bind:disabled="tokenLockedGameCreate || btnCreateGameDisabled"><span class="far fa-smile-beam"></span> Uno-Spiel erstellen</button><br>
+                                v-bind:disabled="tokenLockedGameCreate || btnCreateGameDisabled"><span v-bind:class="`far fa-${tokenLockedGameCreate ? 'meh' : 'smile-beam'}`"></span> Uno-Spiel erstellen</button><br>
                         <span v-if="tokenLockedGameCreate" class="smallButtonDescription">(Berechtigungstoken erforderlich)</span>
                     </p>
                     <p v-if="hasCamera">
@@ -91,6 +92,11 @@
                     Es können leider keine weiteren Spieler teilnehmen.<br>
                     <button class="small" @click="reset()">Eigenes Spiel starten</button>
                 </div>
+                <p></p>
+                <div class="ruler"></div>
+                <p>
+                    <a href="/manual.pdf" target="_blank"><span class="fas fa-file-pdf"></span> Bedienungs- und Spielanleitung</a>
+                </p>
             </div>
 
             <!-- Set players view - From here Players can be added and removed and game round can be started -->
@@ -110,12 +116,12 @@
                 </div>
                 <h3>Spieler hinzufügen</h3>
                 <div id="add-players" v-if="gameState.players.length < 8">
-                    Freunde einladen:<br>
-                    Schicke deinen Freunden folgenden Link oder lasse sie den QR-Code scannen:<br>
-                    <textarea id="invitation-link-toCopy">{{protocol}}://{{hostname}}/invitation.html#game:{{gameUuid}}</textarea>
-                    <span id="invitation-link">{{protocol}}://{{hostname}}/invitation.html#game:{{gameUuid}}</span><br>
-                    <button class="small" @click="copyLink()"><span class="far fa-copy"></span> Link kopieren</button>&emsp;
-                    <button class="small" @click="showInvitationQrCode()"><span class="fas fa-qrcode"></span> QR-Code anzeigen</button>
+                    Freunde einladen:
+                    <div id="invitationButtons">
+                        <button class="small invitation" @click="showInvitationQrCode()"><span class="fas fa-qrcode"></span> QR-Code anzeigen</button>
+                        <button class="small invitation indent" v-if="navigator.share" @click="shareLink()"><span class="fa fa-share-alt"></span> Adresse teilen</button>
+                        <button class="small invitation" @click="copyLink()"><span class="far fa-copy"></span> Adresse kopieren</button>
+                    </div>
                     <div v-show="showInvitationQr">
                         <div >
                             <img v-bind:src="qr" alt="" class="qr-image">
@@ -145,20 +151,26 @@
 
             <!-- running game view - shows the running game -->
             <div id="view-running" v-if="currentView === 'running'" class="view">
+                <div id="players-placeholder"></div>
                 <div id="players" v-bind:class="gameState.game.reversed ? 'reversed' : ''">
-                    <div v-for="(player, index) in gameState.players" v-bind:class="getPlayerClasses(player)">
-                        <div class="current">
-                            <div v-show="isPlayersTurn(index)" class="turnBar"></div>
-                            <div v-show="!isPlayersTurn(index)" class="placeholder"></div>
-                        </div>
-                        <div class="name">
-                            {{ getPlayerName(player.name, index) }}
-                        </div>
-                        <div v-bind:class="'cards ' + (player.cardCount > 9 ? ' more' : '') + (player.cardCount === 1 && player.unoSaid ? ' red' : '')">
-                            {{ player.cardCount }}
-                            <button v-if="player.bot" v-bind:disabled="isPlayersTurn(index)" class="small kick" @click="removeBotInGame(player)"><span class="fas fa-times"></span></button>
-                            <button v-if="!player.bot && isNotMe(index)" v-bind:disabled="player.botifyPending || botifyPlayerPending" class="small kick" @click="confirmRequestBotifyPlayer(player)"><span class="fas fa-times"></span></button>
-                            <button v-if="isMe(index)" class="small kick" @click="confirmLeaveRunningGame()"><span class="fas fa-times"></span></button>
+                    <div v-for="row in gameState.players.length > 6 ? 2 : 1" :key="row">
+                        <div class="players-row">
+                            <div v-for="(player, index) in gameState.players" v-bind:class="getPlayerClasses(player)"
+                                    v-if="isPlayerInRow(index, row)">
+                                <div v-bind:class="`current index${index}`">
+                                    <div v-show="isPlayersTurn(index)" class="turnBar"></div>
+                                    <div v-show="!isPlayersTurn(index)" class="placeholder"></div>
+                                </div>
+                                <div class="name">
+                                    {{ getPlayerName(player.name, index) }}
+                                </div>
+                                <div v-bind:class="'cards ' + (player.cardCount > 9 ? ' more' : '') + (player.cardCount === 1 && player.unoSaid ? ' red' : '')">
+                                    {{ player.cardCount }}
+                                    <button v-if="player.bot" v-bind:disabled="isPlayersTurn(index)" class="small kick" @click="removeBotInGame(player)"><span class="fas fa-times"></span></button>
+                                    <button v-if="!player.bot && isNotMe(index)" v-bind:disabled="player.botifyPending || botifyPlayerPending" class="small kick" @click="confirmRequestBotifyPlayer(player)"><span class="fas fa-times"></span></button>
+                                    <button v-if="isMe(index)" class="small kick" @click="confirmLeaveRunningGame()"><span class="fas fa-times"></span></button>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -167,8 +179,8 @@
                     <div id="topCard">
                         <div v-bind:class="gameState.game.desiredColor !== null ? gameState.game.desiredColor.toLowerCase() : ''"></div>
                         <picture>
-                            <source v-bind:srcset="getCardImage(gameState.game.topCard, 'large')" media="(min-width: 860px) and (min-height: 908px)">
-                            <source v-bind:srcset="getCardImage(gameState.game.topCard, 'small')" media="(max-width: 859px), (max-height: 907px)">
+                            <source v-bind:srcset="getCardImage(gameState.game.topCard, 'large')" media="(min-width: 876px) and (min-height: 908px)">
+                            <source v-bind:srcset="getCardImage(gameState.game.topCard, 'small')" media="(max-width: 875px), (max-height: 907px)">
                             <img v-bind:src="getCardImage(gameState.game.topCard, 'small')" alt="">
                         </picture>
                     </div>
@@ -197,12 +209,12 @@
                             </div>
                         </div>
                     </div>
-                    <div v-if="gameState.game.turnState !== 'SELECT_COLOR' || !isMyTurn()" id="bottomButtons">
+                    <div v-if="gameState.game.turnState !== 'SELECT_COLOR' || !isMyTurn()" id="tableRightButtons">
                         <div>
-                            <button class="small gameBottomButton" @click="prepareSwitchDevice()" class="small" id="in-game-switch-device"><span class="fas fa-exchange-alt"></span> Gerät wechseln</button>
-                            <button class="small gameBottomButton" type="button" class="small" @click="confirmLeaveRunningGame()" id="leave-running-game"><span class="fas fa-times"></span> Spiel verlassen</button>
-                            <button v-if="!stopPartyRequested" class="small gameBottomButton stopParty" type="button" class="small" @click="confirmRequestStopParty()" id="stop-party"><span class="fas fa-stop"></span> Runde beenden</button>
-                            <button v-if="stopPartyRequested" class="small gameBottomButton stopParty red" type="button" class="small" @click="revokeRequestStopParty()" id="revoke-stop-party"><span class="fas fa-ban"></span> Abbrechen</button>
+                            <button class="small tableRightButton" @click="prepareSwitchDevice()" class="small" id="in-game-switch-device"><span class="fas fa-exchange-alt"></span> Gerät wechseln</button>
+                            <button class="small tableRightButton" type="button" class="small" @click="confirmLeaveRunningGame()" id="leave-running-game"><span class="fas fa-times"></span> Spiel verlassen</button>
+                            <button v-if="!stopPartyRequested" class="small tableRightButton stopParty" type="button" class="small" @click="confirmRequestStopParty()" id="stop-party"><span class="fas fa-stop"></span> Runde beenden</button>
+                            <button v-if="stopPartyRequested" class="small tableRightButton stopParty red" type="button" class="small" @click="revokeRequestStopParty()" id="revoke-stop-party"><span class="fas fa-ban"></span> Abbrechen</button>
                         </div>
                     </div>
                 </div>
@@ -213,8 +225,8 @@
                     </div>
                     <div class="card" v-for="(card, index) in gameState.ownCards">
                         <picture v-bind:class="isPutAllowed(card, index) ? 'enabled' : 'disabled'" @click="put(card, index)">
-                            <source v-bind:srcset="getCardImage(card, 'large')" media="(min-width: 860px) and (min-height: 908px)">
-                            <source v-bind:srcset="getCardImage(card, 'small')" media="(max-width: 859px), (max-height: 907px)">
+                            <source v-bind:srcset="getCardImage(card, 'large')" media="(min-width: 876px) and (min-height: 908px)">
+                            <source v-bind:srcset="getCardImage(card, 'small')" media="(max-width: 875px), (max-height: 907px)">
                             <img v-bind:src="getCardImage(card, 'small')" alt="">
                         </picture>
                         <span v-if="isMyTurn() && gameState.game.turnState === 'PUT_DRAWN' && index === (gameState.ownCards.length-1)">&emsp;&emsp;&emsp;&emsp;&emsp;</span>
@@ -233,13 +245,14 @@
             <!-- switch device view -->
             <div id="view-switch-device" v-if="currentView === 'switch-device'">
                 <button v-if="!showSwitchInQr && !showSwitchOutQr" class="small" @click="abortSwitchDevice()"><span class="fas fa-ban"></span> Abbrechen</button><br><br>
-                <span v-if="!showSwitchOutQr && !showSwitchInQr">Der Wechsel ist kinderleicht. Voraussetzung: Mindestens eines der beiden Geräte braucht eine Kamera.<br><br></span>
+                <span v-if="!showSwitchInQr && !showSwitchOutQr">Wie möchtest du wechseln?<br><br></span>
                 <div v-if="gameUuid !== null && gameUuid !== '' && !showSwitchInQr">
-                    <button class="small" @click="prepareSwitchOut()" v-if="!showSwitchOutQr"><span class="fas fa-qrcode"></span> QR-Code anzeigen</button><br>
+                    <button class="small" @click="prepareSwitchOut()" v-if="!showSwitchOutQr"><span class="fas fa-qrcode"></span> QR-Code anzeigen / <span class="far fa-copy"></span> Adresse kopieren</button><br><br>
                     <div v-show="showSwitchOutQr">
-                        Scanne den QR-Code, um den Wechsel durchzuführen.
+                        Scanne den QR-Code oder kopiere die Adresse, um den Wechsel durchzuführen.<br>
+                        <button class="small" @click="copySwitchLink()"><span class="far fa-copy"></span> Adresse kopieren</button><br><br>
                         <div>
-                            <img v-bind:src="qr" alt="" class="qr-image">
+                            <img v-bind:src="qr" alt="" class="qr-image" @click="showSwitchLink()">
                         </div>
                         <button class="small" @click="abortSwitchOut()"><span class="fas fa-ban"></span> Abbrechen</button>
                     </div>
@@ -262,19 +275,24 @@
             <!-- chat -->
             <div v-if="currentView === 'chat'" id="chat-view">
                 <div class="messages" id="messages">
-                    <div id="chat-before" class="chat-before-after"></div>
-                    <div v-for="message in gameState.game.messages" class="message">
-                        <h3>{{getPlayerNameByPublicUuid(message.playerPublicUuid)}}</h3>
-                        {{message.content}}
+                    <div v-for="message in gameState.game.messages" v-bind:class="`message ${getMessageDirection(message.playerPublicUuid)}`">
+                        <div class="message-content">
+                            <h3><span class="name">{{getSenderName(message.playerPublicUuid)}}</span>&emsp;&emsp;&emsp;&emsp;<span class="clock">{{getMessageClock(message.time)}}</span></h3>
+                            <div v-for="line in getMessageLines(message)">
+                                {{line}}
+                            </div>
+                        </div>
                     </div>
                     <div id="noMessages" v-if="gameState.game.messages.length === 0">
                         Es hat noch niemand etwas geschrieben.<br>
                         Du kannst gerne den Anfang machen.
                     </div>
-                    <div id="chat-after" class="chat-before-after"></div>
                 </div>
-                <input type="text" v-model="message" placeholder="Nachricht" class="chatContent">
-                <button @click="sendMessage()" v-bind:disabled="app.message.trim() === ''" class="chatSendBtn"><span class="far fa-paper-plane"></span></button>
+                <div id="chatPlaceholder"></div>
+                <div id="chatControls">
+                    <textarea rows="1" v-model="message" placeholder="Nachricht" class="chatContent"></textarea><!--
+                    --><button @click="sendMessage()" v-bind:disabled="app.message.trim() === ''" class="chatSendBtn"><span class="far fa-paper-plane"></span></button>
+                </div>
             </div>
 
             <!-- legalHint -->
@@ -286,8 +304,8 @@
             <div id="finished" class="lightbox" v-if="winner >= 0">
                 <div>
                     <picture>
-                        <source v-bind:srcset="getCardImage(gameState.game.topCard, 'large')" media="(min-width: 860px) and (min-height: 908px)">
-                        <source v-bind:srcset="getCardImage(gameState.game.topCard, 'small')" media="(max-width: 859px), (max-height: 907px)">
+                        <source v-bind:srcset="getCardImage(gameState.game.topCard, 'large')" media="(min-width: 876px) and (min-height: 908px)">
+                        <source v-bind:srcset="getCardImage(gameState.game.topCard, 'small')" media="(max-width: 875px), (max-height: 907px)">
                         <img v-bind:src="getCardImage(gameState.game.topCard, 'small')" alt="">
                     </picture>
                     <div v-if="winner === gameState.myIndex">

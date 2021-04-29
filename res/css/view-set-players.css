@@ -3,7 +3,7 @@
 }
 
 #current-players, #add-players, #add-players-limit-reached {
-    border-bottom: 3px black solid;
+    border-bottom: 3px var(--ruler-color) solid;
     font-size: 1.1rem;
 }
 
@@ -13,11 +13,6 @@
 
 #add-players {
     padding-bottom: 10px;
-}
-
-#invitation-link {
-    word-break: break-word;
-    color: blue;
 }
 
 #invitation-link-toCopy {
@@ -31,8 +26,8 @@
 }
 
 #current-players .player {
-    background: #e0e0e0;
-    color: #006;
+    background: var(--theme-ternary-bgcolor);
+    color: var(--player-text-color);
     font-size: 1.2rem;
     font-weight: bolder;
     margin-bottom: 10px;
@@ -40,11 +35,31 @@
 }
 
 #current-players .player span.me {
-    color: #acaccb;
+    color: var(--player-me-text-color);
+}
+
+button.small.invitation {
+    display: inline-block;
+    margin-right: 10px;
 }
 
 @media (max-width: 619px) {
     #current-players .player {
         font-size: 1.0rem;
+    }
+
+    #invitationButtons {
+        width: 200px;
+    }
+
+    button.small.invitation {
+        display: block;
+        margin-bottom: 10px;
+    }
+
+    button.small.invitation.indent {
+        position: relative;
+        left: 100%;
+        transform: translateX(-100%);
     }
 }

@@ -57,29 +57,32 @@ function getPlayerName(name, index) {
     return name.trim().replace(/(<.*?>|&.*?;)/g, '');
 }
 
-function getPlayerNameByPublicUuid(publicUuid) {
-    const players = app.gameState.players;
-    for(let i = 0; i < players.length; i++){
-        const player = players[i];
-        if(player.publicUuid === publicUuid){
-            const name = player.name;
-            return getPlayerName(name, i);
-        }
-    }
-    return "[Entfernter Spieler]";
-}
-
 function sanitizePlayerName(name){
     name = name.replace(/[<>'"]/g, '');
     return name.trim();
 }
 
 function copyLink(){
-    const copyText = document.getElementById('invitation-link-toCopy');
-    copyText.select();
-    copyText.setSelectionRange(0, 99); /*For mobile devices*/
-    document.execCommand("copy");
+    const url = app.protocol+'://' + app.hostname + '/invitation.html#game:' + app.gameUuid;
+    copy(url);
     showToast('Erfolgreich kopiert!');
+}
+
+function shareLink(){
+    let url = app.protocol+'://' + app.hostname + '/invitation.html#game:' + app.gameUuid;
+    let title = 'JavaUno - Einladung zum mitspielen';
+    if (navigator.share) {
+        navigator.share({
+            title: title,
+            url: url,
+            text: ''
+        }).then(() => {
+            console.log('sharing successful');
+        })
+            .catch(console.error);
+    } else {
+        showToast('Teilen fehlgeschlagen. Kein Smartphone?');
+    }
 }
 
 function showInvitationQrCode(){
@@ -137,4 +140,17 @@ function getPlayerClasses(player){
         classes = `${classes} bot`;
     }
     return classes;
+}
+
+function isPlayerInRow(index, row){
+    const players = app.gameState.players.length;
+    const reversed = app.gameState.game.reversed;
+    const threshold = reversed && players === 7 ? 3 : 4;
+    if(players <= 6){
+        return true;
+    }
+    if(row === 1){
+        return index < threshold;
+    }
+    return index >= threshold;
 }
