@@ -100,7 +100,7 @@ const methods = {
     toggleTheme: function(){toggleTheme()}
 };
 
-const app = new Vue({
+app = new Vue({
     el: '#app',
     data: data,
     methods: methods
