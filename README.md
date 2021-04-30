@@ -56,8 +56,9 @@ There are two files for config:
 * Improvement: Beginning Player is selected randomly (or the last winner)
 * Improvement: Last put card is visible in winner dialog
 * Improvement: Fixed xss attack which was providing method to have empty name
+  Improvement: native share for invitation link
 * UI improvement:
-  * native share for invitation link
+  * Bigger card images between 360px and 875px screen size
   * Added dark theme
   * Icons on buttons
   * Simplified invitation link copy and added native link sharing
