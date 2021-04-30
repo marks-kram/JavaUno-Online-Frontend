@@ -59,6 +59,10 @@
     font-size: 5rem;
 }
 
+#drawPile .duties.more {
+    font-size: 5.5rem;
+}
+
 #table {
     border-bottom: 3px var(--ruler-color) solid;
     margin-bottom: 10px;
@@ -68,6 +72,7 @@
 
 #topCard div {
     height: 5px;
+    filter: brightness(var(--img-brightness-filter));
 }
 
 #topCard div.red {background: var(--wish-red-color);}
@@ -170,7 +175,6 @@
 
 #ownCards {
     max-width: 840px;
-    margin-bottom: 55px;
 }
 
 #ownCards div.card {
@@ -319,114 +323,8 @@ button.stopParty.red:active {
 
 button.small.kick {
     position: absolute;
-    top: -7px;
+    top: -5px;
     right: -3px;
-}
-
-#chat-view .backTopBottom {
-    margin-top: 10px;
-}
-
-.messages {
-    width: 840px;
-    color: var(--chat-text-color);
-}
-
-.message {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    margin-top: 10px;
-}
-
-.message .message-content {
-    position: relative;
-    background: var(--messages-in-bgcolor);
-    padding: 5px;
-    max-width: 65%;
-    border-radius: 10px;
-}
-
-.message.out .message-content {
-    background: var(--messages-out-bgcolor);
-}
-
-.message.in {
-    align-items: flex-start;
-}
-
-.message.out {
-    align-items: flex-end;
-}
-
-.message h3 {
-    margin: 0;
-    font-size: inherit;
-    font-weight: bolder;
-}
-
-.message.out h3 span.name {
-    font-style: italic;
-}
-
-.message h3 .clock {
-    position: absolute;
-    right: 6px;
-    font-size: 0.8em;
-    opacity: 0.5;
-}
-
-#noMessages {
-    margin-top: 10px;
-}
-
-#chat-view #chatPlaceholder {
-    height: 51px;
-    min-height: 51px;
-    max-height: 147px;
-}
-
-#chat-view #chatControls {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    background: var(--chat-controlls-bgcolor);
-    width: 100%;
-    padding: 10px;
-}
-
-#chat-view #chatControls button {
-    margin-top: 0;
-}
-
-#chat-view .chatContent {
-    width: 796px;
-    min-height: 42px;
-    max-height: 139px;
-    vertical-align: top;
-    resize: none;
-    overflow: hidden;
-    border-radius: 11px 0 0 11px;
-    border-right: none;
-    margin: 0;
-}
-
-#chat-view button.chatSendBtn {
-    width: 40px;
-    min-height: 42px;
-    max-height: 139px;
-    border-radius: 0 11px 11px 0;
-    border: 1px transparent solid;
-    border-left: none;
-}
-
-body.hover #chat-view .chatContent:hover+button.chatSendBtn, #chat-view .chatContent:focus+button.chatSendBtn {
-    border: 1px var(--input-hover-bordercolor) solid;
-    border-left: none;
-}
-
-#chat-view #chatControls .chatContent+button.chatSendBtn:focus {
-    border: 1px var(--input-hover-bordercolor) solid;
 }
 
 div#toasts div {
@@ -435,78 +333,67 @@ div#toasts div {
     text-overflow: ellipsis;
 }
 
-@media (max-width: 875px), (max-height: 907px) {
-    #players, #table, #ownCards {
-        max-width: 100%;
-    }
-
-    #players .player .name {
-        font-size: 0.5rem;
-        width: 50px;
-        text-align: left;
-    }
-
-    #players .player .cards {
-        width: 40px;
-        height: 60px;
-        font-size: 3rem;
-    }
-
-    #players .player .current {
-        width: 40px;
-    }
-
-    #players .player .cards.more {
-        font-size: 2rem;
-    }
-
-    #say-uno > div {
-        height: 60px;
-    }
-
-    #say-uno button {
-        font-size: 0.9rem;
-        padding: 4px;
-    }
-
-    #drawPile {
-        width: 40px;
-        height: 60px;
+@media (max-width: 875px) {
+    :root {
+        --card-size-divisor: 8.9;
     }
 
     #players .player .cards, #drawPile {
-        background-image: url('/res/img/cards/small/back.png');
+        background-size: 100% 100%;
     }
 
-    #drawPile div {
-        width: 40px;
-        height: 60px;
-        font-size: 3rem;
+    #players .player .cards, #drawPile, #drawPile div {
+        width: calc(100vw / var(--card-size-divisor));
+        height: calc(100vw / var(--card-size-divisor) * 1.5);
+        min-width: 40px;
+        min-height: 60px;
     }
 
-    #color-selection, #tableRightButtons {
-        height: 60px;
+    #say-uno > div, #color-selection, #tableRightButtons {
+        height: calc(100vw / var(--card-size-divisor) * 1.5);
+        min-height: 60px;
     }
 
     #color-selection > div > div > div {
-        width: 40px;
-        height: 18px;
-        margin: 8px 2px 11px 5px;
+        width: calc(100vw / 5.5);
+        height: calc(100vw / 5 / 3);
+    }
+
+    #topCard img, .card img {
+        width: calc(100vw / var(--card-size-divisor));
+        min-width: 40px;
+    }
+
+    #players .player .cards.more {
+        font-size: 5rem;
+    }
+
+    #drawPile .duties.more {
+        font-size: 4.8rem;
+    }
+
+    #players .player .current, #players .player .name {
+        width: calc(100vw / var(--card-size-divisor));
     }
 
     #ownCards button {
-        left: 45px;
-        font-size: 0.8rem;
+        left: calc(100vw / var(--card-size-divisor) + 10px)
+    }
+}
+
+@media (max-width: 775px){
+    #players .player .cards.more {
+        font-size: 3.8rem;
     }
 
-    button.small.kick {
-        top: -8px;
-        right: -7px;
-        font-size: 0.6rem;
+    #drawPile .duties.more {
+        font-size: 3.8rem;
     }
+}
 
+@media (max-width: 650px) {
     #tableRightButtons {
-        margin-left: 5px;
+        margin-left: 10px;
     }
 
     #tableRightButtons > div {
@@ -526,51 +413,103 @@ div#toasts div {
     #tableRightButtons > div button:last-child {
         margin: 0;
     }
-
-    button.small.tableRightButton {
-        font-size: 0.7rem;
-    }
 }
 
-@media (max-width: 875px) {
-
-    #messages {
-        width: 100%;
-    }
-
-    #chat-view #chatPlaceholder {
-        height: 41px;
-        min-height: 41px;
-        max-height: 113px;
-    }
-
-    #chat-view .chatContent {
-        width: calc(100% - 35px);
-        height: 31px;
-        min-height: 31px;
-        max-height: 104px;
-        font-size: 0.9rem;
-    }
-
-    #chat-view button.chatSendBtn {
-        width: 30px;
-        height: 31px;
-        min-height: 31px;
-        max-height: 104px;
-        font-size: 0.9rem;
-    }
-
-    div#toasts div {
-        max-width: 350px;
-    }
-}
-
-@media (max-width: 465px) {
+@media (max-width: 600px) {
     #players {
         flex-direction: column;
     }
 
     #players.reversed {
         flex-direction: column-reverse;
+    }
+
+    #players .player .cards {
+        font-size: 3.5rem;
+    }
+
+    #players .player .cards.more {
+        font-size: 3.1rem;
+    }
+
+    #players .player .name {
+        font-size: 0.7rem;
+    }
+
+    #players .player .cards button {
+        font-size: 0.6rem;
+    }
+
+    #drawPile div {
+        font-size: 4rem;
+    }
+
+    div#toasts div {
+        max-width: 350px;
+    }
+
+    #drawPile .duties.more {
+        font-size: 3.2rem;
+    }
+}
+
+@media (max-width: 475px) {
+    #players .player .cards.more {
+        font-size: 2.6rem;
+    }
+
+    #drawPile .duties.more {
+        font-size: 2.6rem;
+    }
+}
+
+@media (max-width: 410px) {
+    #players .player .name {
+        font-size: 0.6rem;
+    }
+
+    #say-uno button {
+        font-size: 1rem;
+    }
+
+    #players .player .cards.more {
+        font-size: 2.2rem;
+    }
+
+    #drawPile .duties.more {
+        font-size: 2.2rem;
+    }
+
+    #tableRightButtons > div {
+        padding: 0;
+        width: 130px;
+    }
+
+    button.small.tableRightButton {
+        margin-left: 0;
+        font-size: 0.7rem;
+    }
+
+    #ownCards button {
+        font-size: 0.7rem;
+    }
+}
+
+@media (max-width: 360px) {
+    #players .player .cards, #drawPile, #drawPile div {
+        width: 40px;
+        height: 60px;
+    }
+
+    #say-uno > div, #color-selection, #tableRightButtons {
+        height: 60px;
+    }
+
+    #topCard img, .card img {
+        width: 40px;
+    }
+
+    #players .player .current, #players .player .name {
+        width: 40px;
     }
 }
