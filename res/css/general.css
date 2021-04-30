@@ -39,7 +39,7 @@
     --link-button-hover-bgcolor: #d0e9ff;
     --link-button-active-bgcolor: #6cbaff;
     --overlay-bg-color: black;
-    --dialog-bgcolor: #ededed;
+    --dialog-bgcolor: #a2a2a2;
     --light-box-bgcolor: #000000dd;
     --stop-party-requested-bg-color: #900000;
     --botify-pending-bgcolor: #a1a1bf;
@@ -78,7 +78,7 @@
     --text-color: #b9b9b9;
     --player-text-color: #b7b7ff;
     --player-me-text-color: #4a4a69;
-    --button-small-color: white;
+    --button-small-color: #d1d1d1;
     --light-box-text-color: #bbbbbb;
     --dialog-text-color: #d6d6d6;
     --toaster-text-color: rgba(0, 0, 0, .8);
@@ -89,15 +89,15 @@
     --input-text-color: #d6d6d6;
 
     --theme-primary-bgcolor: #1f1f1f;
-    --theme-secondary-bgcolor: #3a3536;
+    --theme-secondary-bgcolor: #2f2d2d;
     --theme-ternary-bgcolor: black;
     --button-bgcolor: #0c5700;
     --button-hover-bgcolor: #0e7900;
     --button-active-bgcolor: #12a000;
     --button-disabled-bgcolor: #3e3e3e;
-    --button-small-bgcolor: #00437f;
-    --button-small-hover-bgcolor: #0465bd;
-    --button-small-active-bgcolor: #0088ff;
+    --button-small-bgcolor: #325371;
+    --button-small-hover-bgcolor: #3c6182;
+    --button-small-active-bgcolor: #476d92;
     --button-small-disabled-bgcolor: #3e3e3e;
     --button-stop-party-abort-bgcolor: #980000;
     --button-stop-party-abort-hover-bgcolor: #bd0000;
@@ -107,7 +107,7 @@
     --link-button-bgcolor: #3a6184;
     --link-button-hover-bgcolor: #4f75a0;
     --link-button-active-bgcolor: #5781a7;
-    --dialog-bgcolor: #505050;
+    --dialog-bgcolor: #252424;
     --stop-party-requested-bg-color: #750505;
     --botify-pending-bgcolor: #000069;
     --messages-in-bgcolor: #3e3e3e;
@@ -118,10 +118,10 @@
 
     --processing-animation-bordercolor: #014f52;
     --processing-end-animation-bordercolor: #007300;
-    --dialog-bordercolor: dimgrey;
+    --dialog-bordercolor: #353333;
     --new-messages-mark-color: #00cca8;
     --ruler-color: #313131;
-    --turn-bar-color: #0f5d00;
+    --turn-bar-color: #127100;
     --turn-bar-stop-party-requested-color: #597753;
     --toaster-shadow-color: black;
     --input-bordercolor: #3e3e3e;
@@ -133,7 +133,7 @@
 
     --img-brightness-filter: 0.8;
     --colors-brightness-filter: 0.7;
-    --img-brightness-revert-filter: 1.4;
+    --img-brightness-revert-filter: 1.7;
 }
 
 html, body {
@@ -461,7 +461,7 @@ header div#newMessages {
     width: 100%;
     height: 100%;
     background: var(--overlay-bg-color);
-    opacity: 0.7;
+    opacity: 0.9;
 }
 
 #dialogElement {
@@ -496,7 +496,7 @@ header div#newMessages {
 }
 
 .ruler {
-    width: 840px;
+    max-width: 840px;
     height: 3px;
     background: var(--ruler-color);
     margin-bottom: 10px;
