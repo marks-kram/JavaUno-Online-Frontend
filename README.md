@@ -60,7 +60,7 @@ There are two files for config:
 * UI improvement:
   * Bigger card images between 360px and 875px screen size
   * SVG instead of images
-  * highlight enabled cards with box-shadow  
+  * darken disabled cards so enabled (putable) cards will be determined sooner
   * Added dark theme
   * Icons on buttons
   * Simplified invitation link copy and added native link sharing

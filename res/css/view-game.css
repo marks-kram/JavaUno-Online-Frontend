@@ -217,19 +217,24 @@
     cursor: not-allowed;
 }
 
-#drawPile.enabled, #ownCards svg.enabled {
-    box-shadow: var(--card-shadow-color) 3px 3px 19px;
+#drawPile.disabled {
+    filter: brightness(var(--secondary-disabled-brightness-filter));
+}
+
+#ownCards svg.disabled {
+    filter: brightness(var(--primary-disabled-brightness-filter));
 }
 
 body.hover #drawPile.enabled:hover, body.hover #ownCards svg.enabled:hover {
-    box-shadow: var(--card-shadow-color) 4px 4px 22px;
     cursor: pointer;
 }
 
-#drawPile.enabled:active, #ownCards svg.enabled:active, #color-selection div>div>div:active {
-    transform: scale(1);
-    box-shadow: initial;
-    cursor: pointer;
+body.hover #drawPile.enabled:hover {
+    filter: brightness(var(--secondary-hover-brightness-filter));
+}
+
+body.hover #ownCards svg.enabled:hover {
+    filter: brightness(var(--primary-hover-brightness-filter));
 }
 
 body.hover #color-selection div>div>div:hover {
