@@ -153,6 +153,10 @@
     src: url("/test/webfonts/arial.ttf");
 }
 
+svg {
+    user-select: none;
+}
+
 html, body {
     margin: 0;
     padding: 0;
