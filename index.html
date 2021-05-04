@@ -32,7 +32,7 @@
 
     <div id="app">
         <header>
-            <img src="/res/img/logo.png" alt="">
+            <img src="/res/svg/logo.svg" alt="">
             <a class="themeToggle" href="#" @click="toggleTheme" v-if="darkMode"><span class="fas fa-sun"></span></a>
             <a class="themeToggle" href="#" @click="toggleTheme" v-if="!darkMode"><span class="fas fa-moon"></span></a>
             <a class="chatToggle" href="#" @click="showChat()" v-if="gameLoadedWithPlayer && currentView !== 'chat' && currentView !== 'switch-device'"><span class="fas fa-comment"></span></a>
@@ -168,7 +168,7 @@
                                     {{ getPlayerName(player.name, index) }}
                                 </div>
                                 <div v-bind:class="'cards ' + (player.cardCount > 9 ? ' more' : '') + (player.cardCount === 1 && player.unoSaid ? ' red' : '')">
-                                    {{ player.cardCount }}
+                                    <div class="count">{{ player.cardCount }}</div>
                                     <button v-if="player.bot" v-bind:disabled="isPlayersTurn(index)" class="small kick" @click="removeBotInGame(player)"><span class="fas fa-times"></span></button>
                                     <button v-if="!player.bot && isNotMe(index)" v-bind:disabled="player.botifyPending || botifyPlayerPending" class="small kick" @click="confirmRequestBotifyPlayer(player)"><span class="fas fa-times"></span></button>
                                     <button v-if="isMe(index)" class="small kick" @click="confirmLeaveRunningGame()"><span class="fas fa-times"></span></button>
@@ -180,12 +180,9 @@
                 <div class="ruler"></div>
                 <div id="table">
                     <div id="topCard">
-                        <div v-bind:class="gameState.game.desiredColor !== null ? gameState.game.desiredColor.toLowerCase() : ''"></div>
-                        <picture>
-                            <source v-bind:srcset="getCardImage(gameState.game.topCard, 'large')" media="(min-width: 361px)">
-                            <source v-bind:srcset="getCardImage(gameState.game.topCard, 'small')" media="(max-width: 360px)">
-                            <img v-bind:src="getCardImage(gameState.game.topCard, 'small')" alt="">
-                        </picture>
+                        <svg v-bind:class="gameState.game.desiredColor !== null ? gameState.game.desiredColor.toLowerCase() : ''">
+                            <use v-bind:href="`/res/svg/cards.svg#${getCardImage(gameState.game.topCard)}`" />
+                        </svg>
                     </div>
                     <div id="say-uno">
                         <div>
@@ -227,11 +224,9 @@
                         <div v-show="!isMyTurn()" class="placeholder"></div>
                     </div>
                     <div class="card" v-for="(card, index) in gameState.ownCards">
-                        <picture v-bind:class="isPutAllowed(card, index) ? 'enabled' : 'disabled'" @click="put(card, index)">
-                            <source v-bind:srcset="getCardImage(card, 'large')" media="(min-width: 361px)">
-                            <source v-bind:srcset="getCardImage(card, 'small')" media="(max-width: 360px)">
-                            <img v-bind:src="getCardImage(card, 'small')" alt="">
-                        </picture>
+                        <svg v-bind:class="isPutAllowed(card, index) ? 'enabled' : 'disabled'" @click="put(card, index)">
+                            <use v-bind:href="`/res/svg/cards.svg#${getCardImage(card)}`" />
+                        </svg>
                         <span v-if="isMyTurn() && gameState.game.turnState === 'PUT_DRAWN' && index === (gameState.ownCards.length-1)">&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;</span>
                         <button
                                 v-if="isMyTurn() && gameState.game.turnState === 'PUT_DRAWN' && index === (gameState.ownCards.length-1)"
@@ -306,11 +301,9 @@
             <!-- lightbox to show winner -->
             <div id="finished" class="lightbox" v-if="winner >= 0">
                 <div>
-                    <picture>
-                        <source v-bind:srcset="getCardImage(gameState.game.topCard, 'large')" media="(min-width: 361px)">
-                        <source v-bind:srcset="getCardImage(gameState.game.topCard, 'small')" media="(max-width: 360px)">
-                        <img v-bind:src="getCardImage(gameState.game.topCard, 'small')" alt="">
-                    </picture>
+                    <svg>
+                        <use v-bind:href="`/res/svg/cards.svg#${getCardImage(gameState.game.topCard)}`" />
+                    </svg>
                     <div v-if="winner === gameState.myIndex">
                         Herzlichen Glückwunsch, <nobr>{{getPlayerName(gameState.players[winner].name, winner)}}!</nobr><br>
                         Du hast gewonnen!
@@ -325,7 +318,7 @@
             <!-- Backend down - error message -->
             <div v-if="currentView === 'backend-down'" id="view-backend-down">
                 <div>
-                    <img src="/res/img/backend-down.png" alt="Backend is down" title="">
+                    <img src="/res/svg/backend-down.svg" alt="Backend is down" title="">
                 </div>
                 <div>
                     Das Backend ist leider derzeit nicht erreichbar.<br>
@@ -376,7 +369,5 @@
     <video id="qrScanVideo"></video>
     <button id="qrScanBtn"></button>
     <button class="small" id="qrScanStopBtn"><span class="fas fa-ban"></span> Abbrechen</button>
-
-
 </body>
 </html>

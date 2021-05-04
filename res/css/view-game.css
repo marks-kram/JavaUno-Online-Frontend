@@ -42,20 +42,27 @@
 #players .player .cards {
     width: 100px;
     height: 150px;
-    display: table-cell;
-    vertical-align: middle;
-    text-align: center;
+}
+
+#players .player .cards .count {
+    position: absolute;
+    top: 50%;
+    left:50%;
+    transform: translate(-50%, -50%);
+    width: max-content;
+    height: max-content;
     font-weight: bold;
     font-size: 6rem;
     color: var(--card-count-color);
     text-shadow: -1px -1px 1px black, 1px 1px 1px black;
+    font-style: normal;
 }
 
-#players .player .cards.red {
+#players .player .cards.red .count {
     color: var(--card-count-red-color);
 }
 
-#players .player .cards.more {
+#players .player .cards.more .count {
     font-size: 5rem;
 }
 
@@ -70,15 +77,16 @@
     padding-bottom: 10px;
 }
 
-#topCard div {
-    height: 5px;
-    filter: brightness(var(--img-brightness-filter));
-}
+#ownCards svg, #topCard svg, #finished svg { fill: #444; }
 
-#topCard div.red {background: var(--wish-red-color);}
-#topCard div.green {background: var(--wish-green-color);}
-#topCard div.blue {background: var(--wish-blue-color);}
-#topCard div.yellow {background: var(--wish-yellow-color);}
+#topCard svg.red    {fill: #f48080;}
+#topCard svg.green  {fill: #80d780;}
+#topCard svg.blue   {fill: #80c7f5;}
+#topCard svg.yellow {fill: #e8e677;}
+
+#ownCards svg, #topCard svg, #finished svg, #drawPile, #players .cards {
+    border-radius: 5px;
+}
 
 #drawPile {
     width: 100px;
@@ -148,21 +156,21 @@
     cursor: pointer;
 }
 
-#color-selection .red {background: var(--wish-red-color) url('/res/img/color-red.png');}
-#color-selection .green {background: var(--wish-green-color) url('/res/img/color-green.png');}
-#color-selection .blue {background: var(--wish-blue-color) url('/res/img/color-blue.png');}
-#color-selection .yellow {background: var(--wish-yellow-color) url('/res/img/color-yellow.png');}
+#color-selection .red {background: var(--wish-red-color);}
+#color-selection .green {background: var(--wish-green-color); }
+#color-selection .blue {background: var(--wish-blue-color); }
+#color-selection .yellow {background: var(--wish-yellow-color); }
 
 #players .player .cards, #drawPile {
-    background-image: url('/res/img/cards/large/back.png');
+    background-image: url('/res/svg/back.svg');
 }
 
 #players .player .cards, #drawPile, #color-selection {
-    filter: brightness(var(--colors-brightness-filter));
+    filter: brightness(var(--secondary-brightness-filter));
 }
 
 #players .player .cards button.small.kick {
-    filter: brightness(var(--img-brightness-revert-filter));
+    filter: brightness(var(--brightness-revert-filter));
 }
 
 #finished div {
@@ -182,7 +190,7 @@
     position: relative;
 }
 
-#ownCards picture {
+#ownCards svg {
     display: inline-block;
     margin: 0 2px;
     cursor: pointer;
@@ -204,16 +212,27 @@
     top: 75%;
 }
 
-#drawPile.disabled, #ownCards picture.disabled {
+#drawPile.disabled, #ownCards svg.disabled {
     cursor: not-allowed;
 }
 
-body.hover #drawPile.enabled:hover, body.hover #ownCards picture.enabled:hover, body.hover #color-selection div>div>div:hover {
-    transform: scale(1.03);
+#drawPile.enabled, #ownCards svg.enabled {
+    box-shadow: var(--card-shadow-color) 3px 3px 19px;
 }
 
-#drawPile.enabled:active, #ownCards picture.enabled:active, #color-selection div>div>div:active {
-    transform: scale(0.97);
+body.hover #drawPile.enabled:hover, body.hover #ownCards svg.enabled:hover {
+    box-shadow: var(--card-shadow-color) 4px 4px 22px;
+    cursor: pointer;
+}
+
+#drawPile.enabled:active, #ownCards svg.enabled:active, #color-selection div>div>div:active {
+    transform: scale(1);
+    box-shadow: initial;
+    cursor: pointer;
+}
+
+body.hover #color-selection div>div>div:hover {
+    transform: scale(1.03);
 }
 
 .current div {
@@ -229,6 +248,11 @@ body.hover #drawPile.enabled:hover, body.hover #ownCards picture.enabled:hover, 
 
 #ownCards .current {
     margin-bottom: 7px;
+}
+
+#topCard svg, .card svg, #finished svg {
+    width: 100px;
+    height: 150px;
 }
 
 .lightbox {
@@ -359,12 +383,14 @@ div#toasts div {
         height: calc(100vw / 5 / 3);
     }
 
-    #topCard img, .card img {
+    #topCard svg, .card svg {
         width: calc(100vw / var(--card-size-divisor));
+        height: calc(100vw / var(--card-size-divisor) * 1.5);
         min-width: 40px;
+        min-height: 60px;
     }
 
-    #players .player .cards.more {
+    #players .player .cards.more .count {
         font-size: 5rem;
     }
 
@@ -382,7 +408,7 @@ div#toasts div {
 }
 
 @media (max-width: 775px){
-    #players .player .cards.more {
+    #players .player .cards.more .count {
         font-size: 3.8rem;
     }
 
@@ -424,11 +450,11 @@ div#toasts div {
         flex-direction: column-reverse;
     }
 
-    #players .player .cards {
+    #players .player .cards .count {
         font-size: 3.5rem;
     }
 
-    #players .player .cards.more {
+    #players .player .cards.more .count {
         font-size: 3.1rem;
     }
 
@@ -454,7 +480,7 @@ div#toasts div {
 }
 
 @media (max-width: 475px) {
-    #players .player .cards.more {
+    #players .player .cards.more .count {
         font-size: 2.6rem;
     }
 
@@ -472,7 +498,7 @@ div#toasts div {
         font-size: 1rem;
     }
 
-    #players .player .cards.more {
+    #players .player .cards.more .count {
         font-size: 2.2rem;
     }
 
@@ -505,8 +531,9 @@ div#toasts div {
         height: 60px;
     }
 
-    #topCard img, .card img {
+    #topCard svg, .card svg {
         width: 40px;
+        height: 60px;
     }
 
     #players .player .current, #players .player .name {

@@ -54,23 +54,24 @@
     --dialog-bordercolor: silver;
     --new-messages-mark-color: #006150;
     --ruler-color: #a0a0a0;
-    --wish-red-color: #cc0000;
-    --wish-green-color: #1dc300;
-    --wish-blue-color: #0075e6;
-    --wish-yellow-color: #f2f130;
+    --wish-red-color: #b30303;
+    --wish-green-color: #1ba204;
+    --wish-blue-color: #025db5;
+    --wish-yellow-color: #d4d33c;
     --turn-bar-color: #24bb07;
     --turn-bar-stop-party-requested-color: #86ab7f;
     --toaster-shadow-color: rgba(0, 0, 0, .8);
     --input-bordercolor: silver;
     --input-hover-bordercolor: black;
+    --card-shadow-color: black;
 
     --scrollbar-track-color: white;
     --scrollbar-handle-color: #454545;
     --scrollbar-handle-hover-color: black;
 
-    --img-brightness-filter: 1.0;
-    --colors-brightness-filter: 1.0;
-    --img-brightness-revert-filter: 1.0;
+    --primary-brightness-filter: 1.0;
+    --secondary-brightness-filter: 1.0;
+    --brightness-revert-filter: 1.0;
 }
 
 [data-theme="dark"] {
@@ -79,6 +80,7 @@
     --player-text-color: #b7b7ff;
     --player-me-text-color: #4a4a69;
     --button-small-color: #d1d1d1;
+    --button-main-color: #e3e3e3;
     --light-box-text-color: #bbbbbb;
     --dialog-text-color: #d6d6d6;
     --toaster-text-color: rgba(0, 0, 0, .8);
@@ -126,14 +128,21 @@
     --toaster-shadow-color: black;
     --input-bordercolor: #3e3e3e;
     --input-hover-bordercolor: #545454;
+    --card-shadow-color: #dedede;
 
     --scrollbar-track-color: black;
     --scrollbar-handle-color: #6c6c6c;
     --scrollbar-handle-hover-color: #a1a1a1;
 
-    --img-brightness-filter: 0.8;
-    --colors-brightness-filter: 0.7;
-    --img-brightness-revert-filter: 1.7;
+    --primary-brightness-filter: 0.8;
+    --secondary-brightness-filter: 0.7;
+    --brightness-revert-filter: 1.7;
+    --saturate-filter: 0.5;
+}
+
+@font-face {
+    font-family: "Arial";
+    src: url("/test/webfonts/arial.ttf");
 }
 
 html, body {
@@ -169,12 +178,13 @@ header {
 
 header img {
     display: inline-block;
+    height: 26px;
     margin-top: 2px;
     margin-left: 3px;
 }
 
-img {
-    filter: brightness(var(--img-brightness-filter));
+img, svg {
+    filter: brightness(var(--primary-brightness-filter));
 }
 
 #javaUno {
@@ -274,7 +284,8 @@ p:last-child {
 
 #view-backend-down img {
     border: 1px black solid;
-    max-width: 100%;
+    width: 100%;
+    max-width: 1200px;
 }
 
 #view-backend-down div {
@@ -352,7 +363,7 @@ button.small:disabled, body.hover button.small:disabled {
 header a:link, header a:visited {
     position: absolute;
     top: 50%;
-    left: 200px;
+    left: 175px;
     transform: translateY(-50%);
     border-radius: 5px;
     padding: 4px 4px;
@@ -523,9 +534,16 @@ html.custom-scrollbars, html.custom-scrollbars .chatContent {
     scrollbar-color: var(--scrollbar-handle-color) var(--scrollbar-track-color);
 }
 
+svg text {
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
 @media (max-width: 875px) {
     header img {
-        width: 120px;
+        height: 20px;
         margin-top: 5px;
     }
 
