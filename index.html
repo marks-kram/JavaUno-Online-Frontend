@@ -209,14 +209,6 @@
                             </div>
                         </div>
                     </div>
-                    <div v-if="gameState.game.turnState !== 'SELECT_COLOR' || !isMyTurn()" id="tableRightButtons">
-                        <div>
-                            <button class="small tableRightButton" @click="prepareSwitchDevice()" class="small" id="in-game-switch-device"><span class="fas fa-exchange-alt"></span> Gerät wechseln</button>
-                            <button class="small tableRightButton" type="button" class="small" @click="confirmLeaveRunningGame()" id="leave-running-game"><span class="fas fa-times"></span> Spiel verlassen</button>
-                            <button v-if="!stopPartyRequested" class="small tableRightButton stopParty" type="button" class="small" @click="confirmRequestStopParty()" id="stop-party"><span class="fas fa-stop"></span> Runde beenden</button>
-                            <button v-if="stopPartyRequested" class="small tableRightButton stopParty red" type="button" class="small" @click="revokeRequestStopParty()" id="revoke-stop-party"><span class="fas fa-ban"></span> Abbrechen</button>
-                        </div>
-                    </div>
                 </div>
                 <div id="ownCards">
                     <div class="current">
@@ -237,6 +229,12 @@
                                 class="small keepDrawn"
                                 @click="keep()"><span class="fas fa-arrow-left"></span> Behalten</button>
                     </div>
+                </div>
+                <div id="bottomButtons">
+                    <button class="small bottomButton switch" @click="prepareSwitchDevice()" class="small" id="in-game-switch-device"><span class="fas fa-exchange-alt"></span> Gerät wechseln</button>
+                    <button class="small bottomButton leave" type="button" class="small" @click="confirmLeaveRunningGame()" id="leave-running-game"><span class="fas fa-times"></span> Spiel verlassen</button>
+                    <button v-if="!stopPartyRequested" class="small bottomButton stopParty" type="button" class="small" @click="confirmRequestStopParty()" id="stop-party"><span class="fas fa-stop"></span> Runde beenden</button>
+                    <button v-if="stopPartyRequested" class="small bottomButton stopParty red" type="button" class="small" @click="revokeRequestStopParty()" id="revoke-stop-party"><span class="fas fa-ban"></span> Abbrechen</button>
                 </div>
             </div>
 

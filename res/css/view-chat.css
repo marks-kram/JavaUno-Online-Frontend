@@ -65,7 +65,7 @@
     position: fixed;
     bottom: 0;
     left: 0;
-    background: var(--chat-controlls-bgcolor);
+    background: var(--bottom-bgcolor);
     width: 100%;
     padding: 10px;
 }
