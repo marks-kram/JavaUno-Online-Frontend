@@ -1,6 +1,7 @@
 let sayUnoRequestRunning = false;
+let alreadySaidUno = false;
 
-function getCardImage(card, size) {
+function getCardImage(card) {
     switch(card.cardType){
         case 'NUMBER':
             return getNumberCardImage(card);
@@ -61,6 +62,7 @@ function selectColor(color){
 
 function sayUno(){
     sayUnoRequestRunning = true;
+    alreadySaidUno = true;
     localStorage.setItem('sayUno', '1');
     doAction('say-uno');
 }
@@ -106,7 +108,7 @@ function isDrawAllowed() {
 }
 
 function isSayUnoAllowed() {
-    if(!isMyTurn()){
+    if(!isMyTurn() || alreadySaidUno){
         return false;
     }
     return app.gameState.game.turnState === 'SELECT_COLOR' || app.gameState.game.turnState === 'FINAL_COUNTDOWN';

@@ -23,7 +23,7 @@ function startAnimation(){
 
 function resetAnimation(){
     const playerIndex = countdownOnIndex;
-    if(playerIndex === -1){
+    if(playerIndex === -1 || app.currentView !== 'running'){
         return;
     }
     resetAnimationOn(`#players .player .current.index${playerIndex} > .turnBar`);

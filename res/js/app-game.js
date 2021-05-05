@@ -31,6 +31,9 @@ function setGameState(data){
         }
         setTimeout('startCountdownAnimation()', 200);
     }
+    if(isMyTurn() && app.gameState.game.turnState === 'DRAW_PENALTIES' && app.gameState.players[app.gameState.game.currentPlayerIndex].drawPenalties === 2){
+        showToast(app.gameState.ownCards.length > 0 ? 'Du hast zu früh „Uno“ gesagt.' : 'Du hast vergessen „Uno“ zu sagen.');
+    }
     app.gameLoadedWithPlayer = true;
 }
 
