@@ -58,8 +58,7 @@ There are two files for config:
 * Improvement: Fixed xss attack which was providing method to have empty name
   Improvement: native share for invitation link
 * UI improvement:
-  * Bigger card images between 360px and 875px screen size
-  * SVG instead of images
+  * New Card design
   * darken disabled cards so enabled (putable) cards will be determined sooner
   * coloring joker card with desired color instead of an indicating top bar
   * Added dark theme
