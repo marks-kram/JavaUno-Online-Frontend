@@ -301,12 +301,12 @@ body.hover #color-selection div>div>div:hover {
 }
 
 #bottomButtons button.stopParty {
-    right: 10px;
+    left: 50%;
+    transform: translate(-50%, -50%);
 }
 
 #bottomButtons button.leave {
-    left: 50%;
-    transform: translate(-50%, -50%);
+    right: 10px;
 }
 
 button.stopParty.red {
