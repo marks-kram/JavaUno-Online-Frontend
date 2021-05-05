@@ -3,7 +3,7 @@ Card game - Multiplayer browser game - The Frontend\
 This is the frontend for play.java-uno.de
 
 ## Version
-2.0 (2021, May, 4th)
+2.0 (2021, May, 5th)
 
 ## Description
 The Frontend offers the view to the card game.\
@@ -61,6 +61,7 @@ There are two files for config:
   * Bigger card images between 360px and 875px screen size
   * SVG instead of images
   * darken disabled cards so enabled (putable) cards will be determined sooner
+  * coloring joker card with desired color instead of an indicating top bar
   * Added dark theme
   * Icons on buttons
   * Simplified invitation link copy and added native link sharing

@@ -19,7 +19,7 @@
 		<circle cx="85" cy="135" r="8" stroke="none" fill="#0a8000"/>
 	</g>
 	<g id="cardColorYellow">
-		<rect x="5" y="5" rx="5" ry="5"  width="90" height="140" fill="#e8e677"/>
+		<rect x="5" y="5" rx="5" ry="5"  width="90" height="140" fill="#f5f280"/>
 		<circle cx="50" cy="75" r="27" stroke="none" fill="#ada900"/>
 		<circle cx="15" cy="15" r="8" stroke="none" fill="#ada900"/>
 		<circle cx="85" cy="135" r="8" stroke="none" fill="#ada900"/>
