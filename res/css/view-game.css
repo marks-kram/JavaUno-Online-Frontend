@@ -426,6 +426,10 @@ div#toasts div {
     #drawPile .duties.more {
         font-size: 3.8rem;
     }
+
+    #color-selection > div > div > div {
+        margin-top: 6px;
+    }
 }
 
 @media (max-width: 600px) {
@@ -504,6 +508,10 @@ div#toasts div {
     #ownCards button {
         font-size: 0.7rem;
     }
+
+    #color-selection > div > div > div {
+        margin-top: 2px;
+    }
 }
 
 @media (max-width: 360px) {
@@ -523,5 +531,9 @@ div#toasts div {
 
     #players .player .current, #players .player .name {
         width: 40px;
+    }
+
+    #color-selection > div > div > div {
+        margin-top: 1px;
     }
 }
