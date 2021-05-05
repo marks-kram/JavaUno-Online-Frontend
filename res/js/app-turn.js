@@ -1,6 +1,7 @@
 let sayUnoRequestRunning = false;
+let alreadySaidUno = false;
 
-function getCardImage(card, size) {
+function getCardImage(card) {
     switch(card.cardType){
         case 'NUMBER':
             return getNumberCardImage(card);
@@ -38,8 +39,8 @@ function put(card, index){
             gameUuid: app.gameUuid,
             playerUuid: app.playerUuid
         };
-        app.$cookies.set('gameUuid', app.gameUuid);
-        app.$cookies.set('playerUuid', app.playerUuid);
+        localStorage.setItem('gameUuid', app.gameUuid);
+        localStorage.setItem('playerUuid', app.playerUuid);
         doPostRequest('/turn/put', data, loadGame);
     }
 }
@@ -61,7 +62,8 @@ function selectColor(color){
 
 function sayUno(){
     sayUnoRequestRunning = true;
-    app.$cookies.set('sayUno', '1');
+    alreadySaidUno = true;
+    localStorage.setItem('sayUno', '1');
     doAction('say-uno');
 }
 
@@ -106,7 +108,7 @@ function isDrawAllowed() {
 }
 
 function isSayUnoAllowed() {
-    if(!isMyTurn()){
+    if(!isMyTurn() || alreadySaidUno){
         return false;
     }
     return app.gameState.game.turnState === 'SELECT_COLOR' || app.gameState.game.turnState === 'FINAL_COUNTDOWN';
@@ -114,6 +116,10 @@ function isSayUnoAllowed() {
 
 function isMyTurn(){
     return isPlayersTurn(app.gameState.myIndex);
+}
+
+function isMe(index){
+    return index === app.gameState.myIndex && app.gameState.myIndex >= 0;
 }
 
 function isNotMe(index){
@@ -126,8 +132,8 @@ function isPlayersTurn(index){
 
 function doAction(action){
     const path = '/turn/' + action + '/' + app.gameUuid + '/' + app.playerUuid;
-    app.$cookies.set('gameUuid', app.gameUuid);
-    app.$cookies.set('playerUuid', app.playerUuid);
+    localStorage.setItem('gameUuid', app.gameUuid);
+    localStorage.setItem('playerUuid', app.playerUuid);
     doPostRequest(path, {}, loadGame);
 }
 

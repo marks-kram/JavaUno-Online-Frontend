@@ -64,7 +64,7 @@ const methods = {
     copyLink: function(){copyLink()},
     shareLink: function(){shareLink()},
     showInvitationQrCode: function () {showInvitationQrCode()},
-    getCardImage: function(card, size) { return getCardImage(card, size) },
+    getCardImage: function(card) { return getCardImage(card) },
     put: function(card, index) { put(card, index) },
     draw: function() { draw() },
     keep: function() { keep() },
