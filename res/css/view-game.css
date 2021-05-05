@@ -83,7 +83,7 @@
 #topCard svg.red    {fill: #f48080;}
 #topCard svg.green  {fill: #80d780;}
 #topCard svg.blue   {fill: #80c7f5;}
-#topCard svg.yellow {fill: #e8e677;}
+#topCard svg.yellow {fill: #f5f280;}
 
 #ownCards svg, #topCard svg, #finished svg, #drawPile, #players .cards {
     border-radius: 5px;
