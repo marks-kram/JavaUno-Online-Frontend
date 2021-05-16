@@ -47,6 +47,7 @@
     --bottom-bgcolor: #d7d7d7;
     --toaster-bgcolor: rgba(0, 0, 0, .85);
     --input-bgcolor: white;
+    --no-cards-bgcolor: #293133;
 
     --processing-animation-bordercolor: #00989f;
     --processing-end-animation-bordercolor: #00b100;
@@ -78,7 +79,6 @@
     --error-color: #ff6262;
     --text-color: #b9b9b9;
     --player-text-color: #b7b7ff;
-    --player-me-text-color: #4a4a69;
     --button-small-color: #d1d1d1;
     --button-main-color: #e3e3e3;
     --light-box-text-color: #bbbbbb;
@@ -117,6 +117,7 @@
     --bottom-bgcolor: black;
     --toaster-bgcolor: rgba(255, 255, 255, .65);
     --input-bgcolor: #1b1b1b;
+    --no-cards-bgcolor: #626769;
 
     --processing-animation-bordercolor: #014f52;
     --processing-end-animation-bordercolor: #007300;
@@ -193,8 +194,18 @@ header img {
     margin-left: 3px;
 }
 
-img, svg {
-    filter: brightness(var(--primary-brightness-filter));
+header .toggle {
+    opacity: 0;
+    pointer-events: none;
+}
+
+header .toggle.on {
+    opacity: 1;
+    pointer-events: all;
+}
+
+img {
+    filter: brightness(var(--brightness-filter));
 }
 
 #javaUno {

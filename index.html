@@ -15,6 +15,7 @@
     <link rel="stylesheet" type="text/css" href="/res/css/view-set-players.css">
     <link rel="stylesheet" type="text/css" href="/res/css/view-game.css">
     <link rel="stylesheet" type="text/css" href="/res/css/view-chat.css">
+    <link rel="stylesheet" type="text/css" href="/res/css/transitions.css">
     <script>let app = null;</script>
     <script src="/res/js/theme.js"></script>
     <script src="/res/js/config-default.js"></script>
@@ -33,10 +34,10 @@
     <div id="app">
         <header>
             <img src="/res/svg/logo.svg" alt="">
-            <a class="themeToggle" href="#" @click="toggleTheme" v-if="darkMode"><span class="fas fa-sun"></span></a>
-            <a class="themeToggle" href="#" @click="toggleTheme" v-if="!darkMode"><span class="fas fa-moon"></span></a>
-            <a class="chatToggle" href="#" @click="showChat()" v-if="gameLoadedWithPlayer && currentView !== 'chat' && currentView !== 'switch-device'"><span class="fas fa-comment"></span></a>
-            <a class="chatToggle" href="#" @click="hideChat()" v-if="gameLoadedWithPlayer && currentView === 'chat'"><span class="fas fa-arrow-left"></span></a>
+            <a href="#" @click="toggleTheme" v-bind:class="darkMode ? 'toggleTheme toggle on' : 'toggleTheme toggle'"><span class="fas fa-sun"></span></a>
+            <a href="#" @click="toggleTheme" v-bind:class="!darkMode ? 'toggleTheme toggle on' : 'toggleTheme toggle'"><span class="fas fa-moon"></span></a>
+            <a v-bind:class="currentView !== 'chat' ? 'chatToggle toggle on' : 'chatToggle toggle'" href="#" @click="showChat()" v-if="gameLoadedWithPlayer && currentView !== 'switch-device'"><span class="fas fa-comment"></span></a>
+            <a v-bind:class="currentView === 'chat' ? 'chatToggle toggle on' : 'chatToggle toggle'" href="#" @click="hideChat()" v-if="gameLoadedWithPlayer"><span class="fas fa-arrow-left"></span></a>
             <div id="newMessages" v-if="(currentView === 'running' || currentView === 'set_players') && readMessages < gameState.game.messages.length"></div>
         </header>
         <noscript>JavaUno als Browsergame basiert auf JavaScript. Bitte aktiviere JavaScript in deinen Browsereinstellungen.</noscript>
@@ -105,10 +106,9 @@
             <!-- Set players view - From here Players can be added and removed and game round can be started -->
             <div id="view-set-players" v-if="currentView === 'set_players'" class="view">
                 <h3>Aktuelle Spieler ({{gameState.players.length}})</h3>
-                <div id="current-players">
-                    <div v-for="(player, index) in gameState.players" v-bind:class="getPlayerClasses(player)">
+                <transition-group tag="div" name="players" id="current-players">
+                    <div v-for="(player, index) in gameState.players" :key="player.publicUuid" v-bind:class="getPlayerClasses(player)">
                         {{ getPlayerName(player.name, index) }}
-                        <span v-if="index === gameState.myIndex" class="me">(Du)</span>
                         <button v-if="index === gameState.myIndex" class="small" @click="leaveGame()"><span class="fas fa-times"></span> Spiel verlassen</button>
                         <button v-if="player.bot" class="small" @click="removeBot(player)"><span class="fas fa-times"></span> Bot entfernen</button>
                         <button v-if="!player.bot && index !== gameState.myIndex" v-bind:disabled="player.botifyPending || botifyPlayerPending" class="small" @click="confirmRequestBotifyPlayer(player)">
@@ -116,7 +116,7 @@
                             <span>Spieler entfernen</span>
                         </button>
                     </div>
-                </div>
+                </transition-group>
                 <h3>Spieler hinzufügen</h3>
                 <div id="add-players" v-if="gameState.players.length < 8">
                     Freunde einladen:
@@ -155,46 +155,57 @@
             <!-- running game view - shows the running game -->
             <div id="view-running" v-if="currentView === 'running'" class="view">
                 <div id="players-placeholder"></div>
-                <div id="players" v-bind:class="gameState.game.reversed ? 'reversed' : ''">
-                    <div v-for="row in gameState.players.length > 6 ? 2 : 1" :key="row">
-                        <div class="players-row">
-                            <div v-for="(player, index) in gameState.players" v-bind:class="getPlayerClasses(player)"
-                                    v-if="isPlayerInRow(index, row)">
-                                <div v-bind:class="`current index${index}`">
-                                    <div v-show="isPlayersTurn(index)" class="turnBar"></div>
-                                    <div v-show="!isPlayersTurn(index)" class="placeholder"></div>
-                                </div>
-                                <div class="name">
-                                    {{ getPlayerName(player.name, index) }}
-                                </div>
-                                <div v-bind:class="'cards ' + (player.cardCount > 9 ? ' more' : '') + (player.cardCount === 1 && player.unoSaid ? ' red' : '')">
-                                    <div class="count">{{ player.cardCount }}</div>
-                                    <button v-if="player.bot" v-bind:disabled="isPlayersTurn(index)" class="small kick" @click="removeBotInGame(player)"><span class="fas fa-times"></span></button>
-                                    <button v-if="!player.bot && isNotMe(index)" v-bind:disabled="player.botifyPending || botifyPlayerPending" class="small kick" @click="confirmRequestBotifyPlayer(player)"><span class="fas fa-times"></span></button>
-                                    <button v-if="isMe(index)" class="small kick" @click="confirmLeaveRunningGame()"><span class="fas fa-times"></span></button>
+                <transition-group tag="div" id="players" name="members">
+                    <div v-for="player in getPlayersListInOrder" :key="player.publicUuid" v-bind:class="getPlayerClasses(player)">
+                        <div v-bind:class="`current`">
+                            <div v-show="isPlayersTurn(player.index)" class="turnBar"></div>
+                            <div v-show="!isPlayersTurn(player.index)" class="placeholder"></div>
+                        </div>
+                        <div class="name">
+                            {{ getPlayerName(player.name, player.index) }}
+                        </div>
+                        <transition-group tag="div" name="cardCount" class="cards-count-wrapper"
+                                          v-on:before-enter="cardCountBeforeEnter"
+                                          v-on:enter="cardCountEnter"
+                                          v-on:leave="cardCountLeave">
+                            <div v-for="playerEntity in playerInSingleList(player)" :key="playerEntity.drawn" class="cards">
+                                <div class="floating-wrapper-cards">
+                                    <div v-bind:class="'count ' + (playerEntity.cardCount > 9 ? ' more' : '') + (playerEntity.cardCount === 1 && playerEntity.unoSaid ? ' red' : '')">{{playerEntity.cardCount}}</div>
+                                    <button v-if="playerEntity.bot" v-bind:disabled="isPlayersTurn(playerEntity.index)" class="small kick" @click="removeBotInGame(playerEntity)"><span class="fas fa-times"></span></button>
+                                    <button v-if="!playerEntity.bot && isNotMe(playerEntity.index)" v-bind:disabled="playerEntity.botifyPending || botifyPlayerPending" class="small kick" @click="confirmRequestBotifyPlayer(playerEntity)"><span class="fas fa-times"></span></button>
+                                    <button v-if="isMe(playerEntity.index)" class="small kick" @click="confirmLeaveRunningGame()"><span class="fas fa-times"></span></button>
                                 </div>
                             </div>
-                        </div>
+                        </transition-group>
                     </div>
-                </div>
+                </transition-group>
                 <div class="ruler"></div>
                 <div id="table">
-                    <div id="topCard">
-                        <svg v-bind:class="gameState.game.desiredColor !== null ? gameState.game.desiredColor.toLowerCase() : ''">
-                            <use v-bind:href="`/res/svg/cards.svg#${getCardImage(gameState.game.topCard)}`" />
-                        </svg>
-                    </div>
+                    <transition-group tag="div" id="topCard" name="topCard"
+                          v-on:before-enter="topCardBeforeEnter"
+                          v-on:enter="topCardEnter">
+                        <div class="turn-around"
+                                 v-for="topCard in topCardInSingleList"
+                                 :key="topCard.uuid">
+                            <svg v-bind:class="`front ${topCard.desiredColor}`">
+                                <use v-bind:href="`/res/svg/cards.svg#${getCardImage(topCard)}`" />
+                            </svg>
+                            <img src="/res/img/back.png" alt="" class="back">
+                        </div>
+                    </transition-group>
                     <div id="say-uno">
                         <div>
                             <button @click="sayUno()" v-bind:disabled="!isSayUnoAllowed()"><span class="fas fa-comment"></span> Uno</button>
                         </div>
                     </div>
                     <div id="drawPile" v-bind:class="isDrawAllowed() ? 'enabled' : 'disabled'" @click="draw()">
-                        <div class="penalties" v-if="gameState.game.turnState === 'DRAW_PENALTIES' && isMyTurn()">
-                            {{gameState.players[gameState.myIndex].drawPenalties}}
-                        </div>
-                        <div v-bind:class="'duties ' + (gameState.game.drawDuties > 9 ? ' more' : '')" v-if="gameState.game.turnState.startsWith('DRAW_DUTIES') && isMyTurn()">
-                            {{gameState.game.drawDuties}}
+                        <div class="floating-wrapper-draw">
+                            <div class="penalties" v-if="gameState.game.turnState === 'DRAW_PENALTIES' && isMyTurn()">
+                                {{gameState.players[gameState.myIndex].drawPenalties}}
+                            </div>
+                            <div v-bind:class="'duties ' + (gameState.game.drawDuties > 9 ? ' more' : '')" v-if="gameState.game.turnState.startsWith('DRAW_DUTIES') && isMyTurn()">
+                                {{gameState.game.drawDuties}}
+                            </div>
                         </div>
                     </div>
                     <div id="color-selection" v-if="gameState.game.turnState === 'SELECT_COLOR' && isMyTurn()">
@@ -210,25 +221,30 @@
                         </div>
                     </div>
                 </div>
-                <div id="ownCards">
+                <div id="ownCards" v-bind:class="isMyTurn() && gameState.game.turnState === 'PUT_DRAWN' ? 'putDrawn' : ''">
                     <div class="current">
                         <div v-show="isMyTurn()" class="turnBar"></div>
                         <div v-show="!isMyTurn()" class="placeholder"></div>
                     </div>
-                    <div class="card" v-for="(card, index) in gameState.ownCards">
-                        <svg v-bind:class="isPutAllowed(card, index) ? 'enabled' : 'disabled'" @click="put(card, index)">
-                            <use v-bind:href="`/res/svg/cards.svg#${getCardImage(card)}`" />
-                        </svg>
-                        <span v-if="isMyTurn() && gameState.game.turnState === 'PUT_DRAWN' && index === (gameState.ownCards.length-1)">&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;</span>
-                        <button
-                                v-if="isMyTurn() && gameState.game.turnState === 'PUT_DRAWN' && index === (gameState.ownCards.length-1)"
-                                class="small putDrawn"
-                                @click="put(card, index)"><span class="fas fa-arrow-left"></span> Legen</button>
-                        <button
-                                v-if="isMyTurn() && gameState.game.turnState === 'PUT_DRAWN' && index === (gameState.ownCards.length-1)"
-                                class="small keepDrawn"
-                                @click="keep()"><span class="fas fa-arrow-left"></span> Behalten</button>
-                    </div>
+                    <transition-group tag="div" name="cards" id="own-cards-container"
+                                      v-on:before-enter="ownCardsBeforeEnter"
+                                      v-on:enter="ownCardsEnter"
+                                      v-on:leave="ownCardsLeave">
+                        <div
+                            class="card"
+                            v-for="(card, index) in gameState.ownCards" :key="card.uuid">
+                                <div v-bind:class="isPutAllowed(card, index) ? 'turn-around enabled' : 'turn-around disabled'" @click="put(card, index)">
+                                    <svg class="front">
+                                        <use v-bind:href="`/res/svg/cards.svg#${getCardImage(card)}`" />
+                                    </svg>
+                                    <img src="/res/img/back.png" alt="" class="back">
+                                </div>
+                        </div>
+                    </transition-group>
+                </div>
+                <div class="putDrawn-buttons" v-if="isMyTurn() && gameState.game.turnState === 'PUT_DRAWN'">
+                    <button class="small" @click="putDrawn()"><span class="fas fa-arrow-up"></span> Gezogene Karte legen</button><br><br>
+                    <button class="small" @click="keep()"><span class="fas fa-arrow-right"></span> Weiter ohne zu legen</button>
                 </div>
                 <div id="bottomButtons">
                     <button class="small bottomButton switch" @click="prepareSwitchDevice()" class="small" id="in-game-switch-device"><span class="fas fa-exchange-alt"></span> Gerät wechseln</button>
@@ -327,7 +343,6 @@
             </div>
 
             <!-- processing -->
-            <div id="processingBg" v-if="processing"></div>
             <div id="processingAnimation" v-if="processing"></div>
             <div id="processingEndAnimation" v-if="processingEnd"></div>
 
@@ -363,11 +378,14 @@
     <script src="/res/js/app-chat.js"></script>
     <script src="/res/js/app-player.js"></script>
     <script src="/res/js/app-turn.js"></script>
+    <script src="/res/js/app-transitions.js"></script>
     <script src="/res/js/push.js"></script>
 
     <div id="qrScanBg"></div>
     <video id="qrScanVideo"></video>
     <button id="qrScanBtn"></button>
     <button class="small" id="qrScanStopBtn"><span class="fas fa-ban"></span> Abbrechen</button>
+
+    <img src="/res/img/back.png" alt="" class="preload">
 </body>
 </html>
