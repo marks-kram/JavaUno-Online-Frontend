@@ -150,6 +150,11 @@ svg {
     user-select: none;
 }
 
+img.preload {
+    width: 1px;
+    visibility: hidden;
+}
+
 html, body {
     margin: 0;
     padding: 0;
