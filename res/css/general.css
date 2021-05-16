@@ -134,12 +134,9 @@
     --scrollbar-handle-color: #6c6c6c;
     --scrollbar-handle-hover-color: #a1a1a1;
 
-    --primary-brightness-filter: 0.8;
-    --primary-disabled-brightness-filter: 0.5;
-    --primary-hover-brightness-filter: 0.85;
-    --secondary-brightness-filter: 0.7;
-    --secondary-disabled-brightness-filter: 0.4;
-    --secondary-hover-brightness-filter: 0.8;
+    --brightness-filter: 0.8;
+    --disabled-brightness-filter: 0.5;
+    --hover-brightness-filter: 1;
     --brightness-revert-filter: 1.7;
     --saturate-filter: 0.5;
 }
