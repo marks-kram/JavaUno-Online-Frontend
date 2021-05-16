@@ -147,13 +147,7 @@ const doPushActionSelectedColor = function(message){
 const doPushActionSaidUno = function(){
     if(app.currentView === 'running' || app.previousView === 'running'){
         const index = app.gameState.game.currentPlayerIndex;
-        if(!isMyTurn()){
-            let name = app.gameState.players[index].name;
-            name = getPlayerName(name, index);
-            showToast(name + ': „Uno“');
-        } else {
-            showToast('Du : „Uno“');
-        }
+        showLargeToast('Uno');
         app.gameState.players[index].unoSaid = true;
     }
 };
