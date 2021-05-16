@@ -1,4 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 150">
+	<style>@font-face{font-family:"Arial";src:url("/test/webfonts/arial.ttf");}</style>
 	<rect id="frame" x="0" y="0" rx="6" ry="6"  width="100" height="150" fill="white"/>
 	<g id="cardColorBlue">
 		<rect x="5" y="5" rx="5" ry="5"  width="90" height="140" fill="#80c7f5"/>
@@ -131,15 +132,6 @@
 		<use href="#reverseUpperLeft" transform="rotate(180 50,75)"/>
 	</g>
 
-	<symbol viewBox="0 0 100 150" id="back">
-		<use href="#frame" />
-		<rect x="5" y="5" rx="5" ry="5"  width="90" height="140" fill="black"/>
-		<path d="M 50 75 L 50 48 A 27 27 0 0 1 77 75 L 50 75 Z" fill="#c1c00b"/>
-		<path d="M 50 75 L 77 75 A 27 27 0 0 1 50 102 L 50 75 Z" fill="#b70909"/>
-		<path d="M 50 75 L 23 75 A 27 27 0 0 0 50 102 L 50 75 Z" fill="#11af00"/>
-		<path d="M 50 75 L 50 48 A 27 27 0 0 0 23 75 L 50 75 Z" fill="#0184d4"/>
-		<text x="25" y="140.75" style="font-size:2.2rem;font-family:Arial,sans-serif;font-weight:bold;" fill="#536482" transform="rotate(-60 25,140.75)">JavaUno</text>
-	</symbol>
 	<symbol viewBox="0 0 100 150" id="red0">
 		<use href="#frame" />
 		<use href="#cardColorRed" />
