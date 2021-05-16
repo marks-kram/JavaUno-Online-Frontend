@@ -284,12 +284,6 @@ p:last-child {
     }
 }
 
-#view-backend-down img {
-    border: 1px black solid;
-    width: 100%;
-    max-width: 1200px;
-}
-
 #view-backend-down div {
     margin: 5px 0;
     font-size: 2rem;
@@ -334,7 +328,7 @@ button:disabled, body.hover button:disabled {
     cursor: not-allowed;
 }
 
-input.small, button.small {
+input.small, button.small, #current-players .player.players-enter-to, #current-players .player.players-enter-to button {
     margin-top: 0;
     font-size: 1rem;
     padding: 3px;
@@ -549,11 +543,11 @@ svg text {
         margin-top: 5px;
     }
 
-    header a.themeToggle:link,
-    header a.themeToggle:visited,
-    header a.themeToggle:focus,
-    body.hover header a.themeToggle:hover,
-    header a.themeToggle:hover {
+    header a.toggleTheme:link,
+    header a.toggleTheme:visited,
+    header a.toggleTheme:focus,
+    body.hover header a.toggleTheme:hover,
+    header a.toggleTheme:hover {
         left: 135px;
         font-size: 0.8rem;
     }
