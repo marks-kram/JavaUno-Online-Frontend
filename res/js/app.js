@@ -47,6 +47,11 @@ const data = {
     readMessages: 0,
     gameLoadedWithPlayer: false,
     darkMode: false,
+    actionLock: false,
+    putCardIndex: -1,
+    drawnCards: 1,
+    drawReason: 'regular',
+    finished: false
 };
 
 const methods = {
@@ -66,6 +71,7 @@ const methods = {
     showInvitationQrCode: function () {showInvitationQrCode()},
     getCardImage: function(card) { return getCardImage(card) },
     put: function(card, index) { put(card, index) },
+    putDrawn: function() { putDrawn() },
     draw: function() { draw() },
     keep: function() { keep() },
     selectColor: function(color) { selectColor(color) },
@@ -97,13 +103,28 @@ const methods = {
     getMessageClock: function(time) {return getMessageClock(time)},
     getMessageLines: function (message) {return getMessageLines(message)},
     hideDialog : function(){hideDialog()},
-    toggleTheme: function(){toggleTheme()}
+    toggleTheme: function(){toggleTheme()},
+    ownCardsBeforeEnter: function(element){ownCardsBeforeEnter(element)},
+    ownCardsEnter: function(element, done){ownCardsEnter(element, done)},
+    ownCardsLeave: function(element, done){ownCardsLeave(element, done)},
+    topCardBeforeEnter: function(element){topCardBeforeEnter(element)},
+    topCardEnter: function(element, done){topCardEnter(element, done)},
+    cardCountBeforeEnter: function(element){cardCountBeforeEnter(element)},
+    cardCountEnter: function(element, done){cardCountEnter(element, done)},
+    cardCountLeave: function (element, done){cardCountLeave(element, done)},
+    playerInSingleList: function (player){return playerInSingleList(player)}
 };
+
+const computed = {
+    getPlayersListInOrder: function(){return getPlayersListInOrder()},
+    topCardInSingleList: function (){return topCardInSingleList()}
+}
 
 app = new Vue({
     el: '#app',
     data: data,
-    methods: methods
+    methods: methods,
+    computed: computed
 });
 
 function hasTouch() {
@@ -188,4 +209,8 @@ function copy(text){
     textarea.setSelectionRange(0, 500); /*For mobile devices*/
     document.execCommand("copy");
     document.querySelector('body').removeChild(textarea);
+}
+
+function sleep(){
+    return new Promise(resolve => setTimeout(resolve, 50));
 }
