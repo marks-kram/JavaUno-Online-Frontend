@@ -3,7 +3,7 @@ Card game - Multiplayer browser game - The Frontend\
 This is the frontend for play.java-uno.de
 
 ## Version
-2.0 (2021, May, 5th)
+2.0 (2021, May, 16th)
 
 ## Description
 The Frontend offers the view to the card game.\
@@ -45,6 +45,7 @@ There are two files for config:
 ## changeLog
 
 ### Version 2.0
+* Modified draw behaviour: Draw duties or penalties are drawn all at once
 * New feature: built-in qr-scanner
 * New optional feature: tokenized-game-create (see #tokenized-game-create) (limited downwards compatibility)
 * New feature: You can switch the game to another device
@@ -59,12 +60,12 @@ There are two files for config:
   Improvement: native share for invitation link
 * UI improvement:
   * New Card design
+  * All actions are animated now (action transitions)
   * darken disabled cards so enabled (putable) cards will be determined sooner
   * coloring joker card with desired color instead of an indicating top bar
   * Added dark theme
   * Icons on buttons
   * Simplified invitation link copy and added native link sharing
-  * Use Arial as font-family
   * Beautified none-touch-device scrollbars (Chrome & Firefox)
   * minor improvements
 
