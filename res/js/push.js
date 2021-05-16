@@ -86,12 +86,13 @@ const  doPushActionRemovedPlayer = function(message){
         if(isNotMe(index)){
             let name = app.gameState.players[index].name;
             name = getPlayerName(name, index).replace(/^Spieler\s+(\d+)$/, 'Der ehemalige Spieler $1');
-            showToast(name + ' ist gegangen');
+            showToast(name + ' ist gegangen oder wurde entfernt');
         }
-        if(isNotMe(index) || app.currentView === 'join'){
+        if(isNotMe(index)){
             app.gameState.players.splice(index, 1);
+        } else {
+            reset();
         }
-        updateView();
     }
 };
 
@@ -104,19 +105,20 @@ const doPushActionBotifiedPlayer = function(message){
         name = name !== '' ? name : `Spieler ${index+1}`;
         app.gameState.players[index].bot = true;
         showInformationDialog(`${name} hat das Spiel verlassen und wurde zu einem Bot.`);
-        updateView();
     }
 };
 
 const doPushActionPutCard = function(message){
+    const topCardJson = message.body.replace(/^put-card:(\{.*\}).*$/, '$1');
+    const topCard = JSON.parse(topCardJson);
     if(app.gameState.game.gameLifecycle === 'RUNNING') {
         const cardCount = app.gameState.players[app.gameState.game.currentPlayerIndex].cardCount - 1;
-        if(!message.body.endsWith(':joker') && cardCount > 0){
+        if(!topCard.jokerCard && cardCount > 0){
             startCountdown();
         }
     }
-    if(app.currentView === 'running'){
-        updateView();
+    if(app.currentView === 'running' && !isMyTurn()){
+        modificationTransitionWrapper(updateView, topCard);
     }
 };
 
@@ -169,7 +171,7 @@ const doPushActionNextTurn = function(message){
     if(app.currentView === 'running' || app.previousView === 'running'){
         app.gameState.game.turnState = '';
         alreadySaidUno = false;
-        stopCountdownAnimation(false);
+        stopCountdownAnimation();
         const index = parseInt(message.body.replace(/next-turn:/, ''));
         app.gameState.game.currentPlayerIndex = index;
         showTurnToast(index);
@@ -181,11 +183,12 @@ const  doPushActionFinishedGame = function(message) {
     clearTimeout(aC);
     aC = null;
     const party = parseInt(message.body.replace(/finished-game:/, ''));
-    if(app.currentView === 'running' && party === app.gameState.game.party){
-        app.winner = app.gameState.game.currentPlayerIndex;
+    if((app.currentView === 'running' || app.currentView === 'set_players' ) && party === app.gameState.game.party){
+        app.finished = true;
+        updateView();
     }
     app.stopPartyRequested = false;
-    updateView();
+
 };
 
 const  doPushActionEnd = function() {

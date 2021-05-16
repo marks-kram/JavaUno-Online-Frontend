@@ -35,7 +35,7 @@
     height: var(--card-height);
 }
 
-#players .player .cards .count {
+.floating-wrapper-cards .count {
     position: absolute;
     top: 50%;
     left:50%;
@@ -47,20 +47,31 @@
     font-weight: bold;
     font-size: 6rem;
     text-shadow: -1px -1px 1px black, 1px 1px 1px black;
-    font-style: normal;
-    user-select: none;
 }
 
-#players .player .cards.red .count {
+.floating-wrapper-cards .count.red {
     color: var(--card-count-red-color);
 }
 
-#players .player .cards.more .count {
+.floating-wrapper-cards .count.more {
     font-size: 5rem;
 }
 
-#drawPile .duties.more {
+.floating-wrapper-cards .count.penalties {
+    color: var(--card-count-red-color);
+}
+
+.floating-wrapper-cards .count.duties {
+    color: var(--card-count-blue-color);
+}
+
+.floating-wrapper-draw .duties.more {
     font-size: 5.5rem;
+}
+
+.floating-wrapper-cards {
+    width: 100%;
+    height: 100%;
 }
 
 #table {
@@ -112,11 +123,11 @@
     pointer-events: none;
 }
 
-#drawPile div.penalties {
+.floating-wrapper-draw .penalties {
     color: var(--card-count-red-color);
 }
 
-#drawPile div.duties {
+.floating-wrapper-draw .duties {
     color: var(--card-count-blue-color);
 }
 
@@ -170,14 +181,24 @@
 #color-selection .yellow {background: var(--wish-yellow-color); }
 
 #players .player .cards, #drawPile {
-    background-image: url('/res/svg/back.svg');
+    background-image: url('/res/img/back.png');
 }
 
-#players .player .cards, #drawPile, #color-selection {
-    filter: brightness(var(--secondary-brightness-filter));
+#players .player .cards.none {
+    background-color: var(--no-cards-bgcolor);
+    background-position-y: 0;
+    background-repeat: no-repeat;
 }
 
-#players .player .cards button.small.kick {
+#players .player .cards.none.instantly {
+    background-image: none;
+}
+
+#players .player .cards, .floating-wrapper-cards.float, #drawPile, #color-selection, #ownCards .card {
+    filter: brightness(var(--brightness-filter));
+}
+
+#players .player .cards button.small.kick, .floating-wrapper-cards.float button.small.kick {
     filter: brightness(var(--brightness-revert-filter));
 }
 
@@ -211,54 +232,33 @@
     position: relative;
 }
 
-#ownCards svg {
-    display: inline-block;
+#ownCards .turn-around {
     margin: 0 2px;
-    cursor: pointer;
 }
 
-#ownCards button {
-    position: absolute;
-    top: 50%;
-    left: 107px;
-    transform: translateY(-50%);
-    white-space: nowrap;
-}
-
-#ownCards button.putDrawn {
-    top: 25%;
-}
-
-#ownCards button.keepDrawn {
-    top: 75%;
-}
-
-#drawPile.disabled, #ownCards svg.disabled {
+#drawPile.disabled, #ownCards .turn-around.disabled {
     cursor: not-allowed;
 }
 
-#drawPile.disabled {
-    filter: brightness(var(--secondary-disabled-brightness-filter));
+.floating-wrapper-draw.float {
+    cursor: not-allowed;
+    pointer-events: all;
 }
 
-#ownCards svg.disabled {
-    filter: brightness(var(--primary-disabled-brightness-filter));
+#drawPile.disabled, .floating-wrapper-draw.float {
+    filter: brightness(var(--disabled-brightness-filter));
 }
 
-body.hover #drawPile.enabled:hover, body.hover #ownCards svg.enabled:hover {
+#topCard, #ownCards .card .turn-around svg {
+    filter: brightness(var(--brightness-filter));
+}
+
+#ownCards .turn-around.disabled svg {
+    filter: brightness(var(--disabled-brightness-filter));
+}
+
+body.hover #drawPile.enabled:hover, body.hover #ownCards .turn-around.enabled:hover {
     cursor: pointer;
-}
-
-body.hover #drawPile.enabled:hover {
-    filter: brightness(var(--secondary-hover-brightness-filter));
-}
-
-body.hover #ownCards svg.enabled:hover {
-    filter: brightness(var(--primary-hover-brightness-filter));
-}
-
-body.hover #color-selection div>div>div:hover {
-    transform: scale(1.03);
 }
 
 .current div {
@@ -363,7 +363,7 @@ button.stopParty.red:active {
     background: var(--botify-pending-bgcolor);
 }
 
-.bot {
+.bot .name {
     font-style: italic;
 }
 
@@ -401,6 +401,7 @@ div#toasts div {
 }
 
 @media (max-width: 875px) {
+
     :root {
         --card-width: 87px;
         --card-height: 130px;

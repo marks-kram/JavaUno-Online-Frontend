@@ -129,7 +129,7 @@ function setCancelBotifyPlayer(){
 }
 
 function getPlayerClasses(player){
-    let classes = 'player';
+    let classes = `player _${player.publicUuid}`;
     if(player.stopPartyRequested){
         classes = `${classes} stopPartyRequested`;
     }

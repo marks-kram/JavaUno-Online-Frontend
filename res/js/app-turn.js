@@ -33,6 +33,8 @@ function getJokerCardImage(card){
 
 function put(card, index){
     if(isPutAllowed(card, index)){
+        app.actionLock = true;
+        app.putCardIndex = index;
         const data = {
             card: card,
             cardIndex: index,
@@ -41,7 +43,7 @@ function put(card, index){
         };
         localStorage.setItem('gameUuid', app.gameUuid);
         localStorage.setItem('playerUuid', app.playerUuid);
-        doPostRequest('/turn/put', data, loadGame);
+        doPostRequest('/turn/put', data, putCallback);
     }
 }
 
@@ -53,12 +55,15 @@ function putDrawn(){
 
 function draw(){
     if(isDrawAllowed()){
-        doAction('draw');
+        app.actionLock = true;
+        const path = prepareAction(app.gameState.game.turnState.startsWith('DRAW_') ? 'draw-multiple' : 'draw');
+        doPostRequest(path, {}, drawCallback);
     }
 }
 
 function keep(){
-    doAction('keep');
+    const path = prepareAction('keep');
+    doPostRequest(path, {}, loadGame);
 }
 
 function selectColor(color){
@@ -70,7 +75,8 @@ function sayUno(){
     sayUnoRequestRunning = true;
     alreadySaidUno = true;
     localStorage.setItem('sayUno', '1');
-    doAction('say-uno');
+    const path = prepareAction('say-uno');
+    doPostRequest(path, {}, loadGame);
 }
 
 function next() {
@@ -88,6 +94,9 @@ function next() {
 }
 
 function isPutAllowed(card, index){
+    if(app.actionLock){
+        return false;
+    }
     if(!isMyTurn()){
         return false;
     }
@@ -101,6 +110,9 @@ function isPutAllowed(card, index){
 }
 
 function isDrawAllowed() {
+    if(app.actionLock){
+        return false;
+    }
     if(!isMyTurn()){
         return false;
     }
@@ -136,11 +148,20 @@ function isPlayersTurn(index){
     return app.gameState.game.currentPlayerIndex === index && app.gameState.myIndex >= 0;
 }
 
-function doAction(action){
-    const path = '/turn/' + action + '/' + app.gameUuid + '/' + app.playerUuid;
+function prepareAction(action){
     localStorage.setItem('gameUuid', app.gameUuid);
     localStorage.setItem('playerUuid', app.playerUuid);
-    doPostRequest(path, {}, loadGame);
+    return '/turn/' + action + '/' + app.gameUuid + '/' + app.playerUuid;
+}
+
+function drawCallback(){
+    modificationTransitionWrapper(loadGame, null);
+    setTimeout(function(){app.actionLock = false}, 1000);
+}
+
+function putCallback(data){
+    modificationTransitionWrapper(loadGame, data.card);
+    setTimeout(function(){app.actionLock = false}, 1000);
 }
 
 function isPlayable(card){
