@@ -121,11 +121,24 @@ const doPushActionPutCard = function(message){
 };
 
 const doPushActionDrawnCard = function(message){
+    app.drawnCards = 1;
     if(app.currentView === 'running') {
         if(message.body.endsWith(':countdown')){
             startCountdown();
         }
-        updateView();
+        if(!isMyTurn()){
+            modificationTransitionWrapper(updateView, null);
+        }
+    }
+};
+
+const doPushActionDrawnCards = function(message){
+    app.drawnCards = parseInt(message.body.replace(/^drawn-cards:([^:]*?):([^:]*?)$/, '$1'));
+    app.drawReason = message.body.replace(/^drawn-cards:([^:]*?):([^:]*?)$/, '$2');
+    if(app.currentView === 'running') {
+        if(!isMyTurn()){
+            modificationTransitionWrapper(updateView, null);
+        }
     }
 };
 
@@ -283,6 +296,7 @@ const pushActions = {
     'botified-player': doPushActionBotifiedPlayer,
     'put-card': doPushActionPutCard,
     'drawn-card': doPushActionDrawnCard,
+    'drawn-cards': doPushActionDrawnCards,
     'kept-card': doPushActionKeptCard,
     'selected-color': doPushActionSelectedColor,
     'said-uno': doPushActionSaidUno,
