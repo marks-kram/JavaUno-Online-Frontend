@@ -45,6 +45,12 @@ function put(card, index){
     }
 }
 
+function putDrawn(){
+    const index = app.gameState.ownCards.length - 1;
+    const card = app.gameState.ownCards[index];
+    put(card, index);
+}
+
 function draw(){
     if(isDrawAllowed()){
         doAction('draw');
