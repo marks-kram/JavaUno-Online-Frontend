@@ -8,7 +8,8 @@
  --All Rights Reserved--
  edited for javaUno by me:
   * multiple toasters are positioned one above the other instead of stacked positioning
-  * variable colors
+  * big toasts (with fully centered position)
+  * variable colors (for dark and light theme)
  original version is here: https://github.com/mlcheng/js-toast
 
  ***********************************************/
@@ -153,7 +154,7 @@ iqwerty.toast = (function() {
      * Show the toast
      * @return {Object} Returns the Toast object
      */
-    Toast.prototype.show = function() {
+    Toast.prototype.show = function(large) {
         if(this.getToastStage() == null) {
             this.generate();
         }
@@ -184,8 +185,14 @@ iqwerty.toast = (function() {
 
 
 
-        //offset position for multiple toasts
-        this.getToastStage().style.bottom = getPositionOffset() + 'px';
+        //positioning
+        this.getToastStage().style.bottom = large ? '50%' : getPositionOffset() + 'px';
+        if(large){
+            this.getToastStage().style.fontSize = '4rem';
+            this.getToastStage().style.borderRadius = '18px';
+            this.getToastStage().style.transform = 'translate(-50%, 50%)';
+        }
+        this.getToastStage().style.position = 'absolute';
 
         // hide the toast after the specified timeout
         setTimeout(this.hide.bind(this), this.getDuration());
