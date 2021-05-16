@@ -40,7 +40,8 @@ button.small.invitation {
 }
 
 @media (max-width: 619px) {
-    #current-players .player {
+    #current-players .player,
+    #current-players {
         font-size: 1.0rem;
     }
 
