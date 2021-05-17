@@ -34,17 +34,14 @@
     padding: 10px;
 }
 
-#current-players .player span.me {
-    color: var(--player-me-text-color);
-}
-
 button.small.invitation {
     display: inline-block;
     margin-right: 10px;
 }
 
 @media (max-width: 619px) {
-    #current-players .player {
+    #current-players .player,
+    #current-players {
         font-size: 1.0rem;
     }
 

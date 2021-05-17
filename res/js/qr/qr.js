@@ -9,7 +9,6 @@ function genQr(data){
 }
 
 function handleQrScanResult(result){
-    console.debug(result);
     if(result.indexOf(app.protocol+'://'+app.hostname+'/') >= 0){
         self.location.href = result;
     } else {

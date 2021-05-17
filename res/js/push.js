@@ -86,12 +86,13 @@ const  doPushActionRemovedPlayer = function(message){
         if(isNotMe(index)){
             let name = app.gameState.players[index].name;
             name = getPlayerName(name, index).replace(/^Spieler\s+(\d+)$/, 'Der ehemalige Spieler $1');
-            showToast(name + ' ist gegangen');
+            showToast(name + ' ist gegangen oder wurde entfernt');
         }
-        if(isNotMe(index) || app.currentView === 'join'){
+        if(isNotMe(index)){
             app.gameState.players.splice(index, 1);
+        } else {
+            reset();
         }
-        updateView();
     }
 };
 
@@ -104,28 +105,42 @@ const doPushActionBotifiedPlayer = function(message){
         name = name !== '' ? name : `Spieler ${index+1}`;
         app.gameState.players[index].bot = true;
         showInformationDialog(`${name} hat das Spiel verlassen und wurde zu einem Bot.`);
-        updateView();
     }
 };
 
 const doPushActionPutCard = function(message){
+    const topCardJson = message.body.replace(/^put-card:(\{.*\}).*$/, '$1');
+    const topCard = JSON.parse(topCardJson);
     if(app.gameState.game.gameLifecycle === 'RUNNING') {
         const cardCount = app.gameState.players[app.gameState.game.currentPlayerIndex].cardCount - 1;
-        if(!message.body.endsWith(':joker') && cardCount > 0){
+        if(!topCard.jokerCard && cardCount > 0){
             startCountdown();
         }
     }
-    if(app.currentView === 'running'){
-        updateView();
+    if(app.currentView === 'running' && !isMyTurn()){
+        modificationTransitionWrapper(updateView, topCard);
     }
 };
 
 const doPushActionDrawnCard = function(message){
+    app.drawnCards = 1;
     if(app.currentView === 'running') {
         if(message.body.endsWith(':countdown')){
             startCountdown();
         }
-        updateView();
+        if(!isMyTurn()){
+            modificationTransitionWrapper(updateView, null);
+        }
+    }
+};
+
+const doPushActionDrawnCards = function(message){
+    app.drawnCards = parseInt(message.body.replace(/^drawn-cards:([^:]*?):([^:]*?)$/, '$1'));
+    app.drawReason = message.body.replace(/^drawn-cards:([^:]*?):([^:]*?)$/, '$2');
+    if(app.currentView === 'running') {
+        if(!isMyTurn()){
+            modificationTransitionWrapper(updateView, null);
+        }
     }
 };
 
@@ -147,13 +162,7 @@ const doPushActionSelectedColor = function(message){
 const doPushActionSaidUno = function(){
     if(app.currentView === 'running' || app.previousView === 'running'){
         const index = app.gameState.game.currentPlayerIndex;
-        if(!isMyTurn()){
-            let name = app.gameState.players[index].name;
-            name = getPlayerName(name, index);
-            showToast(name + ': „Uno“');
-        } else {
-            showToast('Du : „Uno“');
-        }
+        showLargeToast('Uno');
         app.gameState.players[index].unoSaid = true;
     }
 };
@@ -161,7 +170,8 @@ const doPushActionSaidUno = function(){
 const doPushActionNextTurn = function(message){
     if(app.currentView === 'running' || app.previousView === 'running'){
         app.gameState.game.turnState = '';
-        stopCountdownAnimation(false);
+        alreadySaidUno = false;
+        stopCountdownAnimation();
         const index = parseInt(message.body.replace(/next-turn:/, ''));
         app.gameState.game.currentPlayerIndex = index;
         showTurnToast(index);
@@ -170,12 +180,15 @@ const doPushActionNextTurn = function(message){
 };
 
 const  doPushActionFinishedGame = function(message) {
+    clearTimeout(aC);
+    aC = null;
     const party = parseInt(message.body.replace(/finished-game:/, ''));
-    if(app.currentView === 'running' && party === app.gameState.game.party){
-        app.winner = app.gameState.game.currentPlayerIndex;
+    if((app.currentView === 'running' || app.currentView === 'set_players' ) && party === app.gameState.game.party){
+        app.finished = true;
+        updateView();
     }
     app.stopPartyRequested = false;
-    updateView();
+
 };
 
 const  doPushActionEnd = function() {
@@ -192,7 +205,6 @@ const  doPushActionSwitchFinished = function(message) {
 };
 
 const doPushActionRequestStopParty = function(message){
-    stopCountdownAnimation(false);
     const index = parseInt(message.body.replace(/^request-stop-party:(.*?)$/, '$1'));
     app.gameState.players[index].stopPartyRequested = true;
     let name = app.gameState.players[index].name;
@@ -213,6 +225,8 @@ const doPushActionRevokeRequestStopParty = function(message){
 };
 
 const doPushActionStopParty = function(message){
+    clearTimeout(aC);
+    aC = null;
     const party = parseInt(message.body.replace(/stop-party:/, ''));
     if(app.currentView === 'running' && party === app.gameState.game.party){
         app.currentView = 'set-players';
@@ -285,6 +299,7 @@ const pushActions = {
     'botified-player': doPushActionBotifiedPlayer,
     'put-card': doPushActionPutCard,
     'drawn-card': doPushActionDrawnCard,
+    'drawn-cards': doPushActionDrawnCards,
     'kept-card': doPushActionKeptCard,
     'selected-color': doPushActionSelectedColor,
     'said-uno': doPushActionSaidUno,

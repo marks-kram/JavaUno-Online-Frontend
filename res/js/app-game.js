@@ -5,40 +5,36 @@ function setGame(data){
     self.location.replace('/');
 }
 
-let setGameStateRunning = false;
-
-async function waitForGameStateToBeSet(){
-    let waitFor = 0;
-    while(setGameStateRunning){
-       waitFor++;
-       await sleep();
-    }
-    console.log('Wait for setGameState to be finished for ' + waitFor + ' times.');
-    setGameStateRunning = true;
-}
-
 function setGameState(data){
-    waitForGameStateToBeSet();
     setTimeout('setReadMessages()', 200);
+    if(app.finished){
+        setTimeout(function(){
+            app.finished = false;
+            app.currentView = 'set_players';
+            app.winner = data.game.currentPlayerIndex;
+            setGameState(data);
+        }, 1200);
+        return;
+    }
     app.gameState = data;
     app.stopPartyRequested = app.gameState.players[app.gameState.myIndex].stopPartyRequested;
     app.currentView = data.game.gameLifecycle.toLowerCase();
     joinGameRunning = false;
-    setGameStateRunning = false;
     if(app.gameState.game.turnState === 'FINAL_COUNTDOWN' && app.gameState.game.gameLifecycle === 'RUNNING' && aC === null){
         if(localStorage.getItem('sayUno') !== null && localStorage.getItem('sayUno') === '1'){
             sayUno();
         }
         setTimeout('startCountdownAnimation()', 200);
     }
+    if(isMyTurn() && app.gameState.game.turnState === 'DRAW_PENALTIES' && app.gameState.players[app.gameState.game.currentPlayerIndex].drawPenalties === 2){
+        showToast(app.gameState.ownCards.length > 1 ? 'Du hast zu früh „Uno“ gesagt.' : 'Du hast vergessen „Uno“ zu sagen.');
+    }
     app.gameLoadedWithPlayer = true;
 }
 
 function setGameStateWithoutPlayer(data){
-    waitForGameStateToBeSet();
     app.gameState = data;
     app.currentView = 'join';
-    setGameStateRunning = false;
 }
 
 function loadGame(){
@@ -157,6 +153,24 @@ function setRevokeRequestStopParty(){
 function revokeRequestStopParty(){
     let path = '/player/revoke-request-stop-party/' + app.gameUuid + '/' + app.playerUuid;
     doPostRequest(path, {}, setRevokeRequestStopParty);
+}
+
+function getPlayersListInOrder(){
+    app.gameState.players.forEach(e => e.index = app.gameState.players.indexOf(e));
+    if(app.gameState.game.reversed){
+        return app.gameState.players.slice().reverse();
+    }
+    return app.gameState.players;
+}
+
+function topCardInSingleList(){
+    const topCard = app.gameState.game.topCard;
+    topCard.desiredColor = app.gameState.game.desiredColor !== null ? app.gameState.game.desiredColor.toLowerCase() : '';
+    return [topCard];
+}
+
+function playerInSingleList(player){
+    return [player];
 }
 
 function init(){

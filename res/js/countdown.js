@@ -9,13 +9,14 @@ function startCountdownAnimation() {
         return;
     }
     startAnimation();
-    aC = setTimeout('stopCountdownAnimation(true)', duranceMillis);
+    aC = setTimeout('next()', duranceMillis);
 }
 
 function startAnimation(){
     const playerIndex = app.gameState.game.currentPlayerIndex;
     countdownOnIndex = playerIndex;
-    startAnimationOn(`#players .player .current.index${playerIndex} > .turnBar`);
+    const uuid = app.gameState.players[playerIndex].publicUuid;
+    startAnimationOn(`#players .player._${uuid} .current > .turnBar`);
     if(isMyTurn()){
         startAnimationOn(`#ownCards > .current > .turnBar`);
     }
@@ -23,10 +24,11 @@ function startAnimation(){
 
 function resetAnimation(){
     const playerIndex = countdownOnIndex;
-    if(playerIndex === -1){
+    if(playerIndex === -1 || app.currentView !== 'running'){
         return;
     }
-    resetAnimationOn(`#players .player .current.index${playerIndex} > .turnBar`);
+    const uuid = app.gameState.players[playerIndex].publicUuid;
+    resetAnimationOn(`#players .player._${uuid} .current > .turnBar`);
     if(isMe(playerIndex)){
         resetAnimationOn(`#ownCards > .current > .turnBar`);
     }
@@ -45,13 +47,10 @@ function resetAnimationOn(selector){
     turnBar.style.width = '100%';
 }
 
-function stopCountdownAnimation(nextTurn){
+function stopCountdownAnimation(){
     setTimeout('resetAnimation()', 50);
     if(aC !== null){
         clearTimeout(aC);
         aC = null;
-    }
-    if(nextTurn){
-        next();
     }
 }
