@@ -187,8 +187,9 @@ header {
     background: var(--theme-secondary-bgcolor);
 }
 
-header img {
+header svg.logo {
     display: inline-block;
+    width: 155px;
     height: 26px;
     margin-top: 2px;
     margin-left: 3px;
@@ -378,6 +379,7 @@ header a:link, header a:visited {
     color: var(--button-small-color);
     text-decoration: none;
     line-height: 0;
+    font-size: 1.2rem;
 }
 header a:focus, body.hover header a:hover {
     color: var(--button-small-color);
@@ -549,7 +551,8 @@ svg text {
 }
 
 @media (max-width: 875px) {
-    header img {
+    header svg.logo {
+        width: 119px;
         height: 20px;
         margin-top: 5px;
     }
@@ -560,7 +563,6 @@ svg text {
     body.hover header a.toggleTheme:hover,
     header a.toggleTheme:hover {
         left: 135px;
-        font-size: 0.8rem;
     }
 
     .qr-image {
