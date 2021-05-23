@@ -3,7 +3,6 @@
     --card-height: 150px;
 }
 
-
 #players-placeholder {
     height: 5px;
 }
@@ -112,7 +111,7 @@
     height: var(--card-height);
 }
 
-.floating-wrapper-draw div.duties, .floating-wrapper-draw div.penalties {
+.floating-wrapper-draw .duties, .floating-wrapper-draw .penalties {
     position: absolute;
     top: 50%;
     left: 50%;
@@ -390,6 +389,7 @@ div#toasts {
     width: 840px;
     height: 100%;
     bottom: 0;
+    left: 10px;
     pointer-events: none;
     overflow: hidden;
 }
@@ -514,8 +514,9 @@ div#toasts div {
         font-size: 0.7rem;
     }
 
-    .floating-wrapper-cards button {
-        font-size: 0.6rem;
+    .floating-wrapper-cards button.small.kick {
+        top: -6px;
+        font-size: 0.7rem;
     }
 
     div#toasts div {

@@ -57,7 +57,7 @@ There are two files for config:
 * Improvement: Beginning Player is selected randomly (or the last winner)
 * Improvement: Last put card is visible in winner dialog
 * Improvement: Fixed xss attack which was providing method to have empty name
-  Improvement: native share for invitation link
+* Improvement: native share for invitation link
 * UI improvement:
   * New Card design
   * All actions are animated now (action transitions)
