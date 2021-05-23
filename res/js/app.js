@@ -51,7 +51,8 @@ const data = {
     putCardIndex: -1,
     drawnCards: 1,
     drawReason: 'regular',
-    finished: false
+    finished: false,
+    playerWasInUnoState: false
 };
 
 const methods = {
