@@ -33,7 +33,9 @@
 
     <div id="app">
         <header>
-            <img src="/res/svg/logo.svg" alt="">
+            <svg class="logo">
+                <use href="/res/svg/logo.svg#picture"/>
+            </svg>
             <a href="#" @click="toggleTheme" v-bind:class="darkMode ? 'toggleTheme toggle on' : 'toggleTheme toggle'"><span class="fas fa-sun"></span></a>
             <a href="#" @click="toggleTheme" v-bind:class="!darkMode ? 'toggleTheme toggle on' : 'toggleTheme toggle'"><span class="fas fa-moon"></span></a>
             <a v-bind:class="currentView !== 'chat' ? 'chatToggle toggle on' : 'chatToggle toggle'" href="#" @click="showChat()" v-if="gameLoadedWithPlayer && currentView !== 'switch-device'"><span class="fas fa-comment"></span></a>
@@ -158,7 +160,7 @@
                 <transition-group tag="div" id="players" name="members">
                     <div v-for="player in getPlayersListInOrder" :key="player.publicUuid" v-bind:class="getPlayerClasses(player)">
                         <div v-bind:class="`current`">
-                            <div v-show="isPlayersTurn(player.index)" class="turnBar"></div>
+                            <div v-show="isPlayersTurn(player.index)" class="turnBar" v-bind:style="`width:${timeLeftPercent}%;`"></div>
                             <div v-show="!isPlayersTurn(player.index)" class="placeholder"></div>
                         </div>
                         <div class="name">
@@ -223,7 +225,7 @@
                 </div>
                 <div id="ownCards" v-bind:class="isMyTurn() && gameState.game.turnState === 'PUT_DRAWN' ? 'putDrawn' : ''">
                     <div class="current">
-                        <div v-show="isMyTurn()" class="turnBar"></div>
+                        <div v-show="isMyTurn()" class="turnBar" v-bind:style="`width:${timeLeftPercent}%;`"></div>
                         <div v-show="!isMyTurn()" class="placeholder"></div>
                     </div>
                     <transition-group tag="div" name="cards" id="own-cards-container"
