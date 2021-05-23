@@ -50,7 +50,7 @@ function topCardBeforeEnter(element){
     document.querySelector('#topCard').removeChild(element);
     const wrapper = document.querySelector(`#players .player._${uuid} .cards .floating-wrapper-cards`);
     const clone = wrapper.cloneNode(true);
-    enableFloating(wrapper, clone);
+    enableFloating(wrapper, clone, false);
 }
 
 function topCardEnter(element, done){
@@ -98,7 +98,7 @@ function cardCountBeforeEnter(element){
     document.querySelector(`#drawPile`).style.cssText = 'position:relative;z-index:-1;';
     document.querySelectorAll(`#players .player:not(._${uuid})`).forEach(e => e.style.cssText='position:relative;z-index:-1');
     element.parentElement.children[0].querySelectorAll('.floating-wrapper-cards *').forEach(e => e.style.display='none');
-    enableFloating(wrapper, clone);
+    enableFloating(wrapper, clone, true);
     enableDrawCount(element);
     document.querySelector(`#players .player._${uuid} .cards-count-wrapper`).removeChild(element);
 }
@@ -140,7 +140,11 @@ function resetCardStyle(element){
     setTimeout(function(){element.style.cssText=''}, 50);
 }
 
-function enableFloating(wrapper, clone){
+function enableFloating(wrapper, clone, draw){
+    if(draw && app.playerWasInUnoState){
+        clone.querySelector('.count').classList.add('red');
+        app.playerWasInUnoState = false;
+    }
     const wrapperRectangle = wrapper.getBoundingClientRect();
     const top = wrapperRectangle.top;
     const left = wrapperRectangle.left;
@@ -159,6 +163,7 @@ function disableFloating(wrapper, clone){
 
 function enableDrawCount(element){
     const drawCount = document.createElement('div');
+    drawCount.classList.remove('red');
     drawCount.classList.add('draw', 'count', app.drawReason);
     drawCount.textContent = app.drawnCards > 1 ? ''+app.drawnCards : '';
     element.querySelector('.count').style.visibility = 'hidden';
@@ -209,7 +214,11 @@ function removeCount(element){
 }
 
 function modificationTransitionWrapper(callback, topCard){
-    if(topCard != null && topCard.reverseCard){
+    const currentPlayer = app.gameState.players[app.gameState.game.currentPlayerIndex];
+    if(currentPlayer.cardCount === 1 && currentPlayer.unoSaid){
+        app.playerWasInUnoState = true;
+    }
+    if(topCard != null){
         doPutCardModification(topCard);
         setTimeout(callback, 400);
         return;
