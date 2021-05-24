@@ -46,6 +46,8 @@
 	<text id="number7Center" x="35" y="93.5" style="font-size:50px;font-family:Arial,sans-serif;font-weight:bold;fill:white;">7</text>
 	<text id="number8Center" x="35" y="93.5" style="font-size:50px;font-family:Arial,sans-serif;font-weight:bold;fill:white;">8</text>
 	<text id="number9Center" x="35" y="93.5" style="font-size:50px;font-family:Arial,sans-serif;font-weight:bold;fill:white;">9</text>
+	<text id="plus2Center" x="42" y="92" style="font-size:20px;font-family:Arial,sans-serif;font-weight:bold;fill:white;">+2</text>
+	<text id="plus4Center" x="43" y="93" style="font-size:20px;font-family:Arial,sans-serif;font-weight:bold;fill:white;">+4</text>
 	<g id="cardNumber0">
 		<use href="#number0Center" />
 		<use id="number0UpperLeft" href="#number0Center" transform="translate(1.5, -5), scale(0.27)" />
@@ -98,18 +100,24 @@
 	</g>
 	<g id="cardFaceDraw2">
 		<g id="draw2Center">
-			<path d="M 38 61.5 L 58 66.5 L 51 93.5 L 31 88.5 L 38 61.5 Z" fill="white" stroke-width="1" stroke="#bbb"/>
-			<path d="M 49 56.5 L 69 61.5 L 62 88.5 L 42 83.5 L 49 56.5 Z" fill="white" stroke-width="1" stroke="#bbb"/>
+			<g transform="scale(0.6) translate(23,33)">
+				<path d="M 38 61.5 L 58 66.5 L 51 93.5 L 31 88.5 L 38 61.5 Z" fill="white" stroke-width="1" stroke="#bbb"/>
+				<path d="M 49 56.5 L 69 61.5 L 62 88.5 L 42 83.5 L 49 56.5 Z" fill="white" stroke-width="1" stroke="#bbb"/>
+			</g>
+			<use href="#plus2Center" />
 		</g>
 		<use id="draw2UpperLeft" href="#draw2Center" transform="translate(0, -7.5), scale(0.3)"/>
 		<use href="#draw2UpperLeft" transform="rotate(180 50,75)"/>
 	</g>
 	<g id="cardFaceDraw4">
 		<g id="draw4Center">
-			<path d="M 36 59 L 56 64 L 49 91 L 29 86 L 36 59 Z " fill="white" stroke-width="1" stroke="#bbb"/>
-			<path d="M 48 54 L 68 59 L 61 86 L 41 81 L 48 54 Z" fill="white" stroke-width="1" stroke="#bbb"/>
-			<path d="M 40 64 L 60 69 L 53 96 L 33 91 L 40 64 Z" fill="white" stroke-width="1" stroke="#bbb"/>
-			<path d="M 51 59 L 71 64 L 64 91 L 44 86 L 51 59 Z" fill="white" stroke-width="1" stroke="#bbb"/>
+			<g transform="scale(0.6) translate(25,35)">
+				<path d="M 36 59 L 56 64 L 49 91 L 29 86 L 36 59 Z " fill="white" stroke-width="1" stroke="#bbb"/>
+				<path d="M 48 54 L 68 59 L 61 86 L 41 81 L 48 54 Z"  fill="white" stroke-width="1" stroke="#bbb"/>
+				<path d="M 40 64 L 60 69 L 53 96 L 33 91 L 40 64 Z"  fill="white" stroke-width="1" stroke="#bbb"/>
+				<path d="M 51 59 L 71 64 L 64 91 L 44 86 L 51 59 Z"  fill="white" stroke-width="1" stroke="#bbb"/>
+			</g>
+			<use href="#plus4Center" />
 		</g>
 		<use id="draw4UpperLeft" href="#draw4Center" transform="translate(0, -7.5), scale(0.3)"/>
 		<use href="#draw4UpperLeft" transform="rotate(180 50,75)"/>
