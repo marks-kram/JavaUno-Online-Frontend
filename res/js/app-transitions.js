@@ -141,10 +141,12 @@ function resetCardStyle(element){
 }
 
 function enableFloating(wrapper, clone, draw){
+    clone.querySelector('.count').classList.remove('red');
     if(draw && app.playerWasInUnoState){
+        console.debug('setting red again');
         clone.querySelector('.count').classList.add('red');
-        app.playerWasInUnoState = false;
     }
+    app.playerWasInUnoState = false;
     const wrapperRectangle = wrapper.getBoundingClientRect();
     const top = wrapperRectangle.top;
     const left = wrapperRectangle.left;
@@ -214,14 +216,14 @@ function removeCount(element){
 }
 
 function modificationTransitionWrapper(callback, topCard){
-    const currentPlayer = app.gameState.players[app.gameState.game.currentPlayerIndex];
-    if(currentPlayer.cardCount === 1 && currentPlayer.unoSaid){
-        app.playerWasInUnoState = true;
-    }
     if(topCard != null){
         doPutCardModification(topCard);
         setTimeout(callback, 400);
         return;
+    }
+    const currentPlayer = app.gameState.players[app.gameState.game.currentPlayerIndex];
+    if(currentPlayer.cardCount === 1 && currentPlayer.unoSaid && !isMyTurn()){
+        app.playerWasInUnoState = true;
     }
     callback();
 }
