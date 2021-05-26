@@ -110,10 +110,10 @@
 		<use href="#draw2UpperLeft" transform="rotate(180 49.625,75.5)"/>
 	</g>
 	<g id="cardFaceDraw4">
-		<rect x="25" y="51" width="20" height="30" fill="#80d780" stroke-width="1" stroke="#0a8000"/>
-		<rect x="38" y="73" width="20" height="30" fill="#f48080" stroke-width="1" stroke="#a50000"/>
-		<rect x="42" y="47" width="20" height="30" fill="#f5f280" stroke-width="1" stroke="#ada900"/>
-		<rect x="55" y="69" width="20" height="30" fill="#80c7f5" stroke-width="1" stroke="#0062e1"/>
+		<rect x="42" y="51" width="20" height="30" fill="#f5f280" stroke-width="1" stroke="#ada900"/>
+		<rect x="55" y="73" width="20" height="30" fill="#80c7f5" stroke-width="1" stroke="#0062e1"/>
+		<rect x="25" y="47" width="20" height="30" fill="#80d780" stroke-width="1" stroke="#0a8000"/>
+		<rect x="38" y="69" width="20" height="30" fill="#f48080" stroke-width="1" stroke="#a50000"/>
 		<use id="draw4UpperLeft" href="#plus4" transform="scale(0.5) translate(-6, -32.5)"/>
 		<use href="#draw4UpperLeft" transform="rotate(180 49.625,75.5)"/>
 	</g>
