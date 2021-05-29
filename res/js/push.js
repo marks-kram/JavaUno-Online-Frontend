@@ -194,6 +194,7 @@ const  doPushActionFinishedGame = function(message) {
     const party = parseInt(message.body.replace(/finished-game:/, ''));
     if((app.currentView === 'running' || app.currentView === 'set_players' ) && party === app.gameState.game.party){
         app.finished = true;
+        fixRemainingFloatingClonesAfterStopParty();
         updateView();
     }
     app.stopPartyRequested = false;
@@ -239,6 +240,7 @@ const doPushActionStopParty = function(message){
     const party = parseInt(message.body.replace(/stop-party:/, ''));
     if(app.currentView === 'running' && party === app.gameState.game.party){
         app.currentView = 'set-players';
+        fixRemainingFloatingClonesAfterStopParty();
         app.previousView = '';
         updateView();
     }

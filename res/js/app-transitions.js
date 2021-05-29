@@ -163,6 +163,11 @@ function disableFloating(wrapper, clone){
     wrapper.querySelector('button').style.display = '';
 }
 
+function fixRemainingFloatingClonesAfterStopParty(){
+    document.querySelectorAll('.floating-wrapper-draw.float,.floating-wrapper-cards.float')
+        .forEach(e=>document.querySelector('body').removeChild(e));
+}
+
 function enableDrawCount(element){
     const drawCount = document.createElement('div');
     drawCount.classList.remove('red');
