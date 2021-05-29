@@ -98,12 +98,14 @@ const  doPushActionRemovedPlayer = function(message){
 
 const doPushActionBotifiedPlayer = function(message){
     const index = parseInt(message.body.replace(/^botified-player:(.*?)$/, '$1'));
+    app.botifyPlayerPending = false;
     if(isMe(index)){
         reset();
     } else {
         let name = app.gameState.players[index].name;
         name = name !== '' ? name : `Spieler ${index+1}`;
         app.gameState.players[index].bot = true;
+        app.gameState.players[index].botifyPending = false;
         showInformationDialog(`${name} hat das Spiel verlassen und wurde zu einem Bot.`);
     }
 };
@@ -192,6 +194,7 @@ const  doPushActionFinishedGame = function(message) {
     const party = parseInt(message.body.replace(/finished-game:/, ''));
     if((app.currentView === 'running' || app.currentView === 'set_players' ) && party === app.gameState.game.party){
         app.finished = true;
+        fixRemainingFloatingClonesAfterStopParty();
         updateView();
     }
     app.stopPartyRequested = false;
@@ -237,6 +240,7 @@ const doPushActionStopParty = function(message){
     const party = parseInt(message.body.replace(/stop-party:/, ''));
     if(app.currentView === 'running' && party === app.gameState.game.party){
         app.currentView = 'set-players';
+        fixRemainingFloatingClonesAfterStopParty();
         app.previousView = '';
         updateView();
     }
