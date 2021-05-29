@@ -159,10 +159,17 @@ const doPushActionSelectedColor = function(message){
     }
 };
 
-const doPushActionSaidUno = function(){
+const doPushActionSaidUno = function(message){
+    const cardCount = parseInt(message.body.replace(/^said-uno:(.*?)$/, '$1'));
+    console.log('cardCount: ' + cardCount);
+    console.log('message: ' + message.body);
     if(app.currentView === 'running' || app.previousView === 'running'){
         const index = app.gameState.game.currentPlayerIndex;
-        showLargeToast('Uno');
+        if(cardCount === 1){
+            showLargeToast('Uno');
+        } else {
+            showToast('Uno (Lüge)');
+        }
         app.gameState.players[index].unoSaid = true;
     }
 };
