@@ -98,12 +98,14 @@ const  doPushActionRemovedPlayer = function(message){
 
 const doPushActionBotifiedPlayer = function(message){
     const index = parseInt(message.body.replace(/^botified-player:(.*?)$/, '$1'));
+    app.botifyPlayerPending = false;
     if(isMe(index)){
         reset();
     } else {
         let name = app.gameState.players[index].name;
         name = name !== '' ? name : `Spieler ${index+1}`;
         app.gameState.players[index].bot = true;
+        app.gameState.players[index].botifyPending = false;
         showInformationDialog(`${name} hat das Spiel verlassen und wurde zu einem Bot.`);
     }
 };
