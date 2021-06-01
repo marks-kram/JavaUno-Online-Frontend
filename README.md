@@ -71,7 +71,7 @@ There are two files for config:
 
 ### Version 1.2
 * improved ux: beautified processing animation
-* bugfix: restore localStorage Items. could be removed while leaving another game
+* bugfix: restore localStorage Items and/or cookies. could be removed while leaving another game
 
 ### Version 1.1
 * improved ux
