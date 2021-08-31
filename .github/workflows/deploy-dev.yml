@@ -11,4 +11,5 @@ jobs:
       - name: create_manual_and_deploy
         run: |
           doc2pdf --output=./www/manual.pdf ./manual.docx
+          cp /opt/webapps/JavaUno/devel/config.js ./www/config.js
           rsync -ruvt --delete ./www/ /var/www/devel.java-uno.de
