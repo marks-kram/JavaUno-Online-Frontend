@@ -1,0 +1,14 @@
+name: deploy-dev
+on:
+  push:
+    branches:
+      - devel
+jobs:
+  create-manual-and-deploy:
+    runs-on: self-hosted
+    steps:
+      - uses: actions/checkout@v2
+      - name: create_manual_and_deploy
+        run: |
+          doc2pdf --output=./www/manual.pdf ./manual.docx
+          rsync -ruvt --delete ./www/ /var/www/devel.java-uno.de
