@@ -6,35 +6,35 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta property="og:title" content="JavaUno Online">
     <meta property="og:description" content="Spiele das beliebte Kartenspiel mit Freunden oder auch alleine am PC oder Handy.">
-    <meta property="og:image" content="/res/img/og.png">
-    <meta property="og:image:secure_url" content="/res/img/og.png">
+    <meta property="og:image" content="res/img/og.png">
+    <meta property="og:image:secure_url" content="res/img/og.png">
     <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
-    <link rel="stylesheet" type="text/css" href="/res/css/fontawesome.css">
-    <link rel="stylesheet" type="text/css" href="/res/css/general.css">
-    <link rel="stylesheet" type="text/css" href="/res/css/view-start.css">
-    <link rel="stylesheet" type="text/css" href="/res/css/view-set-players.css">
-    <link rel="stylesheet" type="text/css" href="/res/css/view-game.css">
-    <link rel="stylesheet" type="text/css" href="/res/css/view-chat.css">
-    <link rel="stylesheet" type="text/css" href="/res/css/transitions.css">
+    <link rel="stylesheet" type="text/css" href="res/css/fontawesome.css">
+    <link rel="stylesheet" type="text/css" href="res/css/general.css">
+    <link rel="stylesheet" type="text/css" href="res/css/view-start.css">
+    <link rel="stylesheet" type="text/css" href="res/css/view-set-players.css">
+    <link rel="stylesheet" type="text/css" href="res/css/view-game.css">
+    <link rel="stylesheet" type="text/css" href="res/css/view-chat.css">
+    <link rel="stylesheet" type="text/css" href="res/css/transitions.css">
     <script>let app = null;</script>
-    <script src="/res/js/theme.js"></script>
-    <script src="/res/js/config-default.js"></script>
+    <script src="res/js/theme.js"></script>
+    <script src="res/js/config-default.js"></script>
     <script src="config.js"></script>
-    <script src="/res/js/vue-core.js"></script>
-    <script src="/res/js/vue-resource.js"></script>
-    <script src="/res/js/toaster.js"></script>
-    <script src="/res/js/toast.js"></script>
-    <script src="/res/js/qr/qr-generator.js"></script>
-    <script src="/res/js/countdown.js"></script>
-    <script src="/res/js/sockjs.min.js"></script>
-    <script src="/res/js/stomp.min.js"></script>
+    <script src="res/js/vue-core.js"></script>
+    <script src="res/js/vue-resource.js"></script>
+    <script src="res/js/toaster.js"></script>
+    <script src="res/js/toast.js"></script>
+    <script src="res/js/qr/qr-generator.js"></script>
+    <script src="res/js/countdown.js"></script>
+    <script src="res/js/sockjs.min.js"></script>
+    <script src="res/js/stomp.min.js"></script>
 </head>
 <body>
 
     <div id="app">
         <header>
             <svg class="logo">
-                <use href="/res/svg/logo.svg#picture"/>
+                <use href="res/svg/logo.svg#picture"/>
             </svg>
             <a href="#" @click="toggleTheme" v-bind:class="darkMode ? 'toggleTheme toggle on' : 'toggleTheme toggle'"><span class="fas fa-sun"></span></a>
             <a href="#" @click="toggleTheme" v-bind:class="!darkMode ? 'toggleTheme toggle on' : 'toggleTheme toggle'"><span class="fas fa-moon"></span></a>
@@ -190,9 +190,9 @@
                                  v-for="topCard in topCardInSingleList"
                                  :key="topCard.uuid">
                             <svg v-bind:class="`front ${topCard.desiredColor}`">
-                                <use v-bind:href="`/res/svg/cards.svg#${getCardImage(topCard)}`" />
+                                <use v-bind:href="`res/svg/cards.svg#${getCardImage(topCard)}`" />
                             </svg>
-                            <img src="/res/img/back.png" alt="" class="back">
+                            <img src="res/img/back.png" alt="" class="back">
                         </div>
                     </transition-group>
                     <div id="say-uno">
@@ -237,9 +237,9 @@
                             v-for="(card, index) in gameState.ownCards" :key="card.uuid">
                                 <div v-bind:class="isPutAllowed(card, index) ? 'turn-around enabled' : 'turn-around disabled'" @click="put(card, index)">
                                     <svg class="front">
-                                        <use v-bind:href="`/res/svg/cards.svg#${getCardImage(card)}`" />
+                                        <use v-bind:href="`res/svg/cards.svg#${getCardImage(card)}`" />
                                     </svg>
-                                    <img src="/res/img/back.png" alt="" class="back">
+                                    <img src="res/img/back.png" alt="" class="back">
                                 </div>
                         </div>
                     </transition-group>
@@ -318,7 +318,7 @@
             <div id="finished" class="lightbox" v-if="winner >= 0">
                 <div>
                     <svg>
-                        <use v-bind:href="`/res/svg/cards.svg#${getCardImage(gameState.game.topCard)}`" />
+                        <use v-bind:href="`res/svg/cards.svg#${getCardImage(gameState.game.topCard)}`" />
                     </svg>
                     <div v-if="winner === gameState.myIndex">
                         Herzlichen Glückwunsch, <nobr>{{getPlayerName(gameState.players[winner].name, winner)}}!</nobr><br>
@@ -335,7 +335,7 @@
             <div v-if="currentView === 'backend-down'" id="view-backend-down">
                 <div>
                     <svg>
-                        <use href="/res/svg/backend-down.svg#image" />
+                        <use href="res/svg/backend-down.svg#image" />
                     </svg>
                 </div>
                 <div>
@@ -370,24 +370,24 @@
 
     <div id="toasts"></div>
 
-    <script src="/res/js/app.js"></script>
-    <script src="/res/js/qr/qr.js"></script>
-    <script type="module" src="/res/js/qr/qr-scan.js"></script>
-    <script src="/res/js/app-processing.js"></script>
-    <script src="/res/js/app-requests.js"></script>
-    <script src="/res/js/app-game.js"></script>
-    <script src="/res/js/app-switch.js"></script>
-    <script src="/res/js/app-chat.js"></script>
-    <script src="/res/js/app-player.js"></script>
-    <script src="/res/js/app-turn.js"></script>
-    <script src="/res/js/app-transitions.js"></script>
-    <script src="/res/js/push.js"></script>
+    <script src="res/js/app.js"></script>
+    <script src="res/js/qr/qr.js"></script>
+    <script type="module" src="res/js/qr/qr-scan.js"></script>
+    <script src="res/js/app-processing.js"></script>
+    <script src="res/js/app-requests.js"></script>
+    <script src="res/js/app-game.js"></script>
+    <script src="res/js/app-switch.js"></script>
+    <script src="res/js/app-chat.js"></script>
+    <script src="res/js/app-player.js"></script>
+    <script src="res/js/app-turn.js"></script>
+    <script src="res/js/app-transitions.js"></script>
+    <script src="res/js/push.js"></script>
 
     <div id="qrScanBg"></div>
     <video id="qrScanVideo"></video>
     <button id="qrScanBtn"></button>
     <button class="small" id="qrScanStopBtn"><span class="fas fa-ban"></span> Abbrechen</button>
 
-    <img src="/res/img/back.png" alt="" class="preload">
+    <img src="res/img/back.png" alt="" class="preload">
 </body>
 </html>
