@@ -10,7 +10,7 @@ The Frontend offers the view to the card game.\
 It is an VUE.js-Application
 
 ## Backend
-Backend is here: https://github.com/tomatenmark/JavaUno-Online-Backend.\
+Backend is here: https://github.com/marks-kram/JavaUno-Online-Backend.\
 
 ## Config
 There are two files for config:
