@@ -3,7 +3,7 @@ Card game - Multiplayer browser game - The Frontend\
 This is the frontend for play.java-uno.de
 
 ## Version
-2.0 (2021, June, 2nd)
+2.1 (2023, November, 12th)
 
 ## Description
 The Frontend offers the view to the card game.\
@@ -43,6 +43,12 @@ There are two files for config:
   * manual should be modified (due to randomized selection of the beginning player)
 
 ## changeLog
+
+## changeLog
+
+### Version 2.1
+* Decreased card size for screen width up to 475px, to show players always in one line. \
+  (fixes an ui bug while 8th player draws card(s).)
 
 ### Version 2.0
 * Modified draw behaviour: Draw duties or penalties are drawn all at once

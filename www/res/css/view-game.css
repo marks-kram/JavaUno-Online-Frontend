@@ -548,8 +548,8 @@ div#toasts div {
 @media (max-width: 475px) {
 
     :root {
-        --card-width: 46px;
-        --card-height: 69px;
+        --card-width: 44px;
+        --card-height: 66px;
     }
 
     .floating-wrapper-cards .count {
@@ -585,8 +585,8 @@ div#toasts div {
 @media (max-width: 410px) {
 
     :root {
-        --card-width: 40px;
-        --card-height: 60px;
+        --card-width: 38px;
+        --card-height: 57px;
     }
 
     #players .player .name {
